@@ -46,14 +46,18 @@ Field names are exactly as in the brief. No extra columns are added. Missing lin
 **`ledger.csv`**: `row_id, timestamp, account, debit_minor, credit_minor, currency, entity_id, invoice_id, payment_id`.
 - D-10: **all ledger rows are in base currency KZT**. Foreign amounts live in documents. An FX
   error is therefore visible as ledger KZT not equal to document amount x policy rate. [OURS]
-- D-11: a business event = rows with the same `timestamp` + `invoice_id` + `payment_id`. Every
-  event balances (debits = credits). We do not add a transaction-id column. [OURS]
+- D-11 (amended in #1): a business event = rows with the same `timestamp` and the same
+  `payment_id` if it is set, otherwise the same `timestamp` + `invoice_id`. Reason: in a receipt
+  the bank row has `invoice_id = null` (one payment can settle several invoices), while each AR
+  credit row carries its invoice. Every event balances (debits = credits). We do not add a
+  transaction-id column. [OURS]
 - D-12: empty `invoice_id`/`payment_id`/`entity_id` are written as an empty CSV cell, which
   means `null`. Tools return JSON `null`. [OURS]
 
 **`invoices.jsonl`**: `doc_id, invoice_id, entity_id, issued_at, due_at, currency, total_minor, line_items`.
-- D-13: `line_items` = list of `{line_no, sku, description, quantity, unit_price_minor, amount_minor, delivery_note_id}`.
-  `total_minor = sum(amount_minor)`. [OURS]
+- D-13 (amended in #1): `line_items` = list of `{line_no, sku, description, quantity, unit_price_minor, amount_minor, delivery_note_id, ref_invoice_id}`.
+  `total_minor = sum(amount_minor)`. `ref_invoice_id` is `null` on normal lines and names the
+  reversed invoice on credit-note lines. [OURS]
 - D-14: **`delivery_note_id` identifies the physical delivery.** A legitimate repeat order has a
   new delivery note. A duplicate invoice repeats an existing one. This makes duplicates provable. [OURS]
 - D-14a: **Duplicates must not be detectable by one exact field match.** Exact, similar, and
@@ -70,7 +74,9 @@ Field names are exactly as in the brief. No extra columns are added. Missing lin
   revenue. Supplier invoice numbers (`GF-104` vs `GF104`) do not exist here: we are sales side
   and the brief's invoice schema has no external number field. [OURS, team input 2026-11-20]
 - D-15: a **credit note** (return) is an invoice record with negative `total_minor`. Its lines
-  carry `delivery_note_id` of the returned delivery and `description` `"Return of <invoice_id>"`. [OURS]
+  carry `delivery_note_id` of the returned delivery, `ref_invoice_id` of the original, and
+  `description` `"Return of <invoice_id>"` or `"Reversal of <invoice_id>"`. Ledger: `Dr 4100 / Cr 1200`
+  with `invoice_id` = the credit note's own id. [OURS]
 
 **`payments.jsonl`**: `doc_id, payment_id, timestamp, currency, amount_minor, invoice_refs`.
 - D-16: `invoice_refs` = list of invoice ids named in the customer's remittance. `null` if the

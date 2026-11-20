@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "6ed043cceec1a36c",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-92P9ZG",
+        "PAY-F1EPA4"
+      ],
+      "expected_amount_minor": 2400000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-HSZL5V",
+          "DOC-ETKLDW",
+          "L-J1T0XK"
+        ],
+        [
+          "DOC-HSZL5V",
+          "DOC-ETKLDW",
+          "L-TNWR1B"
+        ]
+      ]
+    }
+  ]
+}

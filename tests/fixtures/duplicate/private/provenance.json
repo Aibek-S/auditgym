@@ -1,0 +1,25 @@
+{
+  "episode_id": "0db46db552dfb58c",
+  "source": "hand-designed fixture (issue #1)",
+  "decisions_version": "decisions-v0.1",
+  "changes": [
+    {
+      "issue_id": "ISS-01",
+      "kind": "duplicate_invoice",
+      "decision": "clerk re-entered an already invoiced delivery without reversing the original",
+      "before": null,
+      "after": {
+        "invoice_id": "INV-JKUK7G",
+        "doc_id": "DOC-Y5XZF9",
+        "duplicates": "INV-BQ7MSU",
+        "delivery_note_id": "DN-41DR5"
+      },
+      "touched_ids": [
+        "DOC-Y5XZF9",
+        "INV-JKUK7G",
+        "L-HIBAOV",
+        "L-XOOR5X"
+      ]
+    }
+  ]
+}

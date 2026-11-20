@@ -1,0 +1,27 @@
+{
+  "episode_id": "6ed043cceec1a36c",
+  "source": "hand-designed fixture (issue #1)",
+  "decisions_version": "decisions-v0.1",
+  "changes": [
+    {
+      "issue_id": "ISS-01",
+      "kind": "payment_allocation",
+      "variant": "partial",
+      "decision": "clerk applied the payment to the invoice only partly",
+      "before": {
+        "ar_credit_minor": 6760000,
+        "suspense_minor": 0
+      },
+      "after": {
+        "ar_credit_minor": 4360000,
+        "suspense_minor": 2400000
+      },
+      "touched_ids": [
+        "PAY-F1EPA4",
+        "INV-92P9ZG",
+        "L-TNWR1B",
+        "L-J1T0XK"
+      ]
+    }
+  ]
+}

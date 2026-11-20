@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "6ed043cceec1a36c",
+  "base_currency": "KZT",
+  "period_start": "2026-09-01T00:00:00+05:00",
+  "period_end": "2026-10-01T00:00:00+05:00",
+  "timezone": "+05:00",
+  "currency_exponents": {
+    "KZT": 2,
+    "USD": 2,
+    "EUR": 2
+  },
+  "counts": {
+    "ledger": 49,
+    "invoices": 12,
+    "payments": 9,
+    "fx": 64,
+    "documents": 21
+  },
+  "rounding": "half_up"
+}
