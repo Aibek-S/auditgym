@@ -106,6 +106,20 @@
     opacity: 0.86;
   }
 
+  /* Touch targets: on coarse pointers the tap area grows to at least 44px without changing the
+     visible size. The element needs a positioning context (relative, absolute or fixed). */
+  @media (pointer: coarse) {
+    .hit::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 44px);
+      height: max(100%, 44px);
+      transform: translate(-50%, -50%);
+    }
+  }
+
   .ledger-rule {
     background-image: repeating-linear-gradient(
       to bottom,
@@ -194,7 +208,7 @@
 
 .animate-draw {
   transform-origin: left;
-  animation: draw-x 600ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation: draw-x 400ms cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
 .animate-stamp {
@@ -202,7 +216,7 @@
 }
 
 .loading-line {
-  animation: loading-line 1.2s ease-in-out infinite;
+  animation: loading-line 1.2s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -210,8 +224,10 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 }

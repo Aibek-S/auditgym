@@ -26,7 +26,7 @@ export function RawChip({
     <button
       type="button"
       onClick={() => onOpenRef(ref)}
-      className={`rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors ${classes}`}
+      className={`rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors pointer-coarse:px-2.5 pointer-coarse:py-2 ${classes}`}
     >
       {rawId}
     </button>

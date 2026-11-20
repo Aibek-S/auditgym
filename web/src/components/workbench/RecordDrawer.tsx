@@ -83,7 +83,7 @@ export function RecordDrawer({
         {truthOn && state ? (
           <div className="mb-4 flex flex-wrap items-center gap-2.5">
             {state === "finding" ? (
-              <Stamp tone="finding" animate>
+              <Stamp tone="finding">
                 Finding
               </Stamp>
             ) : (
@@ -184,7 +184,7 @@ function RecordChip({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors ${classes}`}
+      className={`inline-flex rounded border px-1.5 py-0.5 font-mono text-[11px] transition-colors pointer-coarse:px-2.5 pointer-coarse:py-2 ${classes}`}
     >
       {label}
     </button>

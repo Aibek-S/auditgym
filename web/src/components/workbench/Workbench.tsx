@@ -72,7 +72,7 @@ export function Workbench({
                 setQuery("");
                 setTable(item);
               }}
-              className={`relative h-10 shrink-0 px-3 text-[12px] transition-colors ${
+              className={`hit relative h-10 shrink-0 px-3 text-[12px] transition-colors ${
                 active ? "text-ink" : "text-ink-muted hover:text-ink"
               }`}
             >
@@ -98,13 +98,13 @@ export function Workbench({
             onChange={(event) => setQuery(event.target.value)}
             placeholder={`Search ${TABLE_LABELS[table].toLowerCase()}`}
             aria-label={`Search ${TABLE_LABELS[table]}`}
-            className="h-8 w-full rounded-control border border-line bg-paper pr-8 pl-8 text-[12px] text-ink outline-none transition-colors placeholder:text-ink-muted hover:border-line-strong focus:border-accent"
+            className="h-8 w-full rounded-control border border-line bg-paper pr-8 pl-8 pointer-coarse:h-11 text-[12px] text-ink outline-none transition-colors placeholder:text-ink-muted hover:border-line-strong focus:border-accent"
           />
           {query ? (
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="absolute top-1/2 right-1.5 grid h-6 w-6 -translate-y-1/2 place-items-center rounded text-ink-muted hover:bg-ink/5 hover:text-ink"
+              className="hit absolute top-1/2 right-1.5 grid h-6 w-6 -translate-y-1/2 place-items-center rounded text-ink-muted hover:bg-ink/5 hover:text-ink"
               aria-label="Clear search"
             >
               <X size={12} strokeWidth={1.5} />
@@ -138,7 +138,7 @@ export function Workbench({
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="mt-2 text-[11px] font-medium text-accent hover:text-accent-ink"
+            className="hit relative mt-2 text-[11px] font-medium text-accent hover:text-accent-ink"
           >
             Clear search
           </button>
@@ -198,7 +198,7 @@ export function Workbench({
             type="button"
             onClick={() => setPage(Math.max(0, safePage - 1))}
             disabled={safePage === 0}
-            className="grid h-8 w-8 place-items-center rounded-control border border-line bg-paper-raised text-ink-secondary transition-colors hover:bg-paper-sunken disabled:opacity-35"
+            className="hit relative grid h-8 w-8 place-items-center rounded-control border border-line bg-paper-raised text-ink-secondary transition-colors hover:bg-paper-sunken disabled:opacity-35"
             aria-label="Previous page"
           >
             <ChevronLeft size={14} strokeWidth={1.5} />
@@ -210,7 +210,7 @@ export function Workbench({
             type="button"
             onClick={() => setPage(Math.min(pageCount - 1, safePage + 1))}
             disabled={safePage >= pageCount - 1}
-            className="grid h-8 w-8 place-items-center rounded-control border border-line bg-paper-raised text-ink-secondary transition-colors hover:bg-paper-sunken disabled:opacity-35"
+            className="hit relative grid h-8 w-8 place-items-center rounded-control border border-line bg-paper-raised text-ink-secondary transition-colors hover:bg-paper-sunken disabled:opacity-35"
             aria-label="Next page"
           >
             <ChevronRight size={14} strokeWidth={1.5} />
@@ -300,24 +300,21 @@ function MobileList({
           <button
             type="button"
             onClick={() => onOpen(item.id)}
-            className="flex min-h-14 w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-paper-sunken/60 focus-visible:bg-paper-sunken/60 active:bg-paper-sunken"
+            className="relative flex min-h-14 w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-paper-sunken/60 focus-visible:bg-paper-sunken/60 active:bg-paper-sunken"
           >
-            {truthOn ? (
+            {item.state ? (
               <span
-                aria-label={
-                  item.state === "finding"
-                    ? "Linked to a finding"
-                    : item.state === "evidence"
-                      ? "Evidence for a finding"
-                      : undefined
+                aria-hidden={!truthOn}
+                title={
+                  truthOn
+                    ? item.state === "finding"
+                      ? "Linked to a finding"
+                      : "Evidence for a finding"
+                    : undefined
                 }
-                className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-[1px] ${
-                  item.state === "finding"
-                    ? "bg-finding"
-                    : item.state === "evidence"
-                      ? "bg-accent"
-                      : "bg-transparent"
-                }`}
+                className={`absolute top-[18px] left-1.5 h-1.5 w-1.5 rounded-[1px] transition-opacity duration-150 ${
+                  item.state === "finding" ? "bg-finding" : "bg-accent"
+                } ${truthOn ? "opacity-100" : "opacity-0"}`}
               />
             ) : null}
             <span className="min-w-0 flex-1">
@@ -339,25 +336,24 @@ function MobileList({
   );
 }
 
-function StatusCell({
+// Sits in the first cell's left padding, so turning the truth lens on only fades marks in and
+// never shifts the columns.
+function TruthDot({
   state,
   truthOn,
 }: {
   state: "finding" | "evidence" | null;
   truthOn: boolean;
 }) {
-  if (!truthOn) return null;
+  if (!state) return null;
   return (
-    <td className="w-5 py-2.5 pl-3">
-      {state ? (
-        <span
-          title={state === "finding" ? "Linked to a finding" : "Evidence for a finding"}
-          className={`block h-1.5 w-1.5 rounded-[1px] ${
-            state === "finding" ? "bg-finding" : "bg-accent"
-          }`}
-        />
-      ) : null}
-    </td>
+    <span
+      title={truthOn ? (state === "finding" ? "Linked to a finding" : "Evidence for a finding") : undefined}
+      aria-hidden={!truthOn}
+      className={`absolute top-1/2 left-0.5 h-1.5 w-1.5 -translate-y-1/2 rounded-[1px] transition-opacity duration-150 ${
+        state === "finding" ? "bg-finding" : "bg-accent"
+      } ${truthOn ? "opacity-100" : "opacity-0"}`}
+    />
   );
 }
 
@@ -430,7 +426,6 @@ function LedgerTable({
     <table className="w-full min-w-[740px] border-collapse text-left">
       <thead>
         <tr className="border-b border-line">
-          {truthOn ? <th className="w-5 bg-paper-raised" /> : null}
           <th className={`${headClass} text-left`}>Date</th>
           <th className={`${headClass} text-left`}>Account</th>
           <th className={`${headClass} text-right`}>Debit</th>
@@ -442,8 +437,10 @@ function LedgerTable({
       <tbody>
         {rows.map((row) => (
           <Row key={row.row_id} onOpen={() => onOpen(row.row_id)}>
-            <StatusCell truthOn={truthOn} state={recordTruthState(marks, "ledger", row)} />
-            <td className={cellClass}>{dateTime(row.timestamp)}</td>
+            <td className={`${cellClass} relative`}>
+              <TruthDot truthOn={truthOn} state={recordTruthState(marks, "ledger", row)} />
+              {dateTime(row.timestamp)}
+            </td>
             <td className={cellClass}>
               <span className="text-ink">{accountLabel(episode.accounts, row.account)}</span>
               <span className="ml-1.5 font-mono text-[11px] text-ink-muted">{row.account}</span>
@@ -505,7 +502,6 @@ function InvoiceTable({
     <table className="w-full min-w-[760px] border-collapse text-left">
       <thead>
         <tr className="border-b border-line">
-          {truthOn ? <th className="w-5 bg-paper-raised" /> : null}
           <th className={`${headClass} text-left`}>Invoice</th>
           <th className={`${headClass} text-left`}>Issued</th>
           <th className={`${headClass} text-left`}>Customer</th>
@@ -517,8 +513,10 @@ function InvoiceTable({
       <tbody>
         {rows.map((row) => (
           <Row key={row.invoice_id} onOpen={() => onOpen(row.invoice_id)}>
-            <StatusCell truthOn={truthOn} state={recordTruthState(marks, "invoices", row)} />
-            <td className={`${cellClass} font-mono text-[11px] text-ink`}>{row.invoice_id}</td>
+            <td className={`${cellClass} relative font-mono text-[11px] text-ink`}>
+              <TruthDot truthOn={truthOn} state={recordTruthState(marks, "invoices", row)} />
+              {row.invoice_id}
+            </td>
             <td className={cellClass}>{dateShort(row.issued_at)}</td>
             <td className={`${cellClass} font-mono text-[11px]`}>{row.entity_id}</td>
             <td className={`${cellClass} num text-right text-ink`}>
@@ -549,7 +547,6 @@ function PaymentTable({
     <table className="w-full min-w-[760px] border-collapse text-left">
       <thead>
         <tr className="border-b border-line">
-          {truthOn ? <th className="w-5 bg-paper-raised" /> : null}
           <th className={`${headClass} text-left`}>Payment</th>
           <th className={`${headClass} text-left`}>Date</th>
           <th className={`${headClass} text-right`}>Amount</th>
@@ -560,8 +557,10 @@ function PaymentTable({
       <tbody>
         {rows.map((row) => (
           <Row key={row.payment_id} onOpen={() => onOpen(row.payment_id)}>
-            <StatusCell truthOn={truthOn} state={recordTruthState(marks, "payments", row)} />
-            <td className={`${cellClass} font-mono text-[11px] text-ink`}>{row.payment_id}</td>
+            <td className={`${cellClass} relative font-mono text-[11px] text-ink`}>
+              <TruthDot truthOn={truthOn} state={recordTruthState(marks, "payments", row)} />
+              {row.payment_id}
+            </td>
             <td className={cellClass}>{dateShort(row.timestamp)}</td>
             <td className={`${cellClass} num text-right text-ink`}>
               {money(row.amount_minor)}{" "}
@@ -593,7 +592,6 @@ function FxTable({
     <table className="w-full min-w-[520px] border-collapse text-left">
       <thead>
         <tr className="border-b border-line">
-          {truthOn ? <th className="w-5 bg-paper-raised" /> : null}
           <th className={`${headClass} text-left`}>Date</th>
           <th className={`${headClass} text-left`}>Pair</th>
           <th className={`${headClass} text-right`}>Rate</th>
@@ -605,8 +603,10 @@ function FxTable({
           const key = recordId("fx", row);
           return (
             <Row key={key} onOpen={() => onOpen(key)}>
-              <StatusCell truthOn={truthOn} state={recordTruthState(marks, "fx", row)} />
-              <td className={cellClass}>{dateShort(row.date)}</td>
+              <td className={`${cellClass} relative`}>
+                <TruthDot truthOn={truthOn} state={recordTruthState(marks, "fx", row)} />
+                {dateShort(row.date)}
+              </td>
               <td className={`${cellClass} font-mono text-[11px] text-ink`}>{fxPair(row)}</td>
               <td className={`${cellClass} num text-right text-ink`}>{row.rate}</td>
               <td className={`${cellClass} font-mono text-[11px] text-ink-muted`}>{key}</td>

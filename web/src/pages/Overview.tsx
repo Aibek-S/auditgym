@@ -79,7 +79,7 @@ export function Overview() {
             </p>
             <Link
               to="/console/episodes"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
+              className="relative hit inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
             >
               All episodes
               <ArrowRight size={12} strokeWidth={1.5} />
@@ -118,7 +118,7 @@ export function Overview() {
             </p>
             <Link
               to="/method"
-              className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
+              className="mt-3 relative hit inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
             >
               Scoring details
               <ArrowRight size={12} strokeWidth={1.5} />

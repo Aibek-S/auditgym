@@ -14,7 +14,7 @@ import { PageHeader } from "../components/ui/PageHeader";
 import { Panel } from "../components/ui/Panel";
 import { Stamp } from "../components/ui/Stamp";
 import { TypeBadge } from "../components/ui/TypeBadge";
-import { RewardMeter } from "../components/ui/RewardMeter";
+import { METER_TRAVEL_MS, RewardMeter } from "../components/ui/RewardMeter";
 import { ButtonLink } from "../components/ui/Button";
 import { NotFound } from "./NotFound";
 
@@ -92,7 +92,7 @@ export function RunPage() {
                   {rewardLabel(score.reward)}
                 </p>
               </div>
-              <VerdictStamp run={run} />
+              <VerdictStamp key={run.id} run={run} />
             </div>
 
             <div className="mt-4">
@@ -129,7 +129,7 @@ export function RunPage() {
           <Panel title="Submitted findings" meta={`${run.findings.length}`}>
             {run.findings.length === 0 ? (
               <div>
-                <Stamp tone="verified" animate>
+                <Stamp tone="verified" animate delay={VERDICT_DELAY}>
                   Verified
                 </Stamp>
                 <p className="mt-3 text-[11px] leading-relaxed text-ink-secondary">
@@ -188,14 +188,23 @@ export function RunPage() {
   );
 }
 
+// The verdict is the last beat of a run: it presses once the reward marker has arrived.
+const VERDICT_DELAY = METER_TRAVEL_MS + 40;
+
 function VerdictStamp({ run }: { run: Run }) {
-  if (run.kind === "oracle") return <Stamp tone="verified">Oracle</Stamp>;
-  if (run.score.fp > 0) return <Stamp tone="finding">False positive</Stamp>;
-  if (run.score.fn > 0) return <Stamp tone="finding">Missed</Stamp>;
-  if (run.findings.length > 0) return <Stamp tone="verified" animate>Matched</Stamp>;
+  const [tone, label]: ["verified" | "finding", string] =
+    run.kind === "oracle"
+      ? ["verified", "Oracle"]
+      : run.score.fp > 0
+        ? ["finding", "False positive"]
+        : run.score.fn > 0
+          ? ["finding", "Missed"]
+          : run.findings.length > 0
+            ? ["verified", "Matched"]
+            : ["verified", "Clean"];
   return (
-    <Stamp tone="verified" animate>
-      Clean
+    <Stamp tone={tone} animate delay={VERDICT_DELAY}>
+      {label}
     </Stamp>
   );
 }
@@ -267,7 +276,7 @@ function StepCard({
           </p>
         ) : null}
         <details className="group mt-2">
-          <summary className="cursor-pointer text-[11px] text-ink-muted transition-colors hover:text-ink">
+          <summary className="hit relative cursor-pointer text-[11px] text-ink-muted transition-colors hover:text-ink">
             Observation
           </summary>
           <pre className="mt-1.5 max-h-56 overflow-auto rounded bg-paper-sunken p-2 font-mono text-[11px] leading-relaxed text-ink-secondary">

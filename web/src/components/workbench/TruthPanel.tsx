@@ -31,7 +31,7 @@ export function TruthPanel({
         <div className="animate-fade space-y-4">
           {episode.truth.issues.length === 0 ? (
             <div>
-              <Stamp tone="verified" animate>
+              <Stamp tone="verified" animate delay={160}>
                 Clean
               </Stamp>
               <p className="mt-3 text-[12px] leading-relaxed text-ink-secondary">
@@ -69,7 +69,7 @@ export function TruthPanel({
             <button
               type="button"
               onClick={onOpenRun}
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-colors hover:text-accent-ink"
+              className="relative hit inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-colors hover:text-accent-ink"
             >
               Open guided review
               <ArrowRight size={12} strokeWidth={1.5} />

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { ButtonLink } from "../components/ui/Button";
 
 export function NotFound() {
   return (
@@ -9,12 +9,9 @@ export function NotFound() {
         <p className="mt-2 text-[12px] text-ink-secondary">
           The link points outside the loaded demo archive.
         </p>
-        <Link
-          to="/console"
-          className="mt-5 inline-flex h-9 items-center rounded-control border border-line-strong bg-paper-raised px-4 text-[12px] font-medium text-ink no-underline hover:bg-paper-sunken"
-        >
+        <ButtonLink to="/console" variant="secondary" className="mt-5">
           Back to console
-        </Link>
+        </ButtonLink>
       </div>
     </div>
   );

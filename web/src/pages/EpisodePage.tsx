@@ -44,7 +44,7 @@ export function EpisodePage() {
           <>
             <ButtonLink
               to={`/console/episodes/${episode.key}/runs/${runId}`}
-              variant="primary"
+              variant="secondary"
             >
               <Play size={14} strokeWidth={1.5} />
               Guided review

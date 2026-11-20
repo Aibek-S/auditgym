@@ -19,7 +19,7 @@ export function FeaturedCase({ episode }: { episode: Episode }) {
             <p className="font-mono text-[11px] text-ink-muted">
               Featured episode
             </p>
-            <Stamp tone="finding" animate>
+            <Stamp tone="finding" animate delay={300}>
               Finding
             </Stamp>
           </div>
@@ -66,7 +66,7 @@ export function FeaturedCase({ episode }: { episode: Episode }) {
 
           <Link
             to={`/console/episodes/${episode.key}`}
-            className="mt-6 inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
+            className="mt-6 relative hit inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
           >
             Open the evidence
             <ArrowRight size={13} strokeWidth={1.5} />

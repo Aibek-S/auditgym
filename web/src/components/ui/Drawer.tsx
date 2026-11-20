@@ -64,7 +64,7 @@ export function Drawer({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-control text-ink-muted transition-colors hover:bg-ink/5 hover:text-ink"
+            className="hit relative grid h-8 w-8 shrink-0 place-items-center rounded-control text-ink-muted transition-colors hover:bg-ink/5 hover:text-ink"
             aria-label="Close panel"
           >
             <X size={16} strokeWidth={1.5} />

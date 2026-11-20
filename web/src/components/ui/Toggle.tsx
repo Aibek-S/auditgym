@@ -13,7 +13,7 @@ export function Toggle({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="inline-flex items-center gap-2.5 text-[12px] text-ink-secondary transition-colors hover:text-ink"
+      className="hit relative inline-flex items-center gap-2.5 text-[12px] text-ink-secondary transition-colors hover:text-ink"
     >
       <span
         className={`relative h-5 w-9 rounded-full border transition-colors duration-150 ${

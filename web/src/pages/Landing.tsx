@@ -163,7 +163,7 @@ export function Landing() {
               </p>
               <Link
                 to="/method"
-                className="mt-5 inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
+                className="mt-5 relative hit inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
               >
                 Read the scoring contract
                 <ArrowRight size={13} strokeWidth={1.5} />
@@ -245,7 +245,7 @@ export function Landing() {
                   href="https://github.com/Aibek-S/auditgym"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-5 inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
+                  className="mt-5 relative hit inline-flex items-center gap-1.5 text-[12px] font-medium text-accent no-underline transition-colors hover:text-accent-ink"
                 >
                   Repository and docs
                   <ArrowUpRight size={13} strokeWidth={1.5} />
@@ -304,7 +304,7 @@ export function Landing() {
               <div className="flex flex-wrap items-center gap-2.5">
                 <Link
                   to="/console"
-                  className="inline-flex h-10 items-center gap-2 rounded-control bg-paper px-5 text-[13px] font-medium text-ink no-underline transition-colors hover:bg-paper-sunken"
+                  className="hit relative inline-flex h-10 items-center gap-2 rounded-control bg-paper px-5 text-[13px] font-medium text-ink no-underline transition-[background-color,transform] duration-[120ms] ease-out hover:bg-paper-sunken active:scale-[0.98]"
                 >
                   Open the console
                   <ArrowRight size={14} strokeWidth={1.5} />
@@ -313,7 +313,7 @@ export function Landing() {
                   href="https://github.com/Aibek-S/auditgym"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex h-10 items-center gap-2 rounded-control border border-paper/25 px-5 text-[13px] font-medium text-paper no-underline transition-colors hover:bg-paper/10"
+                  className="hit relative inline-flex h-10 items-center gap-2 rounded-control border border-paper/25 px-5 text-[13px] font-medium text-paper no-underline transition-[background-color,transform] duration-[120ms] ease-out hover:bg-paper/10 active:scale-[0.98]"
                 >
                   GitHub
                   <ArrowUpRight size={14} strokeWidth={1.5} />
@@ -405,7 +405,7 @@ function Specimen({ episode }: { episode: Episode }) {
           <span className="font-mono text-[11px] text-ink-muted">
             Episode · {episode.manifest.period_start.slice(0, 7)}
           </span>
-          <Stamp tone="finding" animate>
+          <Stamp tone="finding" animate delay={480}>
             Finding
           </Stamp>
         </div>
@@ -464,7 +464,7 @@ function Specimen({ episode }: { episode: Episode }) {
         <div className="flex items-center justify-between border-t border-line bg-paper-sunken/50 px-4 py-2.5">
           <Link
             to={`/console/episodes/${episode.key}`}
-            className="inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
+            className="relative hit inline-flex items-center gap-1 text-[11px] font-medium text-accent no-underline hover:text-accent-ink"
           >
             Open this episode
             <ArrowRight size={11} strokeWidth={1.5} />

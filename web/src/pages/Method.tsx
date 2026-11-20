@@ -95,7 +95,7 @@ export function Method() {
               href="https://github.com/Aibek-S/auditgym/blob/main/docs/DECISIONS.md"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-accent no-underline hover:text-accent-ink"
+              className="hit relative font-medium text-accent no-underline hover:text-accent-ink"
             >
               Decisions v0.1
             </a>
@@ -104,7 +104,7 @@ export function Method() {
               href="https://github.com/Aibek-S/auditgym/blob/main/docs/ERROR_SCENARIOS.md"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-accent no-underline hover:text-accent-ink"
+              className="hit relative font-medium text-accent no-underline hover:text-accent-ink"
             >
               Error scenarios
             </a>
@@ -113,7 +113,7 @@ export function Method() {
               href="https://github.com/Aibek-S/auditgym/blob/main/docs/BOUNDARIES.md"
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-accent no-underline hover:text-accent-ink"
+              className="hit relative font-medium text-accent no-underline hover:text-accent-ink"
             >
               Boundaries
             </a>

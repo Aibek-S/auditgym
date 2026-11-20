@@ -43,7 +43,7 @@ function Breadcrumbs() {
         >
           {index > 0 ? <span className="hidden text-ink-muted sm:inline">/</span> : null}
           {crumb.to ? (
-            <Link to={crumb.to} className="truncate text-ink-muted no-underline transition-colors hover:text-ink">
+            <Link to={crumb.to} className="hit relative truncate text-ink-muted no-underline transition-colors hover:text-ink">
               {crumb.label}
             </Link>
           ) : (
@@ -89,7 +89,7 @@ export function AppShell() {
           <button
             type="button"
             onClick={() => setNavOpen(false)}
-            className="grid h-8 w-8 place-items-center rounded-control text-ink-muted hover:bg-ink/5 hover:text-ink lg:hidden"
+            className="hit relative grid h-8 w-8 place-items-center rounded-control text-ink-muted hover:bg-ink/5 hover:text-ink lg:hidden"
             aria-label="Close navigation"
           >
             <X size={16} strokeWidth={1.5} />
@@ -150,7 +150,7 @@ export function AppShell() {
             <button
               type="button"
               onClick={() => setNavOpen(true)}
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-control text-ink-muted hover:bg-ink/5 hover:text-ink lg:hidden"
+              className="hit relative grid h-8 w-8 shrink-0 place-items-center rounded-control text-ink-muted hover:bg-ink/5 hover:text-ink lg:hidden"
               aria-label="Open navigation"
             >
               <Menu size={18} strokeWidth={1.5} />
@@ -168,7 +168,7 @@ export function AppShell() {
               onChange={(event) => {
                 if (event.target.value) navigate(`/console/episodes/${event.target.value}`);
               }}
-              className="h-8 max-w-[170px] rounded-control border border-line bg-paper-raised px-2 text-[12px] text-ink-secondary outline-none transition-colors hover:border-line-strong focus:border-accent sm:max-w-[190px]"
+              className="h-8 max-w-[170px] rounded-control pointer-coarse:h-11 border border-line bg-paper-raised px-2 text-[12px] text-ink-secondary outline-none transition-colors hover:border-line-strong focus:border-accent sm:max-w-[190px]"
             >
               <option value="">Jump to episode</option>
               {data.episodes.map((episode) => (
