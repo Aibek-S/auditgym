@@ -11,8 +11,8 @@
   "cutoff_window_days": 5,
   "size": {
     "customers": [8, 20],
-    "invoices": [40, 150],
-    "payments": [40, 150],
+    "invoices": [40, 90],
+    "payments": "derived: about one per invoice, within the 200-document limit",
     "ledger_rows": [200, 1200]
   },
   "hard_limits": {"ledger_rows": 2000, "documents": 200, "errors": 12},
@@ -21,7 +21,8 @@
     "count": [0, 6],
     "types": ["duplicate_invoice", "payment_allocation", "fx_conversion", "period_cutoff"],
     "interacting": ["I1", "I2"],
-    "min_amount_minor": 1000000
+    "min_amount_minor": 1000000,
+    "reserve_documents": 16
   },
   "order_mode": "chronological",
   "id_salt": null,

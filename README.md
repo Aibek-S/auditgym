@@ -58,6 +58,21 @@ reproduce METRO's real accounting, data, or transactions. See
 | [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) | Unresolved decisions with recommended defaults |
 | [docs/REFERENCES.md](docs/REFERENCES.md) | External sources and what they support |
 
+## Developer quick start
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python -m pytest -q                      # format + invariants + truth checks
+.venv/bin/python tests/fixtures/build_fixtures.py  # rebuild the 3 hand-designed episodes
+.venv/bin/python -m auditgym --help
+.venv/bin/python -m auditgym generate --seed 1 --out /tmp/ep1   # one clean company-month
+```
+
+`tests/fixtures/{clean,duplicate,allocation}/` are small hand-designed episodes (September 2026,
+12-13 invoices, about 50 ledger rows). They pin the episode format so the environment (#4, #5) can
+be built before the generator (#2, #3). Each has `public/` (agent-visible) and `private/`
+(evaluator only).
+
 ## Current stage
 
 Documentation only. No datasets, code, schemas, or dependencies exist yet.
