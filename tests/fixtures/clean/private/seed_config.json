@@ -1,0 +1,7 @@
+{
+  "seed": null,
+  "config_id": "fixture",
+  "fixture": "clean",
+  "builder": "tests/fixtures/build_fixtures.py",
+  "decisions_version": "decisions-v0.1"
+}

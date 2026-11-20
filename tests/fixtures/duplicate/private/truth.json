@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "0db46db552dfb58c",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-BQ7MSU",
+        "INV-JKUK7G"
+      ],
+      "expected_amount_minor": 7840000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-70SNAO",
+          "DOC-Y5XZF9",
+          "L-XOOR5X"
+        ],
+        [
+          "DOC-70SNAO",
+          "DOC-Y5XZF9",
+          "L-HIBAOV"
+        ]
+      ]
+    }
+  ]
+}

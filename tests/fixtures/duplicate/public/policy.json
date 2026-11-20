@@ -1,0 +1,10 @@
+{
+  "period_basis": "invoice issued_at, local date (+05:00) = transfer of control",
+  "fx_rate_date": "local date (+05:00) of the document timestamp",
+  "fx_missing_rate": "last available rate before that date",
+  "fx_conversion": "target_minor = round_half_up(source_minor * rate), once per document amount",
+  "foreign_invoice_settlement": "AR relieved at carrying amount; difference to account 7000",
+  "unallocated_receipts_account": "1900",
+  "amount_currency_for_findings": "KZT",
+  "amount_tolerance_minor": 100
+}
