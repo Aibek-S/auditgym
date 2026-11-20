@@ -114,6 +114,8 @@ def build_ledger(h: History) -> list[Event]:
         rows = [Row(BANK[pay.currency], bank, 0, pay.customer, None, pay.key)]
         named = {"bank": 0}
         for ref, ar in credits:
+            if ar == 0:  # a fully missing allocation has no AR row at all
+                continue
             named[f"ar:{ref}"] = len(rows)
             rows.append(Row("1200", 0, ar, pay.customer, ref, pay.key))
         if suspense:

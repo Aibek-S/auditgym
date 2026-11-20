@@ -22,7 +22,10 @@
     "types": ["duplicate_invoice", "payment_allocation", "fx_conversion", "period_cutoff"],
     "interacting": ["I1", "I2"],
     "min_amount_minor": 1000000,
-    "reserve_documents": 16
+    "reserve_documents": 16,
+    "clean_share": 0.25,
+    "interacting_share": 0.3,
+    "plan": null
   },
   "order_mode": "chronological",
   "id_salt": null,

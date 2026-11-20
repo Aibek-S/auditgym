@@ -14,12 +14,13 @@ from auditgym.generate import generate, load_config
 from auditgym.invariants import check
 
 SEEDS = range(1, 51)
-CONFIG = load_config()
+CONFIG = load_config(errors={"plan": []})  # #2 tests check clean companies
 REQUIRED_DISTRACTORS = {
     "recurring_order", "correction_reissue", "partial_return", "split_invoicing",
     "same_total_other_customer", "boundary_last_evening", "boundary_next_period_utc",
     "utc_date_differs", "combined_payment", "split_payment", "underpaid_open_invoice",
     "overpayment_to_1900", "no_reference_payment", "realised_fx_difference", "opening_balance",
+    "large_foreign_order",
 }
 
 
@@ -81,7 +82,7 @@ def test_id_salt_and_shuffle_keep_data_valid(tmp_path):
     base = tmp_path / "base"
     generate(5, CONFIG, base)
     salted = tmp_path / "salted"
-    generate(5, load_config(id_salt="paired-1", order_mode="shuffled"), salted)
+    generate(5, load_config(id_salt="paired-1", order_mode="shuffled", errors={"plan": []}), salted)
     a, b = load_public(base), load_public(salted)
     assert check(b) == []
     assert {i["invoice_id"] for i in a["invoices"]}.isdisjoint({i["invoice_id"] for i in b["invoices"]})
