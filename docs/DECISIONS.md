@@ -29,7 +29,7 @@ Each decision has an id (D-xx) so the team can approve or reject it line by line
 | D-04 | Base currency **KZT**. Foreign currencies **USD, EUR**. All exponents are 2 (1 KZT = 100 minor units). Exponents are listed in `manifest.json`. | [OURS] |
 | D-05 | Company timezone: fixed offset **+05:00**. `manifest.timezone = "+05:00"`, so there is no DST and no tzdata dependency. | [OURS] |
 | D-06 | Records cover the period **plus a 5-day window after it** (`cutoff_window_days = 5`) so cutoff errors are provable. Open invoices from before the period appear as **opening balances** (see D-17). | [OURS] |
-| D-07 | Default size (`config: default`): 8-20 customers, 40-150 invoices, 40-150 payments, 200-1,200 ledger rows, 0-6 errors. The hard limits allowed by the config match the brief: 2,000 rows, 200 documents, 12 errors. | [BRIEF] ranges, [OURS] default |
+| D-07 | Default size (`config: default`, amended in #2): 8-20 customers, 40-90 planned invoices (about 50-110 with recurring orders and distractors), payments derived (about one per invoice), at least 200 ledger rows (topped up with aggregate purchases), at most 184 documents before errors (16 reserved for injected documents), 0-6 errors. The hard limits allowed by the config match the brief: 2,000 rows, 200 documents, 12 errors. | [BRIEF] ranges, [OURS] default |
 | D-08 | Share of foreign-currency invoices: about 20% (`foreign_share = 0.2`). | [OURS] |
 | D-09 | The period month is drawn from the seed (any month of 2025-2027). Dates therefore vary across episodes; see the I1 constraint in section 6. | [OURS] |
 
@@ -104,7 +104,8 @@ Field names are exactly as in the brief. No extra columns are added. Missing lin
   "foreign_invoice_settlement": "AR relieved at carrying amount; difference to account 7000",
   "unallocated_receipts_account": "1900",
   "amount_currency_for_findings": "KZT",
-  "amount_tolerance_minor": 100
+  "amount_tolerance_minor": 100,
+  "payment_allocation": "payments in timestamp order; each applied to its invoice_refs in listed order, each invoice up to its open balance after earlier credit notes; remainder to 1900; foreign invoices relieved pro rata at carrying KZT, final settlement relieves the exact remainder"
 }
 ```
 
@@ -141,6 +142,9 @@ supplier payment `Dr 2000 / Cr 1010`.
 | INV-5 | Revenue rows fall in the period if and only if the invoice `issued_at` local date falls in the period. |
 | INV-6 | Every non-null reference resolves to an existing record. There are no guessed links. |
 | INV-7 | Every amount in KZT is derived from the documents and `fx.csv` by the policy rule. |
+| INV-8 | (added in #2) A (delivery note, sku) is billed on at most one sale invoice, unless a credit note fully reverses it. This is the formal duplicate rule (D-14a). |
+
+All INV checks run on the **public files only** (`auditgym/invariants.py`), so anyone can re-verify an episode without the hidden files.
 
 After injection, the verifier recomputes INV-1..7. The set of violations must equal **exactly**
 the declared issues: nothing missing, nothing extra.

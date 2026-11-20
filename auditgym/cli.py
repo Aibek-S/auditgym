@@ -7,7 +7,6 @@ from auditgym import DECISIONS_VERSION, GENERATOR_VERSION, SCHEMA_VERSION
 
 # command -> issue that implements it
 _PENDING = {
-    "generate": "#2/#3",
     "run": "#5",
     "check": "#6",
 }
@@ -42,6 +41,12 @@ def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
     if args.command is None:
         build_parser().print_help()
+        return 0
+    if args.command == "generate":
+        from auditgym.generate import generate, load_config
+
+        info = generate(args.seed, load_config(args.config), args.out)
+        print(f"episode {info['episode_id']} written to {args.out}")
         return 0
     print(f"'{args.command}' is not implemented yet (issue {_PENDING[args.command]}).", file=sys.stderr)
     return 2
