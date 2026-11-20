@@ -174,7 +174,9 @@ class _Builder:
     def lines(self, currency: str, dn: str, skus=None, k=None) -> list[Line]:
         if skus is None:
             skus = [c[0] for c in self.r.sample(CATALOG, k or self.r.randint(1, 4))]
-        return [Line(s, SKU_INDEX[s][1], self.r.randint(2, 60), self.price(s, currency), dn) for s in skus]
+        # ~20% of legitimate lines use the alternative wording, so wording alone never marks a duplicate
+        return [Line(s, SKU_INDEX[s][2 if self.r.random() < 0.2 else 1], self.r.randint(2, 60),
+                     self.price(s, currency), dn) for s in skus]
 
     def invoice(self, customer: Customer, issued: datetime, lines=None, offset=None, kind="sale",
                 opening=False, currency=None) -> Invoice:
@@ -185,6 +187,11 @@ class _Builder:
             due_days=30 if currency != "KZT" else self.r.choice([7, 14, 14, 30]), currency=currency,
             lines=lines if lines is not None else self.lines(currency, dn), kind=kind, opening=opening,
         )
+        if kind == "sale" and not opening and self.r.random() < 0.4:
+            booked = issued + timedelta(minutes=self.r.randint(10, 18 * 60))
+            # legitimate lag never crosses the period boundary or the end of the records
+            if self.h.in_period(booked) == self.h.in_period(issued) and booked < self.h.window_end:
+                inv.book_ts = booked
         self.h.invoices[inv.key] = inv
         return inv
 
@@ -336,6 +343,17 @@ class _Builder:
             inv = self.invoice(r.choice(foreign), self.business_time(r.choice(weekend)))
             h.note("weekend_rate", invoice=inv.key)
 
+        # large wholesale foreign orders (same size class as the I1 scenario invoice), so size
+        # alone never points at an error
+        premium = [k for k, v in SKU_INDEX.items() if v[3] >= 7_000_00]
+        for _ in range(r.randint(3, 5)):
+            cust = r.choice(foreign)
+            dn = self.key("dn")
+            skus = r.sample(premium, r.randint(2, 4))
+            lines = [Line(sk, SKU_INDEX[sk][1], r.randint(150, 500), self.price(sk, cust.currency), dn) for sk in skus]
+            big = self.invoice(cust, self.business_time(r.choice(self.period_days)), lines)
+            h.note("large_foreign_order", invoice=big.key)
+
         # foreign invoice in early local hours, rendered in +00:00: UTC date != local date
         candidates = [d for d in self.period_days if d.weekday() in (1, 2, 3, 4)]
         day = r.choice(candidates)
@@ -356,7 +374,7 @@ class _Builder:
         payable.sort(key=lambda i: i.issued)
 
         def earliest(inv: Invoice) -> datetime:
-            return max(inv.issued, credit.get(inv.key + "@", inv.issued)) + timedelta(hours=2)
+            return max(inv.book_ts or inv.issued, credit.get(inv.key + "@", inv.issued)) + timedelta(hours=2)
 
         def when(inv: Invoice, after: datetime | None = None) -> datetime | None:
             start = after or earliest(inv)

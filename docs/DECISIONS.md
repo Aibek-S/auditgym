@@ -201,6 +201,26 @@ I1 covers the brief's own example (partial payment, other currency, period bound
 payment there is legitimate, while the errors are cutoff and FX. Each issue's amount is defined
 independently (D-31), so matching is unambiguous.
 
+### Implementation notes (#3)
+
+- **Verified generation.** `generate` accepts an episode only if `invariants.verify_episode` passes:
+  the INV violations recomputed from the public files equal exactly the set implied by
+  `truth.json` (duplicate -> INV-8, allocation -> INV-3, FX on invoice -> INV-7, FX on payment ->
+  INV-4, cutoff -> INV-5), and every evidence set reproduces its amount within the tolerance.
+  Otherwise the error draw is retried with stream `errors:<attempt>` (max 25), so a seed is still
+  deterministic. A forced `errors.plan` never silently changes type.
+- **Data-safety rules.** Distractor records (and the payments/invoices linked to them) are never
+  touched; each record carries at most one error except inside I1/I2; amounts below
+  `min_amount_minor` (10,000 KZT) are rejected; a fully missing allocation writes no zero AR row.
+- **No single-feature shortcuts.** About 20% of legitimate invoice lines use the alternative
+  wording, about 40% of legitimate sales are booked 10 min-18 h after issue (never across the
+  period boundary), and 3-5 large legitimate foreign orders exist in every episode (same size class
+  as the I1 invoice).
+- **I1 needs a Mon-Thu month end.** If the period ends on Fri/Sat/Sun, the UTC-date and local-date
+  rates are equal and I1 cannot exist; the random mix then uses I2 instead.
+- Default mix (`errors` in config): 25% clean, 30% with one interacting scenario (+0-4 extra
+  errors), the rest 1-6 single errors.
+
 ## 7. Clean episodes and distractors [BRIEF requires, OURS lists]
 
 Clean episode = no injected errors, empty `truth.issues`, correct answer = empty findings.

@@ -188,3 +188,112 @@ def check(pub: dict) -> list[Violation]:
     for dn, ids in sorted(billed.items()):
         out.append(Violation("INV-8", tuple(sorted(ids)), f"delivery note {dn} billed twice without reversal"))
     return out
+
+
+# ---------------------------------------------------------------------------
+# Truth verification (D-37): exact correspondence + evidence sufficiency
+# ---------------------------------------------------------------------------
+
+def expected_violations(issue: dict) -> set[tuple[str, tuple]]:
+    """Which INV violations an issue must cause, keyed by (code, frozen ids)."""
+    t, ids = issue["type"], tuple(sorted(issue["affected_ids"]))
+    if t == "duplicate_invoice":
+        return {("INV-8", ids)}
+    if t == "payment_allocation":
+        return {("INV-3", ids)}
+    if t == "fx_conversion":
+        return {("INV-7" if ids[0].startswith("INV-") else "INV-4", ids)}
+    if t == "period_cutoff":
+        return {("INV-5", ids)}
+    raise ValueError(t)
+
+
+def evidence_amount(issue_type: str, evidence: list[str], pub: dict) -> int | None:
+    """Recompute the misstatement from ONE evidence set plus policy/manifest/fx. None = not provable."""
+    m = pub["manifest"]
+    local = parse_offset(m["timezone"])
+    start, end = parse_ts(m["period_start"]), parse_ts(m["period_end"])
+    fx = FxTable.from_public(pub["fx"])
+    docs = {d["doc_id"]: d for d in pub["invoices"] + pub["payments"]}
+    rows = {r["row_id"]: r for r in pub["ledger"]}
+    fx_keys = {f'{r["date"]}:{r["source_currency"]}:{r["target_currency"]}': r for r in pub["fx"]}
+    inv_docs = [docs[x] for x in evidence if x in docs and "invoice_id" in docs[x]]
+    pay_docs = [docs[x] for x in evidence if x in docs and "payment_id" in docs[x]]
+    ev_rows = [rows[x] for x in evidence if x in rows]
+    ev_fx = [fx_keys[x] for x in evidence if x in fx_keys]
+    if len(ev_rows) != 1 or any(x not in docs and x not in rows and x not in fx_keys for x in evidence):
+        return None
+    row = ev_rows[0]
+    amount_of_row = row["debit_minor"] + row["credit_minor"]
+
+    def day(text):
+        return parse_ts(text).astimezone(local).date()
+
+    if issue_type == "duplicate_invoice":
+        if len(inv_docs) != 2 or pay_docs:
+            return None
+        a, b = inv_docs
+        goods = lambda i: sorted((x["delivery_note_id"], x["sku"], x["quantity"], x["unit_price_minor"])  # noqa: E731
+                                 for x in i["line_items"])
+        if a["entity_id"] != b["entity_id"] or goods(a) != goods(b) or a["total_minor"] <= 0:
+            return None
+        if row["invoice_id"] not in (a["invoice_id"], b["invoice_id"]) or row["account"] not in ("1200", "4000"):
+            return None
+        return amount_of_row
+    if issue_type == "payment_allocation":
+        if len(inv_docs) != 1 or len(pay_docs) != 1:
+            return None
+        inv, pay = inv_docs[0], pay_docs[0]
+        if inv["invoice_id"] not in (pay["invoice_refs"] or []) or pay["currency"] != "KZT":
+            return None
+        if pay["amount_minor"] < inv["total_minor"] or row["payment_id"] != pay["payment_id"]:
+            return None
+        if row["account"] == "1900":
+            return row["credit_minor"]
+        if row["account"] == "1200" and row["invoice_id"] == inv["invoice_id"]:
+            return inv["total_minor"] - row["credit_minor"]
+        return None
+    if issue_type == "fx_conversion":
+        docs_here = inv_docs + pay_docs
+        if len(docs_here) != 1 or len(ev_fx) != 1:
+            return None
+        doc = docs_here[0]
+        if "payment_id" in doc:
+            if row["payment_id"] != doc["payment_id"] or row["account"] != BANK_ACCOUNTS[doc["currency"]]:
+                return None
+        elif row["invoice_id"] != doc["invoice_id"] or row["payment_id"] or row["account"] not in ("1200", "4000"):
+            return None
+        when = doc.get("issued_at") or doc.get("timestamp")
+        _rate, key = fx.rate_on(doc["currency"], day(when))
+        if key != f'{ev_fx[0]["date"]}:{ev_fx[0]["source_currency"]}:KZT':
+            return None  # cited rate must be the policy rate
+        amount = abs(doc.get("total_minor", doc.get("amount_minor")))
+        return abs(amount_of_row - fx.to_base(amount, doc["currency"], day(when)))
+    if issue_type == "period_cutoff":
+        if len(inv_docs) != 1 or pay_docs:
+            return None
+        inv = inv_docs[0]
+        issued_in = start <= parse_ts(inv["issued_at"]) < end
+        booked_in = start <= parse_ts(row["timestamp"]) < end
+        if row["invoice_id"] != inv["invoice_id"] or issued_in == booked_in:
+            return None
+        return amount_of_row
+    return None
+
+
+def verify_episode(pub: dict, truth: dict) -> list[str]:
+    """Empty list = the episode is valid: violations == truth, every evidence set proves its amount."""
+    problems = []
+    found = {(v.code, tuple(sorted(v.ids))) for v in check(pub)}
+    expected = set()
+    for issue in truth["issues"]:
+        expected |= expected_violations(issue)
+    if found != expected:
+        problems.append(f"violations mismatch: unexpected={sorted(found - expected)} missing={sorted(expected - found)}")
+    tol = pub["policy"]["amount_tolerance_minor"]
+    for issue in truth["issues"]:
+        for evidence in issue["evidence_sets"]:
+            got = evidence_amount(issue["type"], evidence, pub)
+            if got is None or abs(got - issue["expected_amount_minor"]) > tol:
+                problems.append(f"{issue['issue_id']} evidence {evidence} gives {got}, expected {issue['expected_amount_minor']}")
+    return problems

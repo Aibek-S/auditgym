@@ -42,7 +42,7 @@ class IdMap:
         return self.map[(kind, key)]
 
 
-def render(h: History, events: list[Event], out: Path, *, issues=None, changes=None) -> dict:
+def render(h: History, events: list[Event], out: Path, *, planned=None, plan=None, attempt=0) -> dict:
     """Write the episode folder. Returns {"ids": IdMap, "rows": {(event_index, row_index): row_id}}."""
     cfg = h.config
     salt = cfg.get("id_salt")
@@ -150,17 +150,54 @@ def render(h: History, events: list[Event], out: Path, *, issues=None, changes=N
         w.writerow(FX_COLUMNS)
         w.writerows(fx_rows)
 
+    issues, changes = _truth(planned or [], ids, events, row_ids, h)
     _json(priv / "truth.json", {"schema_version": SCHEMA_VERSION, "episode_id": episode_id,
-                                "issues": issues or []})
+                                "issues": issues})
     distractors = []
     for d in h.distractors:
         distractors.append({k: _public_ref(ids, v) for k, v in d.items()})
     _json(priv / "provenance.json", {
         "episode_id": episode_id, "generator_version": GENERATOR_VERSION,
-        "decisions_version": DECISIONS_VERSION, "changes": changes or [], "distractors": distractors,
+        "decisions_version": DECISIONS_VERSION, "plan": plan or [], "attempt": attempt,
+        "changes": changes, "distractors": distractors,
     })
     _json(priv / "seed_config.json", {"seed": h.seed, "config": cfg, "generator_version": GENERATOR_VERSION})
-    return {"ids": ids, "rows": row_ids, "episode_id": episode_id}
+    return {"ids": ids, "rows": row_ids, "episode_id": episode_id, "issues": issues}
+
+
+def _truth(planned, ids: IdMap, events, row_ids, h: History):
+    """Planned errors (internal keys) -> truth issues and provenance changes (public ids)."""
+    event_at = {(ev.kind, ev.ref): e for e, ev in enumerate(events)}
+
+    def ref(item):
+        if item[0] == "doc_inv":
+            return ids.get("doc", "i" + item[1])
+        if item[0] == "doc_pay":
+            return ids.get("doc", "p" + item[1])
+        if item[0] == "fx":
+            return item[1]
+        _, kind, key, role = item
+        e = event_at[(kind, key)]
+        return row_ids[(e, events[e].named[role])]
+
+    def business(kind, key):
+        return ids.get(kind, key)
+
+    rendered = []
+    for p in planned:
+        affected = sorted(business(k, key) for k, key in p.affected)
+        evidence = [sorted(ref(x) for x in group) for group in p.evidence]
+        rendered.append((p, affected, evidence))
+    rendered.sort(key=lambda x: (x[0].type, x[1]))
+    issues, changes = [], []
+    for n, (p, affected, evidence) in enumerate(rendered, 1):
+        issue_id = f"ISS-{n:02d}"
+        issues.append({"issue_id": issue_id, "type": p.type, "affected_ids": affected,
+                       "expected_amount_minor": p.amount, "currency": "KZT", "evidence_sets": evidence})
+        touched = sorted(set(affected) | {x for group in evidence for x in group})
+        changes.append({"issue_id": issue_id, "kind": p.type, "scenario": p.scenario, **p.change,
+                        "touched_ids": touched})
+    return issues, changes
 
 
 def _public_ref(ids: IdMap, value):
