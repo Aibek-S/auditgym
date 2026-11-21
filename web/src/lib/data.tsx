@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { DemoData, Episode } from "./types";
 import { BrandMark } from "../components/BrandMark";
+import { useT } from "./i18n";
 
 interface DataState {
   data: DemoData | null;
@@ -10,6 +11,7 @@ interface DataState {
 const DataContext = createContext<DataState>({ data: null, error: null });
 
 export function DataProvider({ children }: { children: ReactNode }) {
+  const { t } = useT();
   const [state, setState] = useState<DataState>({ data: null, error: null });
 
   useEffect(() => {
@@ -23,12 +25,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         if (!cancelled) setState({ data, error: null });
       })
       .catch((error: unknown) => {
-        if (!cancelled) {
-          setState({
-            data: null,
-            error: error instanceof Error ? error.message : "Failed to load demo data",
-          });
-        }
+        if (!cancelled) setState({ data: null, error: error instanceof Error ? error.message : "load failed" });
       });
     return () => {
       cancelled = true;
@@ -38,15 +35,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
   if (state.error) {
     return (
       <div className="grid min-h-screen place-items-center bg-paper px-6">
-        <div className="max-w-sm text-center">
+        <div className="max-w-sm">
           <BrandMark />
-          <h1 className="mt-6 text-xl font-medium text-ink">Demo data did not load</h1>
-          <p className="mt-2 text-sm text-ink-secondary">
-            Run <span className="font-mono text-xs text-ink">npm run export</span> from{" "}
-            <span className="font-mono text-xs text-ink">web/</span> to rebuild{" "}
-            <span className="font-mono text-xs text-ink">public/data/demo.json</span>.
-          </p>
-          <p className="mt-3 font-mono text-xs text-finding">{state.error}</p>
+          <h1 className="mt-6 text-xl font-medium text-ink">{t("data.error.title")}</h1>
+          <p className="mt-2 text-[14px] text-ink-secondary">{t("data.error.body")}</p>
+          <p className="mt-3 text-[13px] text-finding">{state.error}</p>
         </div>
       </div>
     );
@@ -58,9 +51,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
         <div className="flex flex-col items-center gap-5">
           <BrandMark />
           <div className="h-px w-40 overflow-hidden bg-line">
-            <div className="loading-line h-px w-1/2 bg-accent" />
+            <div className="loading-line h-px w-1/2 bg-ink" />
           </div>
-          <p className="font-mono text-[11px] text-ink-muted">Loading episode archive</p>
+          <p className="text-[13px] text-ink-muted">{t("data.loading")}</p>
         </div>
       </div>
     );
@@ -77,4 +70,22 @@ export function useDemo(): DemoData {
 
 export function findEpisode(data: DemoData, key: string | undefined): Episode | undefined {
   return data.episodes.find((episode) => episode.key === key);
+}
+
+/** SHA-256 of an episode's answer key (truth issues), so the published key can be checked against the file. */
+export function useTruthHash(episode: Episode | undefined): string | null {
+  const [hash, setHash] = useState<string | null>(null);
+  useEffect(() => {
+    if (!episode || !crypto?.subtle) return;
+    let cancelled = false;
+    const bytes = new TextEncoder().encode(JSON.stringify(episode.truth.issues));
+    crypto.subtle.digest("SHA-256", bytes).then((buf) => {
+      if (cancelled) return;
+      setHash(Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join(""));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [episode]);
+  return hash;
 }

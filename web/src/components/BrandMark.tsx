@@ -1,15 +1,11 @@
-import { Link } from "react-router-dom";
-
-export function BrandMark({ to = "/console", subtitle = "console" }: { to?: string; subtitle?: string }) {
+// The mark is a stamp: the name in capitals inside a ruled, slightly turned frame (brief: "stamp" mark;
+// capitals only on stamps). In running text the name is written "auditgym".
+export function BrandMark({ to = "/" }: { to?: string }) {
   return (
-    <Link to={to} className="hit relative inline-flex items-center gap-2.5 no-underline">
-      <span className="grid h-7 w-7 place-items-center rounded-[6px] border border-ink/25 bg-paper-raised font-mono text-[11px] font-medium leading-none text-ink">
-        AG
+    <a href={to} className="hit relative inline-flex shrink-0 items-center no-underline" aria-label="auditgym">
+      <span className="inline-block -rotate-3 rounded-[2px] border-2 border-ink px-2 py-0.5 text-[13px] font-semibold tracking-[0.08em] text-ink uppercase">
+        auditgym
       </span>
-      <span className="flex items-baseline gap-1.5">
-        <span className="text-[15px] font-semibold tracking-[-0.015em] text-ink">AuditGym</span>
-        <span className="hidden font-mono text-[11px] text-ink-muted min-[400px]:inline">{subtitle}</span>
-      </span>
-    </Link>
+    </a>
   );
 }

@@ -1,19 +1,17 @@
 import { useDemo } from "../lib/data";
+import { useT } from "../lib/i18n";
 import { PageHeader } from "../components/ui/PageHeader";
 import { Panel } from "../components/ui/Panel";
-import { EpisodeTable } from "../components/overview/EpisodeTable";
+import { ArchiveTable } from "../components/overview/ArchiveTable";
 
 export function Episodes() {
   const data = useDemo();
+  const { t } = useT();
   return (
     <div className="space-y-6">
-      <PageHeader
-        eyebrow="Archive"
-        title="Episodes"
-        description="Fixtures pin the format; generated episodes vary names, ids, amounts and error combinations from a seed. Open any month to inspect the public files and the evaluator truth."
-      />
+      <PageHeader title={t("episodes.title")} description={t("episodes.lead")} />
       <Panel bodyClassName="">
-        <EpisodeTable episodes={data.episodes} />
+        <ArchiveTable episodes={data.episodes} />
       </Panel>
     </div>
   );

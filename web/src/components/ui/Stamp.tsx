@@ -6,17 +6,23 @@ const tones: Record<Tone, string> = {
   neutral: "text-ink-secondary",
 };
 
-// `delay` lets the stamp land after the card it sits on has settled, so the press reads as the
-// last beat instead of happening mid-entrance. Reduced motion resets the delay in index.css.
+// A posting stamp: code letter, verdict, the date in a second ink and the run or issue id.
+// `delay` lets it land after the card under it has settled; reduced motion resets the delay.
 export function Stamp({
   tone = "neutral",
-  children,
+  code,
+  label,
+  date,
+  id,
   animate = false,
   delay = 0,
   className = "",
 }: {
   tone?: Tone;
-  children: string;
+  code: string;
+  label: string;
+  date?: string;
+  id?: string;
   animate?: boolean;
   delay?: number;
   className?: string;
@@ -26,7 +32,16 @@ export function Stamp({
       className={`stamp ${tones[tone]} ${animate ? "animate-stamp" : ""} ${className}`}
       style={animate && delay ? { animationDelay: `${delay}ms` } : undefined}
     >
-      {children}
+      <span className="stamp__code" aria-hidden="true">
+        {code}
+      </span>
+      <span className="stamp__label">{label}</span>
+      {date || id ? (
+        <span className="stamp__meta num">
+          {date ? <span className="stamp__date">{date}</span> : null}
+          {id ? <span>{id}</span> : null}
+        </span>
+      ) : null}
     </span>
   );
 }
