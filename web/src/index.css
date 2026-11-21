@@ -297,3 +297,13 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Live run: each new step rises in once; no motion when the user asks for less. */
+.live-row {
+  animation: rise-in 220ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-row {
+    animation: none;
+  }
+}
