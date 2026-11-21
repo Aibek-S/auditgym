@@ -104,7 +104,7 @@ html[data-radius="sharp"] { --r-sm: 3px; --r-md: 4px; --r-lg: 4px; --r-btn: 3px;
 .ag-key i { display: inline-block; width: 16px; height: 10px; border-radius: 1px; margin-right: 6px; vertical-align: -1px; }
 .ag-key .f { background: var(--ag-finding-soft); outline: 1px solid var(--ag-finding); }
 .ag-key .e { background: var(--ag-evidence-soft); outline: 1px solid var(--ag-evidence); }
-.ag-note { position: absolute; right: 20px; bottom: 24px; width: min(300px, 70%); padding: 14px 16px; border-radius: var(--r-md); background: var(--u-bg, var(--surface)); border: 1px solid var(--u-border, rgba(127,127,127,.3)); font-size: 14px; display: grid; gap: 6px; }
+.ag-note { position: absolute; right: 16px; bottom: 16px; width: min(300px, 70%); padding: 14px 16px; border-radius: var(--r-md); background: var(--u-bg, var(--surface)); border: 1px solid var(--u-border, rgba(127,127,127,.3)); font-size: 14px; display: grid; gap: 6px; }
 .ag-note .ag-stamp { justify-self: start; margin-bottom: 4px; }
 
 /* Hero frame: the effect fills it; the window sits on it, cut by the frame's bottom. */
@@ -153,6 +153,51 @@ h2 { hyphens: manual; }
 .ag-plot { width: 100%; height: auto; display: block; }
 dd { margin: 0; }
 main .grid > * { min-width: 0; }
+/* The hero: the engraving fills the whole first screen; words, window and card stand on it. */
+.ag-hero { position: relative; isolation: isolate; overflow: hidden; }
+.ag-hero { --fx-bg: var(--p-bg); --fx-surface: var(--p-surface); --fx-ink: var(--p-ink); --fx-muted: var(--p-muted); --fx-accent: var(--p-ink); --fx-accent-ink: var(--p-bg); }
+.ag-hero__fx { position: absolute; inset: var(--nav) 0 0 0; z-index: 0; }
+.ag-hero > .wrap { position: relative; z-index: 1; }
+.ag-hero .hero__art { background: transparent; }
+.ag-hero .ag-frame { background: transparent; padding: 0; min-height: 0; }
+.ag-hero .ag-win { box-shadow: 0 24px 64px rgba(0, 0, 0, .14); }
+.ag-hero h1 { font-size: clamp(32px, 2.7vw + 14px, 54px); }
+/* the effect's pause control sits on the page's right line, above the fold line */
+/* the effect's pause control sits on the page's right line, above the fold line */
+.ag-hero__fx > .loop-pause { left: auto !important; right: calc((100% - min(100% - 2 * var(--gut), 1280px)) / 2) !important; bottom: 40px !important; top: auto !important; }
+/* A stamp presses when its step arrives. */
+[data-ly-steps] .ag-stamp--press[data-step] { transform: rotate(-3deg) scale(1); transition: opacity .2s ease-out, transform .22s cubic-bezier(.16, 1, .3, 1); }
+[data-ly-steps] .ag-stamp--press[data-step].is-off { transform: rotate(-3deg) scale(1.18); }
+.ag-files .ag-file { margin: 0; padding: 10px 20px 0; font-size: 13px; color: var(--muted); border-top: 1px solid var(--u-line, rgba(127,127,127,.2)); }
+.ag-files .ag-file:first-child { border-top: 0; }
+.ag-files .ag-code { padding-top: 6px; }
+.ag-steps > pre + pre { border-top: 1px dashed var(--u-line, rgba(127,127,127,.25)); }
+.ag-req { color: var(--muted); }
+.ag-scrub { border-bottom: 1px dashed currentColor; cursor: ew-resize; touch-action: none; user-select: none; font-variant-numeric: tabular-nums; }
+.ag-scrub:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+.ag-hint { font-size: 14px; }
+.ag-row { height: 52px; font-size: 15px; }
+.ag-table td { padding: 14px 12px 14px 0; font-size: 17px; }
+.ag-table tr.is-hot td { background: var(--ag-evidence-soft); }
+.ag-plot .is-hot { stroke-width: 4; }
+#run .t-lead, #episode dd, #tools dd, #format .ag-rules { font-size: 17px; }
+#run p, #run dl { font-size: 17px; }
+#run .ui-term { font-size: 15px; }
+#run .ui-term__ln { min-height: 30px; }
+#run .ag-code { font-size: 15px; }
+#reward .t-h3.ag-num { font-size: clamp(24px, 1.2vw + 16px, 34px); letter-spacing: -.01em; }
+#reward .span-6.stack-4 > p, #reward .ag-list { font-size: 18px; }
+#reward .ag-list li { padding: 6px 0; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
+#reward .ag-panel { font-size: 17px; }
+#reward .ag-panel__body { padding: 24px 28px; gap: 16px; }
+#reward .ag-scrub-line { font-size: 22px; }
+#errors dt.t-card { font-size: 20px; }
+#errors dd { font-size: 17px; }
+#errors .stack-3 > div { padding-bottom: 12px; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
+#tools .ag-code { font-size: 15px; }
+#tools dt { font-size: 17px; }
+#limits .grid p { font-size: 17px; }
+#episode .ag-leader { font-size: 17px; padding: 4px 0; }
 .hero--collage h1 { font-size: clamp(30px, 2.2vw + 14px, 46px); }
 main h2, .closing h2 { font-size: clamp(28px, 1.4vw + 18px, 38px); }
 .ag-panel__note { color: var(--muted); font-size: 14px; border-top: 1px solid var(--u-line, rgba(127,127,127,.2)); }
@@ -164,7 +209,7 @@ figure { margin: 0; }
 @media (max-width: 639px) {
   .ag-frame { min-height: 0; padding: 12px 12px 0; }
   .ag-frame .ag-row:nth-child(n+5), .ag-frame .ag-key, .ag-frame .ag-tabs { display: none; }
-  .ag-frame .ag-row { grid-template-columns: 5.6em minmax(0, 1fr) auto; font-size: 13px; gap: 8px; padding: 0 10px; }
+  .ag-frame .ag-row { grid-template-columns: 6.4em minmax(0, 1fr) auto; font-size: 13px; gap: 8px; padding: 0 10px; }
   #baseline-table .ag-hide-phone { display: none; }
   #tools { --hm: 2; }
   .hero__proof { display: none; }
@@ -181,7 +226,7 @@ figure { margin: 0; }
 .ag-marks { display: inline-flex; gap: 4px; vertical-align: middle; }
 .ag-marks i { display: block; width: 14px; height: 14px; border-radius: 1px; background: currentColor; }
 
-.ag-photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; }
+.ag-photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 1 / 1; max-height: 640px; }
 .ag-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; display: block; }
 
 .ag-person { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; align-items: center; }
@@ -220,7 +265,8 @@ figure { margin: 0; }
 
 <main id="top">
 
-  <section class="hero hero--collage" data-enter aria-labelledby="hero-h">
+  <section class="hero hero--collage ag-hero" data-enter aria-labelledby="hero-h">
+    <div class="hero__bg ag-hero__fx" data-fx="line-engraving" data-fx-seed="11" data-fx-params='{"drift":0.16,"calm":0.9,"calmX":0.17,"calmY":0.5,"pitch":6.5,"bend":1.0,"cross":0.4,"size":1.3,"maxWidth":0.95}' data-ui-pause-host aria-hidden="true"></div>
     <div class="wrap"><div class="hero-text grid hero__grid">
       <div class="hero__text span-5">
         <h1 id="hero-h" data-i18n="hero.h1">Тренажёр для моделей, которые проверяют бухгалтерию</h1>
@@ -229,7 +275,7 @@ figure { margin: 0; }
         <p class="hero__proof" data-i18n="hero.proof">В архиве 7 эпизодов, 8 внесённых ошибок и 330 документов.</p>
       </div>
       <div class="hero__art span-6 start-7" role="img" aria-label="Окно журнала эпизода за сентябрь: две проводки второго счёта отмечены как доказательства, рядом карточка находки с печатью «Дубль»" data-i18n-aria="hero.art">
-        <div class="ag-frame" data-fx="line-engraving" data-fx-seed="11" data-fx-params='{"calmX":0.5,"calmY":0.15}'>
+        <div class="ag-frame">
           <div class="ag-win" aria-hidden="true">
             <div class="ag-win__bar"><span class="ag-mono">ledger.csv</span><span>· 09.2026</span><span class="ag-tabs"><span class="is-on" data-i18n="win.ledger">Журнал</span><span data-i18n="win.invoices">Счета</span><span data-i18n="win.payments">Платежи</span></span></div>
             <div class="ag-rows">
@@ -244,11 +290,11 @@ figure { margin: 0; }
             </div>
             <div class="ag-key"><span><i class="e"></i><span data-i18n="key.evidence">доказательство</span></span><span class="ag-mono">ISS-01</span></div>
           </div>
-          <div class="ag-note" aria-hidden="true">
-            <span class="ag-stamp"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
-            <span><span class="ag-mono">INV-JKUK7G</span> <span data-i18n="note.repeats">повторяет</span> <span class="ag-mono">INV-BQ7MSU</span></span>
-            <span class="ag-leader"><span data-i18n="note.note">Накладная</span><span class="ag-mono">DN-41DR5</span></span>
-            <span class="ag-leader"><span data-i18n="note.amount">Сумма находки</span><span class="ag-mono">78 400.00 KZT</span></span>
+          <div class="ag-note" aria-hidden="true" data-ly-steps="800">
+            <span class="ag-stamp ag-stamp--press" data-step data-step-at="4"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
+            <span data-step><span class="ag-mono">INV-JKUK7G</span> <span data-i18n="note.repeats">повторяет</span> <span class="ag-mono">INV-BQ7MSU</span></span>
+            <span class="ag-leader" data-step><span data-i18n="note.note">Накладная</span><span class="ag-mono">DN-41DR5</span></span>
+            <span class="ag-leader" data-step><span data-i18n="note.amount">Сумма находки</span><span class="ag-mono">78 400.00 KZT</span></span>
           </div>
         </div>
       </div>
@@ -268,10 +314,14 @@ figure { margin: 0; }
 
 cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           </div>
+          <dl class="stack-2">
+            <div class="ag-leader"><dt data-i18n="run.deps">Зависимости</dt><dd data-i18n="run.deps.v">только стандартная библиотека Python 3.11</dd></div>
+            <div class="ag-leader"><dt data-i18n="run.seed">Один seed</dt><dd data-i18n="run.seed.v">один и тот же месяц, побайтно</dd></div>
+          </dl>
           <p data-i18n="run.wip">Полная проверка одной командой, <span class="ag-mono">docker run --rm --network none auditgym</span>, появится вместе с issue #6.</p>
         </div>
         <div class="span-6 start-7">
-          <div class="ui ui-panel ui-term" data-ui="terminal-run" role="img" aria-label="Терминал: генерация эпизода с seed 2001, список его файлов и честный ответ команды check" data-i18n-aria="run.term">
+          <div class="ui ui-panel ui-term" data-ui="terminal-run" data-ui-loop role="img" aria-label="Терминал: генерация эпизода с seed 2001, список его файлов и честный ответ команды check" data-i18n-aria="run.term">
             <div class="ui-term__head">
               <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
               <span class="ui-term__title">auditgym</span>
@@ -280,6 +330,9 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
             </div>
             <div class="ui-term__screen" data-term-screen>
               <div class="ui-term__track" data-term-track>
+                <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span>python -m auditgym --version</span></div>
+                <div class="ui-term__ln ui-term__sum"><span class="ui-term__key">auditgym 0.1.0</span><span class="ui-term__dim">(schema 1.0, decisions-v0.1)</span></div>
+                <div class="ui-term__ln ui-term__gap" aria-hidden="true"></div>
                 <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span class="ui-term__typed" data-term-cmd>python -m auditgym generate \</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out><span class="ui-term__path">&nbsp;&nbsp;--seed 2001 --out ep</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">episode 16a97a4ae40b1380 written to ep</span></div>
@@ -290,9 +343,12 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
                 <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/policy.json</span><span class="ui-term__n">9 rules</span><span class="ui-term__t">1 KB</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">private/truth.json</span><span class="ui-term__n">answer key</span><span class="ui-term__t">hidden</span></div>
                 <div class="ui-term__ln ui-term__gap" data-term-out aria-hidden="true"></div>
+                <div class="ui-term__ln ui-term__cmd" data-term-out><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span>diff -r ep ep-again &amp;&amp; echo same</span></div>
+                <div class="ui-term__ln ui-term__sum" data-term-out><span class="ui-term__key">same</span><span class="ui-term__dim">(seed 2001, byte for byte)</span></div>
+                <div class="ui-term__ln ui-term__gap" data-term-out aria-hidden="true"></div>
                 <div class="ui-term__ln ui-term__cmd" data-term-out><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span>python -m auditgym check</span></div>
                 <div class="ui-term__ln ui-term__sum" data-term-out><span class="ui-term__key">'check' is not implemented yet</span><span class="ui-term__dim">(issue #6)</span></div>
-                <div class="ui-term__ln ui-term__cmd" data-term-next><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span class="ui-term__typed"></span><i class="ui-term__caret" aria-hidden="true"></i></div>
+
               </div>
             </div>
           </div>
@@ -345,23 +401,23 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           </div>
         </div>
         <div class="app__pane app__pane--open">
-          <div class="ag-doc">
-            <span class="ag-stamp"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
+          <div class="ag-doc" data-ly-steps="700">
+            <span class="ag-stamp ag-stamp--press" data-step data-step-at="9"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
             <h3 class="ag-mono">INV-JKUK7G</h3>
-            <div class="ag-leader"><span>1 <span data-i18n="f.document">Документ</span></span><span class="ag-mono">DOC-Y5XZF9</span></div>
-            <div class="ag-leader"><span>2 <span data-i18n="f.customer">Покупатель</span></span><span class="ag-mono">C-GFY1</span></div>
-            <div class="ag-leader"><span>3 <span data-i18n="f.issued">Дата выписки</span></span><span class="ag-num">12.09.2026 15:20</span></div>
-            <div class="ag-leader"><span>4 <span data-i18n="f.total">Сумма</span></span><span class="ag-mono">78 400.00 KZT</span></div>
-            <table class="ag-lines">
+            <div class="ag-leader" data-step><span>1 <span data-i18n="f.document">Документ</span></span><span class="ag-mono">DOC-Y5XZF9</span></div>
+            <div class="ag-leader" data-step><span>2 <span data-i18n="f.customer">Покупатель</span></span><span class="ag-mono">C-GFY1</span></div>
+            <div class="ag-leader" data-step><span>3 <span data-i18n="f.issued">Дата выписки</span></span><span class="ag-num">12.09.2026 15:20</span></div>
+            <div class="ag-leader" data-step><span>4 <span data-i18n="f.total">Сумма</span></span><span class="ag-mono">78 400.00 KZT</span></div>
+            <table class="ag-lines" data-step>
               <thead><tr><th>№</th><th data-i18n="f.item">Товар</th><th data-i18n="f.note">Накладная</th></tr></thead>
               <tbody>
                 <tr><td>1</td><td>Parmesan cheese 1kg</td><td class="ag-mono">DN-41DR5</td></tr>
                 <tr><td>2</td><td>Oil olive 5l</td><td class="ag-mono">DN-41DR5</td></tr>
               </tbody>
             </table>
-            <p data-i18n="walk.shared">Та же накладная DN-41DR5 есть в INV-BQ7MSU: «Olive oil 5 L», «Parmesan 1 kg».</p>
-            <div class="ag-leader"><span><span class="ag-mono">L-HIBAOV</span> <span data-i18n="acct.1200">Дебиторская задолженность</span></span><span class="ag-mono">+78 400.00</span></div>
-            <div class="ag-leader"><span><span class="ag-mono">L-XOOR5X</span> <span data-i18n="acct.4000">Выручка</span></span><span class="ag-mono">−78 400.00</span></div>
+            <p data-step data-i18n="walk.shared">Та же накладная DN-41DR5 есть в INV-BQ7MSU: «Olive oil 5 L», «Parmesan 1 kg».</p>
+            <div class="ag-leader" data-step><span><span class="ag-mono">L-HIBAOV</span> <span data-i18n="acct.1200">Дебиторская задолженность</span></span><span class="ag-mono">+78 400.00</span></div>
+            <div class="ag-leader" data-step><span><span class="ag-mono">L-XOOR5X</span> <span data-i18n="acct.4000">Выручка</span></span><span class="ag-mono">−78 400.00</span></div>
           </div>
         </div>
       </div>
@@ -376,13 +432,13 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           <div class="ag-scroll"><table class="ag-table" id="baseline-table">
             <thead><tr><th data-i18n="base.col.ep">Эпизод</th><th class="r ag-hide-phone" data-i18n="base.col.errors">Ошибок</th><th class="r ag-hide-phone" data-i18n="base.col.oracle">Оракул</th><th class="r" data-i18n="base.col.guided">Разбор</th><th class="r" data-i18n="base.col.steps">Шагов</th></tr></thead>
             <tbody>
-              <tr><td data-i18n="ep.duplicate">Дубль счёта</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
-              <tr><td data-i18n="ep.allocation">Неразнесённая оплата</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
-              <tr><td data-i18n="ep.clean">Чистый месяц</td><td class="r ag-num ag-hide-phone">0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
-              <tr><td data-i18n="ep.i1">Две ошибки: курс и период</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
-              <tr><td data-i18n="ep.i2">Две ошибки: дубль и оплата</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.980</td><td class="r ag-num">10</td></tr>
-              <tr><td data-i18n="ep.cutoff">Сдвиг периода</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.990</td><td class="r ag-num">5</td></tr>
-              <tr><td data-i18n="ep.fx">Пересчёт по курсу</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr data-pt="duplicate"><td data-i18n="ep.duplicate">Дубль счёта</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
+              <tr data-pt="allocation"><td data-i18n="ep.allocation">Неразнесённая оплата</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
+              <tr data-pt="clean"><td data-i18n="ep.clean">Чистый месяц</td><td class="r ag-num ag-hide-phone">0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr data-pt="i1"><td data-i18n="ep.i1">Две ошибки: курс и период</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr data-pt="i2"><td data-i18n="ep.i2">Две ошибки: дубль и оплата</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.980</td><td class="r ag-num">10</td></tr>
+              <tr data-pt="cutoff"><td data-i18n="ep.cutoff">Сдвиг периода</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.990</td><td class="r ag-num">5</td></tr>
+              <tr data-pt="fx"><td data-i18n="ep.fx">Пересчёт по курсу</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
             </tbody>
           </table></div>
           <p data-i18n="base.note">Оракул читает ключ ответов напрямую, поэтому получает 1.000. Агенты reconcile, flag_all и random появятся вместе с runner (issues #5 и #6).</p>
@@ -397,11 +453,13 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
             <text x="48" y="272" text-anchor="middle">0</text><text x="153" y="272" text-anchor="middle">4</text><text x="258" y="272" text-anchor="middle">8</text><text x="363" y="272" text-anchor="middle">12</text>
             <text x="229" y="294" text-anchor="middle" data-i18n="plot.x">шаги проверки</text>
             <rect x="43" y="15" width="10" height="10" fill="currentColor"/>
-            <circle cx="179" cy="85" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="310" cy="150" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="cutoff" cx="179" cy="85" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="clean" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="i1" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="fx" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="duplicate" cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="allocation" cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle data-pt="i2" cx="310" cy="150" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
           </svg>
           <p class="muted" data-i18n="base.legend">Квадрат: оракул на всех семи эпизодах. Круги: разбор по шагам.</p>
           </div></div></div>
@@ -427,24 +485,22 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           <div class="ui ui-panel ag-panel" role="img" aria-label="Запрос list_records и ответ среды на первом шаге разбора" data-i18n-aria="tools.art">
             <div class="ag-win__bar"><span class="ag-mono">list_records · get_record</span></div>
             <p class="ag-panel__body ag-panel__note" data-i18n="tools.step">Шаги 1 и 3 разбора эпизода «Две ошибки: курс и период». Время счёта записано в UTC: по местному времени это уже 01.01.2027.</p>
-<pre class="ag-code ag-code--bare">{"action": "list_records", "table": "ledger",
- "cursor": null, "limit": 6}
-
-{"ok": true, "result": {"rows": [
-  {"row_id": "L-UVQLW8",
-   "timestamp": "2026-11-24T13:14:00+05:00",
-   "account": "1010", "debit_minor": 12280000,
-   "credit_minor": 0, "currency": "KZT",
-   "payment_id": "PAY-N3BEZ6"},
-  …],
- "next_cursor": "ledger:6"},
- "steps_used": 1, "steps_remaining": 99}
-
-{"action": "get_record", "table": "invoices",
- "id": "INV-6QIVMB"}
-{"invoice_id": "INV-6QIVMB", "currency": "USD",
- "issued_at": "2026-12-31T23:46:00+00:00",
- "total_minor": 1529498, …}</pre>
+<div class="ag-steps" data-ly-steps="900">
+<pre class="ag-code ag-code--bare ag-req" data-step>→ {"action": "list_records", "table": "ledger",
+   "cursor": null, "limit": 6}</pre>
+<pre class="ag-code ag-code--bare" data-step>← {"ok": true, "result": {"rows": [
+    {"row_id": "L-UVQLW8", "account": "1010",
+     "timestamp": "2026-11-24T13:14:00+05:00",
+     "debit_minor": 12280000, "credit_minor": 0,
+     "payment_id": "PAY-N3BEZ6"}, …],
+   "next_cursor": "ledger:6"},
+   "steps_used": 1, "steps_remaining": 99}</pre>
+<pre class="ag-code ag-code--bare ag-req" data-step>→ {"action": "get_record", "table": "invoices",
+   "id": "INV-6QIVMB"}</pre>
+<pre class="ag-code ag-code--bare" data-step>← {"invoice_id": "INV-6QIVMB", "currency": "USD",
+   "issued_at": "2026-12-31T23:46:00+00:00",
+   "total_minor": 1529498, …}</pre>
+</div>
           </div>
         </div>
       </div>
@@ -479,6 +535,9 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           <div class="ag-double"></div>
           <p data-i18n="reward.worked">Разбор эпизода «Две ошибки: курс и период» находит обе ошибки за 6 шагов:</p>
           <p class="ag-num"><span class="ag-marks" aria-hidden="true"><i></i><i></i></span>&nbsp; 2 × 1.000 − 1 − 0.002 × 6 = 0.988</p>
+          <div class="ag-double"></div>
+          <p class="ag-scrub-line" data-ag-scrub><span data-i18n="reward.try1">Попробуйте: при F1 =</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="F1" aria-valuemin="0" aria-valuemax="1" data-k="f1" data-min="0" data-max="1" data-step="0.05" data-v="1">1.00</span> <span data-i18n="reward.try2">и</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="S" aria-valuemin="0" aria-valuemax="100" data-k="s" data-min="0" data-max="100" data-step="1" data-v="6">6</span> <span data-i18n="reward.try3">шагах награда</span> <strong class="ag-num" data-ag-r>0.988</strong></p>
+          <p class="muted ag-hint" data-i18n="reward.tryhint">Тяните подчёркнутые числа или меняйте их стрелками.</p>
           <p data-i18n="reward.cleanrun">На чистом месяце разбор отправляет пустой список: обе стороны пусты, F1 = 1.000, и за 6 шагов награда тоже 0.988.</p>
           </div>
          </div>
@@ -502,15 +561,15 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
         <div class="span-6 start-7">
           <div class="ui ui-panel ag-panel" role="img" aria-label="Все восемь ошибок из ключей ответов архива: тип, затронутый документ и сумма" data-i18n-aria="errors.art">
             <div class="ag-win__bar"><span data-i18n="errors.window">Ошибки в ключах ответов</span><span class="ag-num">· 8</span></div>
-            <div class="ag-rows ag-findings">
-              <div class="ag-row is-finding"><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-JKUK7G</span><span class="ag-mono">78 400.00</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-VNTQTB</span><span class="ag-mono">300 550.00</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-F1EPA4</span><span class="ag-mono">24 000.00</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-CIKIQV</span><span class="ag-mono">164 304.00</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-9BEF6T</span><span class="ag-mono">86 701.24</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">17 895.12</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-M7LDZ5</span><span class="ag-mono">856 400.00</span></div>
-              <div class="ag-row is-finding"><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">7 469 150.53</span></div>
+            <div class="ag-rows ag-findings" data-ly-steps="600">
+              <div class="ag-row is-finding" data-step><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-JKUK7G</span><span class="ag-mono">78 400.00</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-VNTQTB</span><span class="ag-mono">300 550.00</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-F1EPA4</span><span class="ag-mono">24 000.00</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-CIKIQV</span><span class="ag-mono">164 304.00</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-9BEF6T</span><span class="ag-mono">86 701.24</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">17 895.12</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-M7LDZ5</span><span class="ag-mono">856 400.00</span></div>
+              <div class="ag-row is-finding" data-step><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">7 469 150.53</span></div>
             </div>
             <p class="ag-panel__body" data-i18n="errors.combo">Два сценария соединяют две ошибки в одном месяце, и одна цепочка доказательств затрагивает обе находки.</p>
           </div>
@@ -525,20 +584,38 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
         <div class="span-5 stack-4">
           <h2 id="format-h" data-i18n="format.h2">Формат данных</h2>
           <p class="t-lead" data-i18n="format.lead">Суммы хранятся целыми числами в минорных единицах, время с поясом +05:00. Так один и тот же seed даёт побайтно тот же месяц.</p>
-          <p class="muted" data-i18n="format.src">Ниже начало файлов эпизода с seed 2001.</p>
+          <ul class="stack-2 ag-list ag-rules">
+            <li data-i18n="format.r1">суммы: целые числа в тиынах и центах;</li>
+            <li data-i18n="format.r2">время: ISO 8601 с поясом +05:00;</li>
+            <li data-i18n="format.r3">.jsonl: один объект на строку;</li>
+            <li data-i18n="format.r4">ключ ответов только в private/.</li>
+          </ul>
+          <p class="muted" data-i18n="format.src">Справа начало файлов эпизода с seed 2001.</p>
         </div>
         <div class="span-6 start-7 stack-3">
-<div class="ui ui-panel ag-panel" role="img" aria-label="Начало manifest.json эпизода с seed 2001" data-i18n-aria="format.art1"><div class="ag-win__bar"><span class="ag-mono">public/manifest.json</span></div><pre class="ag-code ag-code--bare">{"schema_version": "1.0", "base_currency": "KZT",
+<div class="ui ui-panel ag-panel" role="img" aria-label="Начало файлов эпизода с seed 2001: manifest.json, ledger.csv, fx.csv и payments.jsonl" data-i18n-aria="format.art">
+  <div class="ag-win__bar"><span class="ag-mono">ep/public · seed 2001</span></div>
+  <div class="ag-files">
+    <p class="ag-file ag-mono">manifest.json</p>
+<pre class="ag-code ag-code--bare">{"schema_version": "1.0", "base_currency": "KZT",
  "period_start": "2025-06-01T00:00:00+05:00",
  "counts": {"ledger": 217, "invoices": 60,
             "payments": 37, "fx": 64, "documents": 97},
- "rounding": "half_up"}</pre></div>
-<div class="ui ui-panel ag-panel" role="img" aria-label="Первые строки ledger.csv эпизода с seed 2001" data-i18n-aria="format.art2"><div class="ag-win__bar"><span class="ag-mono">public/ledger.csv</span></div><pre class="ag-code ag-code--bare">row_id,timestamp,account,debit_minor,credit_minor,…
+ "rounding": "half_up"}</pre>
+    <p class="ag-file ag-mono">ledger.csv</p>
+<pre class="ag-code ag-code--bare">row_id,timestamp,account,debit_minor,credit_minor,…
 L-94Y0B2,2025-06-01T00:00:00+05:00,1200,115880000,0,…
-L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre></div>
-<div class="ui ui-panel ag-panel" role="img" aria-label="Первые строки fx.csv эпизода с seed 2001" data-i18n-aria="format.art3"><div class="ag-win__bar"><span class="ag-mono">public/fx.csv</span></div><pre class="ag-code ag-code--bare">date,source_currency,target_currency,rate
+L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre>
+    <p class="ag-file ag-mono">fx.csv</p>
+<pre class="ag-code ag-code--bare">date,source_currency,target_currency,rate
 2025-05-22,EUR,KZT,522.80
-2025-05-22,USD,KZT,443.05</pre></div>
+2025-05-22,USD,KZT,443.05</pre>
+    <p class="ag-file ag-mono">payments.jsonl</p>
+<pre class="ag-code ag-code--bare">{"payment_id": "PAY-TUQM5F", "currency": "USD",
+ "timestamp": "2025-06-04T13:38:00+05:00",
+ "amount_minor": 53489, "invoice_refs": ["INV-K2FJFF"]}</pre>
+  </div>
+</div>
         </div>
       </div>
     </div>
@@ -595,6 +672,15 @@ L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre></div>
             </div>
             <p class="ag-panel__body" data-i18n="team.shared">Упаковку, траектории и демо делаем вместе (issue #6).</p>
           </div>
+          <div class="ui ui-panel ag-panel" role="img" aria-label="Влитые pull requests: #7, #8 и #9 20 ноября 2026 года, #10 открыт" data-i18n-aria="team.prs" style="margin-top: var(--s-5)">
+            <div class="ag-win__bar"><span class="ag-mono">pull requests</span></div>
+            <div class="ag-rows ag-issues" data-ly-steps="700">
+              <div class="ag-row" data-step><span class="ag-mono">#7</span><span data-i18n="pr.7">Каркас пакета, конфиг и 3 тестовых эпизода</span><span class="ag-num ag-done">20.11 21:18</span></div>
+              <div class="ag-row" data-step><span class="ag-mono">#8</span><span data-i18n="pr.8">Генератор честной компании и проверки</span><span class="ag-num ag-done">20.11 21:50</span></div>
+              <div class="ag-row" data-step><span class="ag-mono">#9</span><span data-i18n="pr.9">Ошибки, сочетания, ловушки и ключ ответов</span><span class="ag-num ag-done">20.11 22:22</span></div>
+              <div class="ag-row" data-step><span class="ag-mono">#10</span><span data-i18n="pr.10">Демо: лендинг и консоль</span><span data-i18n="issue.open">открыт</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -635,9 +721,7 @@ L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre></div>
   </div>
 </footer>
 
-<nav class="actionbar" aria-label="Быстрые действия" data-i18n-aria="actionbar">
-  <a class="btn btn--primary" href="/console" data-i18n="cta.console">Открыть консоль</a>
-</nav>
+
 
 <script type="module" src="/assets/system.js"></script>
 <script type="module" src="/assets/motion/motion.js"></script>
