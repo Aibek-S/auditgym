@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -48,10 +49,20 @@ class _Subprocess:
                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True,
                                      cwd=str(Path(__file__).resolve().parent.parent))
 
-    def act(self, observation):
-        self.proc.stdin.write(json.dumps(observation) + "\n")
-        self.proc.stdin.flush()
-        line = self.proc.stdout.readline()
+    def act(self, observation, timeout: float = 60.0):
+        try:
+            self.proc.stdin.write(json.dumps(observation) + "\n")
+            self.proc.stdin.flush()
+        except BrokenPipeError:
+            return {"action": "agent_crashed"}
+        box: list[str] = []
+        reader = threading.Thread(target=lambda: box.append(self.proc.stdout.readline()), daemon=True)
+        reader.start()
+        reader.join(timeout)
+        if reader.is_alive():  # a hung agent: kill it, the env's wall-clock limit then truncates
+            self.proc.kill()
+            return {"action": "agent_timeout"}
+        line = box[0] if box else ""
         if not line:
             return {"action": "agent_crashed"}
         try:
@@ -92,7 +103,8 @@ def run_episode(policy: str, *, seed: int | None = None, episode_dir=None, confi
         agent = _Subprocess(policy, policy_seed)
     try:
         while True:
-            action = agent.act(obs)
+            left = env.time_limit - (time.monotonic() - started) + 1
+            action = agent.act(obs, timeout=max(1.0, left)) if isinstance(agent, _Subprocess) else agent.act(obs)
             obs, reward, terminated, truncated, info = env.step(action)
             log(info["steps_used"], action, obs, reward, terminated, truncated)
             if terminated or truncated:

@@ -8,5 +8,7 @@ venv/
 runs/
 out/
 *.log
+!results/check.log
 .DS_Store
 .letta/
+results/trajectories-*.jsonl

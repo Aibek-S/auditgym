@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "eee28167b5560c11",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "INV-7NIYAY"
+      ],
+      "expected_amount_minor": 3742423,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2026-04-01:USD:KZT",
+          "DOC-7MND2E",
+          "L-9RY63C"
+        ],
+        [
+          "2026-04-01:USD:KZT",
+          "DOC-7MND2E",
+          "L-R2VUIZ"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-7NIYAY"
+      ],
+      "expected_amount_minor": 668275781,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-7MND2E",
+          "L-9RY63C"
+        ],
+        [
+          "DOC-7MND2E",
+          "L-R2VUIZ"
+        ]
+      ]
+    }
+  ]
+}

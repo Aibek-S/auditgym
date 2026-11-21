@@ -370,7 +370,7 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
             <div class="ag-leader"><dt data-i18n="run.deps">Зависимости</dt><dd data-i18n="run.deps.v">только стандартная библиотека Python 3.11</dd></div>
             <div class="ag-leader"><dt data-i18n="run.seed">Один seed</dt><dd data-i18n="run.seed.v">один и тот же месяц, побайтно</dd></div>
           </dl>
-          <p data-i18n="run.wip">Полная проверка одной командой, <span class="ag-mono">docker run --rm --network none auditgym</span>, появится вместе с issue #6.</p>
+          <p data-i18n="run.wip">Полная проверка одной командой: <span class="ag-mono">docker run --rm --network none auditgym</span>. Без Docker: <span class="ag-mono">python -m auditgym check</span>.</p>
         </div>
         <div class="span-6 start-7">
           <div class="ui ui-panel ui-term" data-ui="terminal-run" data-ui-loop role="img" aria-label="Терминал: генерация эпизода с seed 2001, список его файлов и честный ответ команды check" data-i18n-aria="run.term">
@@ -435,7 +435,7 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
     <div class="wrap">
       <div class="grid">
         <h2 id="walk-h" class="span-5" data-i18n="walk.h2">Разбор: два счёта на одну поставку</h2>
-        <p class="span-6 start-7" data-i18n="walk.lead">Покупателю C-GFY1 дважды выставили поставку по накладной DN-41DR5: 10.09 и 12.09, второй раз строки товаров записаны иначе. Разбор открывает оба счёта, накладную и проводку выручки, тратит 7 шагов и получает 0.986. <a class="link" href="/console/episodes/duplicate?issue=ISS-01">Открыть в консоли</a></p>
+        <p class="span-6 start-7" data-i18n="walk.lead">Покупателю C-GFY1 дважды выставили поставку по накладной DN-41DR5: 10.09 и 12.09, второй раз строки товаров записаны иначе. Агент reconcile открывает счета, сверяет накладную и товар, находит дубль за 9 шагов проверки и получает 0.982. <a class="link" href="/console/episodes/duplicate?issue=ISS-01">Открыть в консоли</a></p>
       </div>
       <div class="ui app fill" role="img" aria-label="Окно консоли: список счетов сентября и открытый счёт INV-JKUK7G с печатью «Дубль»" data-i18n-aria="walk.art" data-ui-pause-host>
         <div class="app__pane app__pane--list">
@@ -480,43 +480,65 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
     <div class="wrap">
       <div class="grid">
         <div class="span-6 stack-4">
-          <h2 id="base-h" data-i18n="base.h2">Базовые агенты на семи эпизодах</h2>
+          <h2 id="base-h" data-i18n="base.h2">Базовые агенты на 20 опубликованных эпизодах</h2>
           <div class="ag-scroll"><table class="ag-table" id="baseline-table">
-            <thead><tr><th data-i18n="base.col.ep">Эпизод</th><th class="r ag-hide-phone" data-i18n="base.col.errors">Ошибок</th><th class="r ag-hide-phone" data-i18n="base.col.oracle">Оракул</th><th class="r" data-i18n="base.col.guided">Разбор</th><th class="r" data-i18n="base.col.steps">Шагов</th></tr></thead>
+            <thead><tr><th data-i18n="base.col.ep">Агент</th><th class="r ag-hide-phone" data-i18n="base.col.errors">TP/FP/FN</th><th class="r ag-hide-phone" data-i18n="base.col.oracle">F1</th><th class="r" data-i18n="base.col.guided">Награда</th><th class="r" data-i18n="base.col.steps">Шагов проверки</th></tr></thead>
             <tbody>
-              <tr data-pt="duplicate"><td data-i18n="ep.duplicate">Дубль счёта</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
-              <tr data-pt="allocation"><td data-i18n="ep.allocation">Неразнесённая оплата</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
-              <tr data-pt="clean"><td data-i18n="ep.clean">Чистый месяц</td><td class="r ag-num ag-hide-phone">0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
-              <tr data-pt="i1"><td data-i18n="ep.i1">Две ошибки: курс и период</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
-              <tr data-pt="i2"><td data-i18n="ep.i2">Две ошибки: дубль и оплата</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.980</td><td class="r ag-num">10</td></tr>
-              <tr data-pt="cutoff"><td data-i18n="ep.cutoff">Сдвиг периода</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.990</td><td class="r ag-num">5</td></tr>
-              <tr data-pt="fx"><td data-i18n="ep.fx">Пересчёт по курсу</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr data-policy="oracle"><td class="ag-mono">oracle</td><td class="r ag-num ag-hide-phone">48/0/0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">+1.000</td><td class="r ag-num">0.0</td></tr>
+              <tr data-policy="reconcile"><td class="ag-mono">reconcile</td><td class="r ag-num ag-hide-phone">48/0/0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">+0.923</td><td class="r ag-num">38.5</td></tr>
+              <tr data-policy="random"><td class="ag-mono">random</td><td class="r ag-num ag-hide-phone">0/35/48</td><td class="r ag-num ag-hide-phone">0.050</td><td class="r ag-num">-0.902</td><td class="r ag-num">35.3</td></tr>
+              <tr data-policy="flag_all"><td class="ag-mono">flag_all</td><td class="r ag-num ag-hide-phone">0/600/48</td><td class="r ag-num ag-hide-phone">0.000</td><td class="r ag-num">-1.000</td><td class="r ag-num">2.0</td></tr>
             </tbody>
           </table></div>
-          <p data-i18n="base.note">Оракул читает ключ ответов напрямую, поэтому получает 1.000. Агенты reconcile, flag_all и random появятся вместе с runner (issues #5 и #6).</p>
+          <p data-i18n="base.note">Настоящие прогоны через среду и оценщика (python -m auditgym check, train 1001–1010 и dev 2001–2010). Оракул читает ключ ответов и нужен только для проверки максимума. reconcile — сверка по правилам из policy.json; то, что она находит все ошибки, мы честно считаем ограничением сложности.</p>
         </div>
-        <div class="span-6 start-7"><div class="ui ui-panel ag-panel" role="img" aria-label="Точечный график: оракул в точке 0 шагов и 1.000, разбор по шагам между 5 и 10 шагами и наградой от 0.980 до 0.990" data-i18n-aria="base.plot">
+        <div class="span-6 start-7"><div class="ui ui-panel ag-panel" role="img" aria-label="Точечный график: оракул в 0 шагов и 1.0; reconcile около 38 шагов и награды около 0.92; random и flag_all у −1" data-i18n-aria="base.plot">
           <div class="ag-win__bar"><span data-i18n="base.plot.title">Награда и шаги проверки</span></div>
           <div class="ag-panel__body">
           <svg class="ag-plot" viewBox="0 0 420 300" aria-hidden="true" data-ag-slope>
-            <line class="grid" x1="48" x2="410" y1="20" y2="20"/><line class="grid" x1="48" x2="410" y1="85" y2="85"/><line class="grid" x1="48" x2="410" y1="150" y2="150"/><line class="grid" x1="48" x2="410" y1="215" y2="215"/>
+            <line class="grid" x1="48" x2="410" y1="20" y2="20"/><line class="grid" x1="48" x2="410" y1="135" y2="135"/>
             <line class="axis" x1="48" x2="48" y1="12" y2="250"/><line class="axis" x1="48" x2="410" y1="250" y2="250"/>
-            <text x="40" y="24" text-anchor="end">1.00</text><text x="40" y="89" text-anchor="end">0.99</text><text x="40" y="154" text-anchor="end">0.98</text><text x="40" y="219" text-anchor="end">0.97</text>
-            <text x="48" y="272" text-anchor="middle">0</text><text x="153" y="272" text-anchor="middle">4</text><text x="258" y="272" text-anchor="middle">8</text><text x="363" y="272" text-anchor="middle">12</text>
+            <text x="40" y="24" text-anchor="end">1.0</text><text x="40" y="139" text-anchor="end">0.0</text><text x="40" y="254" text-anchor="end">−1.0</text>
+            <text x="48" y="272" text-anchor="middle">0</text><text x="169" y="272" text-anchor="middle">20</text><text x="289" y="272" text-anchor="middle">40</text><text x="410" y="272" text-anchor="middle">60</text>
             <text x="229" y="294" text-anchor="middle" data-i18n="plot.x">шаги проверки</text>
-            <line class="ag-slope" x1="48" y1="20" x2="363" y2="176" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
-            <text class="ag-slope-label" x="360" y="196" text-anchor="end" data-i18n="plot.slope">R = 1 − 0.002·S при F1 = 1</text>
+            <line class="ag-slope" x1="48" y1="20" x2="410" y2="34" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <text class="ag-slope-label" x="406" y="54" text-anchor="end" data-i18n="plot.slope">R = 1 − 0.002·S при F1 = 1</text>
             <text class="ag-rtick" x="0" y="0" text-anchor="start" opacity="0"></text>
-            <rect x="43" y="15" width="10" height="10" fill="currentColor"/>
-            <circle data-pt="cutoff" cx="179" cy="85" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="clean" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="i1" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="fx" cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="duplicate" cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="allocation" cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle data-pt="i2" cx="310" cy="150" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="126" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="181" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="187" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="193" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="199" cy="26" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="205" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="217" cy="26" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="223" cy="27" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="235" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="241" cy="27" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="247" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="253" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="253" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="271" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="271" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="277" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="283" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="289" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="295" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="295" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="301" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="307" cy="30" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="326" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="338" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="350" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="368" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="374" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="386" cy="33" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="392" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="404" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="84" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <path d="M55 245L65 255M65 245L55 255" stroke="currentColor" stroke-width="2" data-policy="flag_all"/>
+            <rect x="43" y="15" width="10" height="10" fill="currentColor" data-policy="oracle"/>
           </svg>
-          <p class="muted" data-i18n="base.legend">Квадрат: оракул на всех семи эпизодах. Круги: разбор по шагам.</p>
+          <p class="muted" data-i18n="base.legend">Квадрат: оракул. Круги: reconcile. Точки: random. Крестики: flag_all.</p>
           </div></div></div>
       </div>
     </div>
@@ -588,12 +610,12 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
           <div class="ag-leader"><span data-i18n="reward.c2">Пустой ответ на чистом месяце, 10 шагов</span><span class="ag-num">0.980</span></div>
           <div class="ag-leader"><span data-i18n="reward.c3">Одна ложная находка на чистом месяце</span><span class="ag-num">−1.000</span></div>
           <div class="ag-double"></div>
-          <p data-i18n="reward.worked">Разбор эпизода «Две ошибки: курс и период» находит обе ошибки за 6 шагов:</p>
-          <p class="ag-num ag-eq">2 × 1.000 − 1 − 0.002 × 6 = 0.988</p>
+          <p data-i18n="reward.worked">Агент reconcile на эпизоде «Две ошибки: курс и период» находит обе ошибки за 28 шагов проверки:</p>
+          <p class="ag-num ag-eq">2 × 1.000 − 1 − 0.002 × 28 = 0.944</p>
           <div class="ag-double"></div>
           <p class="ag-scrub-line" data-ag-scrub><span data-i18n="reward.try1">Попробуйте: при F1 =</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="F1" aria-valuemin="0" aria-valuemax="1" data-k="f1" data-min="0" data-max="1" data-step="0.05" data-v="1">1.00</span> <span data-i18n="reward.try2">и</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="S" aria-valuemin="0" aria-valuemax="100" data-k="s" data-min="0" data-max="100" data-step="1" data-v="6">6</span> <span data-i18n="reward.try3">шагах награда</span> <strong class="ag-num" data-ag-r>0.988</strong></p>
           <p class="muted ag-hint" data-i18n="reward.tryhint">Тяните подчёркнутые числа или меняйте их стрелками.</p>
-          <p data-i18n="reward.cleanrun">На чистом месяце разбор отправляет пустой список: обе стороны пусты, F1 = 1.000, и за 6 шагов награда тоже 0.988.</p>
+          <p data-i18n="reward.cleanrun">На чистом месяце правильный ответ — пустой список: обе стороны пусты, F1 = 1.000, и за 7 шагов проверки награда 0.986.</p>
           </div>
          </div>
         </div>
@@ -680,15 +702,15 @@ L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre>
   <section class="section" id="limits" aria-labelledby="limits-h" data-moment="word-highlight">
     <div class="wrap">
       <h2 id="limits-h" data-i18n="limits.h2">Ограничения</h2>
-      <p class="mo-wh__text t-h3" style="margin-top: var(--s-7); max-width: 34ch" data-i18n="limits.statement">Компания вымышленная, данные синтетические, а в архиве один вид бизнеса и одна валюта учёта. Разбор по шагам повторяет записанный путь, и среда reset/step вместе с оценщиком ещё в работе.</p>
+      <p class="mo-wh__text t-h3" style="margin-top: var(--s-7); max-width: 34ch" data-i18n="limits.statement">Компания вымышленная, данные синтетические, бизнес один и валюта учёта одна. Простая сверка по правилам находит все ошибки: среда проверяет корректность оценки, а не трудность задачи.</p>
       <div class="grid" style="margin-top: var(--s-7)">
         <div class="span-6 stack-2">
           <h3 class="t-card" data-i18n="state.ready">Работает</h3>
-          <p data-i18n="state.ready.list">Генератор эпизодов с фиксированными seed, четыре типа ошибок и их сочетания, проверка инвариантов, ключ ответов, эта консоль.</p>
+          <p data-i18n="state.ready.list">Генератор с фиксированными seed, четыре типа ошибок и две комбинации, ключ ответов с проверкой доказательств, среда reset/step с пятью инструментами, оценщик и официальная награда, runner и траектории, четыре базовых агента, Docker и одна команда проверки, эта консоль с живым прогоном.</p>
         </div>
         <div class="span-6 stack-2">
-          <h3 class="t-card" data-i18n="state.wip">В работе</h3>
-          <p data-i18n="state.wip.list">Среда reset/step с пятью инструментами (#4), сопоставление и награда (#5), runner и журнал траекторий (#5), базовые агенты и Docker (#6).</p>
+          <h3 class="t-card" data-i18n="state.wip">Не делали</h3>
+          <p data-i18n="state.wip.list">Обучение весов и LLM-агента: кейс их не требует. Более трудные отвлекающие случаи, чтобы простая сверка не находила всё.</p>
         </div>
       </div>
     </div>
@@ -712,12 +734,12 @@ L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre>
         <li class="ag-member">
           <img src="https://github.com/Aibek-S.png?size=600" width="300" height="300" alt="Аватар Aibek-S на GitHub" data-i18n-alt="team.a.alt" loading="lazy">
           <p class="ag-member__name"><a class="link" href="https://github.com/Aibek-S">Aibek-S</a></p>
-          <p class="ag-member__role" data-i18n="team.a.role">Генератор компании, внесение ошибок, ключ ответов (issues #1–#3)</p>
+          <p class="ag-member__role" data-i18n="team.a.role">Генератор, ошибки и ключ ответов, среда, оценщик и runner (issues #1–#5)</p>
         </li>
         <li class="ag-member">
           <img src="https://github.com/mmeirbek.png?size=600" width="300" height="300" alt="Аватар mmeirbek на GitHub" data-i18n-alt="team.m.alt" loading="lazy">
           <p class="ag-member__name"><a class="link" href="https://github.com/mmeirbek">mmeirbek</a></p>
-          <p class="ag-member__role" data-i18n="team.m.role">Среда, оценщик и runner (issues #4, #5), консоль</p>
+          <p class="ag-member__role" data-i18n="team.m.role">Лендинг и консоль, демо (issue #6)</p>
         </li>
       </ul>
     </div>

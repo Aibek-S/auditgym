@@ -1,0 +1,195 @@
+{
+  "episode_id": "16a97a4ae40b1380",
+  "generator_version": "0.1.0",
+  "decisions_version": "decisions-v0.1",
+  "plan": [],
+  "attempt": 0,
+  "changes": [],
+  "distractors": [
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-TZJLZ9"
+    },
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-G2HR6X"
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-2DT0J0",
+        "INV-100VC5",
+        "INV-1VOV43",
+        "INV-R5FW6J",
+        "INV-288NIJ"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-2QESWE",
+        "INV-ISHPUZ",
+        "INV-M9I3ZK",
+        "INV-331RM8",
+        "INV-C90ZT9"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-KS1DU4",
+        "INV-JZ639G",
+        "INV-AJ3YGC",
+        "INV-QWUMBD",
+        "INV-7V6D5N"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-87NMFA",
+        "INV-HEDSD9",
+        "INV-IA8SRI",
+        "INV-1IK59P",
+        "INV-GIVKPJ"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-KARVPM",
+        "INV-BKOPE2",
+        "INV-3DN359",
+        "INV-Y2AB0V",
+        "INV-P5SE57"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-RMXJUZ",
+        "INV-UAH7CW",
+        "INV-08MBLT",
+        "INV-Z9HIYV",
+        "INV-9NSRZE"
+      ]
+    },
+    {
+      "kind": "correction_reissue",
+      "original": "INV-8HHRL1",
+      "credit_note": "INV-6QMHWL",
+      "reissue": "INV-ZYCAQN"
+    },
+    {
+      "kind": "partial_return",
+      "invoice": "INV-N3FAK0",
+      "credit_note": "INV-5BTWVB"
+    },
+    {
+      "kind": "split_invoicing",
+      "invoices": [
+        "INV-9KWAV1",
+        "INV-V5AIN3"
+      ]
+    },
+    {
+      "kind": "same_total_other_customer",
+      "invoices": [
+        "INV-8WA4QC",
+        "INV-84DI80"
+      ]
+    },
+    {
+      "kind": "boundary_last_evening",
+      "invoice": "INV-732LK5"
+    },
+    {
+      "kind": "boundary_next_period_utc",
+      "invoice": "INV-JLZXSB"
+    },
+    {
+      "kind": "weekend_rate",
+      "invoice": "INV-F7FBC5"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-8UVJGV"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-7ISEA4"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-TT4KOI"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-NS91OR"
+    },
+    {
+      "kind": "utc_date_differs",
+      "invoice": "INV-K2FJFF"
+    },
+    {
+      "kind": "no_reference_payment",
+      "payment": "PAY-B6FY1Q"
+    },
+    {
+      "kind": "combined_payment",
+      "payment": "PAY-V817OW",
+      "invoices": [
+        "INV-KS1DU4",
+        "INV-7GO5VC",
+        "INV-JZ639G"
+      ]
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-G2HR6X",
+      "payment": "PAY-RJKE4J"
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-KARVPM",
+      "payment": "PAY-UHSZIW"
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-BKOPE2",
+      "payment": "PAY-Y41RHX"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-N3FAK0",
+      "payments": [
+        "PAY-FKQDO5",
+        "PAY-M4S9QV"
+      ]
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-HEDSD9",
+      "payment": "PAY-0V1XNC"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-AJ3YGC",
+      "payment": "PAY-CMG2TZ"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-QWUMBD",
+      "payment": "PAY-NCX2J8"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-732LK5",
+      "payment": "PAY-RGM39U"
+    },
+    {
+      "kind": "realised_fx_difference",
+      "payment": "PAY-TUQM5F"
+    }
+  ]
+}

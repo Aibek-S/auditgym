@@ -1,0 +1,376 @@
+{
+  "episode_id": "abae1b26fce19268",
+  "generator_version": "0.1.0",
+  "decisions_version": "decisions-v0.1",
+  "plan": [
+    "I1",
+    "duplicate_invoice",
+    "duplicate_invoice"
+  ],
+  "attempt": 0,
+  "changes": [
+    {
+      "issue_id": "ISS-01",
+      "kind": "duplicate_invoice",
+      "scenario": null,
+      "variant": "re-entered",
+      "decision": "already invoiced delivery re-entered without reversing the original",
+      "before": null,
+      "after": {
+        "copy_issued_at": "2025-08-30T12:16:00+05:00",
+        "kzt": 5563210
+      },
+      "touched_ids": [
+        "DOC-Q7IUS8",
+        "DOC-SZYZIT",
+        "INV-61L6WK",
+        "INV-64BBHU",
+        "L-TVSTF5",
+        "L-VFGWAP"
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "kind": "duplicate_invoice",
+      "scenario": null,
+      "variant": "re-entered",
+      "decision": "already invoiced delivery re-entered without reversing the original",
+      "before": null,
+      "after": {
+        "copy_issued_at": "2025-08-04T16:47:00+05:00",
+        "kzt": 3916000
+      },
+      "touched_ids": [
+        "DOC-0X4SVR",
+        "DOC-8VUADP",
+        "INV-EDMX4I",
+        "INV-I26EJE",
+        "L-3VFMGW",
+        "L-4OPKDP"
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "kind": "fx_conversion",
+      "scenario": "I1",
+      "decision": "UTC date of the document used as the local business date",
+      "variant": "inv:utc_date_rate",
+      "before": {
+        "rate_day": "2025-09-01"
+      },
+      "after": {
+        "rate_day": "2025-08-31"
+      },
+      "touched_ids": [
+        "2025-09-01:EUR:KZT",
+        "DOC-3T529C",
+        "INV-2JQL8Q",
+        "L-3IP7XC",
+        "L-CSAIDF"
+      ]
+    },
+    {
+      "issue_id": "ISS-04",
+      "kind": "period_cutoff",
+      "scenario": "I1",
+      "decision": "UTC date of the document used as the local business date",
+      "variant": "utc_date_booked_early",
+      "before": {
+        "booked_at": "2025-09-01T01:41:00+05:00"
+      },
+      "after": {
+        "booked_at": "2025-08-31T20:41:00+05:00"
+      },
+      "touched_ids": [
+        "DOC-3T529C",
+        "INV-2JQL8Q",
+        "L-3IP7XC",
+        "L-CSAIDF"
+      ]
+    }
+  ],
+  "distractors": [
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-2LW7LA"
+    },
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-9NXSNE"
+    },
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-1CXUDD"
+    },
+    {
+      "kind": "opening_balance",
+      "invoice": "INV-2618W8"
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-RZMD3N",
+        "INV-G8KGDA",
+        "INV-Q60M46",
+        "INV-RPKNMO",
+        "INV-1XP9B0"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-0C19HW",
+        "INV-5NDDQG",
+        "INV-NRCTV5",
+        "INV-HUNOCK",
+        "INV-HJGRKF",
+        "INV-JKTTEM"
+      ]
+    },
+    {
+      "kind": "recurring_order",
+      "invoices": [
+        "INV-EDMX4I",
+        "INV-8JLBOJ",
+        "INV-QSCHY6",
+        "INV-NDD8G5",
+        "INV-665QOI"
+      ]
+    },
+    {
+      "kind": "correction_reissue",
+      "original": "INV-V0EVLQ",
+      "credit_note": "INV-FDMZB2",
+      "reissue": "INV-9YVA4V"
+    },
+    {
+      "kind": "partial_return",
+      "invoice": "INV-GDOTYS",
+      "credit_note": "INV-MFEIYA"
+    },
+    {
+      "kind": "split_invoicing",
+      "invoices": [
+        "INV-SX2RM5",
+        "INV-X73OTJ"
+      ]
+    },
+    {
+      "kind": "same_total_other_customer",
+      "invoices": [
+        "INV-3QBIKJ",
+        "INV-GGSDMP"
+      ]
+    },
+    {
+      "kind": "boundary_last_evening",
+      "invoice": "INV-6ZZ10P"
+    },
+    {
+      "kind": "boundary_next_period_utc",
+      "invoice": "INV-RQQNVB"
+    },
+    {
+      "kind": "weekend_rate",
+      "invoice": "INV-NSBE86"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-8V1BAQ"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-CGDHF1"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-2XSF45"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-QJ6XE9"
+    },
+    {
+      "kind": "large_foreign_order",
+      "invoice": "INV-YB2A16"
+    },
+    {
+      "kind": "utc_date_differs",
+      "invoice": "INV-6DMLHB"
+    },
+    {
+      "kind": "no_reference_payment",
+      "payment": "PAY-S1PQRQ"
+    },
+    {
+      "kind": "no_reference_payment",
+      "payment": "PAY-IWFRSV"
+    },
+    {
+      "kind": "combined_payment",
+      "payment": "PAY-NS3RG6",
+      "invoices": [
+        "INV-9YVA4V",
+        "INV-EHWQTC",
+        "INV-6TFYTC",
+        "INV-XAQ8O0"
+      ]
+    },
+    {
+      "kind": "combined_payment",
+      "payment": "PAY-N7A7ER",
+      "invoices": [
+        "INV-Q1ECGL",
+        "INV-6UP5ZJ",
+        "INV-W5UXJK"
+      ]
+    },
+    {
+      "kind": "combined_payment",
+      "payment": "PAY-0Q0D6Y",
+      "invoices": [
+        "INV-A5EXLJ",
+        "INV-PPSH9J",
+        "INV-SX2RM5"
+      ]
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-1CXUDD",
+      "payment": "PAY-BJ62GA"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-RZMD3N",
+      "payments": [
+        "PAY-8J60MD",
+        "PAY-D6ARVO"
+      ]
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-VTRZL3",
+      "payment": "PAY-R2ISPZ"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-CXAD3K",
+      "payment": "PAY-NDQX2S"
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-5NDDQG",
+      "payment": "PAY-GDD1G0"
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-UCBSL8",
+      "payment": "PAY-PXT2F9"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-8JLBOJ",
+      "payments": [
+        "PAY-2GQDYH",
+        "PAY-3DDD0S"
+      ]
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-X73OTJ",
+      "payment": "PAY-4J8XL4"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-7G4K9O",
+      "payment": "PAY-23XZWV"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-RSWAXX",
+      "payments": [
+        "PAY-1HBGR7",
+        "PAY-QEFBH6"
+      ]
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-Z1QRY3",
+      "payments": [
+        "PAY-HJMYGB",
+        "PAY-JZ6PJK"
+      ]
+    },
+    {
+      "kind": "overpayment_to_1900",
+      "invoice": "INV-GGEH3A",
+      "payment": "PAY-B2XJSI"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-X1I4TV",
+      "payment": "PAY-BJ1YNG"
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-NRCTV5",
+      "payment": "PAY-IJLFGZ"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-F4222E",
+      "payments": [
+        "PAY-RK3KD7",
+        "PAY-IUCS79"
+      ]
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-TWXKEQ",
+      "payment": "PAY-MLEK9F"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-6DMLHB",
+      "payments": [
+        "PAY-WCR66Y",
+        "PAY-06QK3P"
+      ]
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-RPKNMO",
+      "payments": [
+        "PAY-V6QU0U",
+        "PAY-X363ZM"
+      ]
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-A7ZX1V",
+      "payment": "PAY-YIEH6J"
+    },
+    {
+      "kind": "split_payment",
+      "invoice": "INV-1HJXU2",
+      "payments": [
+        "PAY-YH1OEY",
+        "PAY-3ESXOX"
+      ]
+    },
+    {
+      "kind": "underpaid_open_invoice",
+      "invoice": "INV-IFOBST",
+      "payment": "PAY-J2RSNF"
+    },
+    {
+      "kind": "realised_fx_difference",
+      "payment": "PAY-M93LVR"
+    },
+    {
+      "kind": "partial_payment_foreign",
+      "payment": "PAY-W8X5GV",
+      "invoice": "INV-2JQL8Q"
+    }
+  ]
+}

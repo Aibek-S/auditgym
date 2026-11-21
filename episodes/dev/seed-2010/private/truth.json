@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "ed43b1173e4dc861",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-4EPO8V",
+        "INV-X8FRSL"
+      ],
+      "expected_amount_minor": 38968000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-0QW9C3",
+          "DOC-7BQRMB",
+          "L-QZNWFU"
+        ],
+        [
+          "DOC-0QW9C3",
+          "DOC-7BQRMB",
+          "L-W4JAGO"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "PAY-SUTBRS"
+      ],
+      "expected_amount_minor": 3287665,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2026-08-04:EUR:KZT",
+          "DOC-5LA4TY",
+          "L-6HHGNU"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-CT5YUG",
+        "PAY-WACZM3"
+      ],
+      "expected_amount_minor": 10265900,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-34DNSF",
+          "DOC-KKVB6G",
+          "L-24ZQTG"
+        ],
+        [
+          "DOC-34DNSF",
+          "DOC-KKVB6G",
+          "L-DR3RR2"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-04",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-S6IZZ5",
+        "PAY-5I49CD"
+      ],
+      "expected_amount_minor": 2548000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-7WW0YF",
+          "DOC-LNLRYD",
+          "L-JCJAEY"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-05",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-KG9ISA"
+      ],
+      "expected_amount_minor": 110020000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-9WJUUA",
+          "L-BG1EQE"
+        ],
+        [
+          "DOC-9WJUUA",
+          "L-FKM6G5"
+        ]
+      ]
+    }
+  ]
+}

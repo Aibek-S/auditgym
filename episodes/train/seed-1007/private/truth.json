@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "a7e1bd351378ef16",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-DMRRPK",
+        "INV-QIHTFZ"
+      ],
+      "expected_amount_minor": 98080000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-PA17UZ",
+          "DOC-SXBAP6",
+          "L-VLI5X8"
+        ],
+        [
+          "DOC-PA17UZ",
+          "DOC-SXBAP6",
+          "L-B5C4DK"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "INV-MGD01T"
+      ],
+      "expected_amount_minor": 7824626,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2026-01-22:EUR:KZT",
+          "DOC-5NBJP6",
+          "L-JGEY4V"
+        ],
+        [
+          "2026-01-22:EUR:KZT",
+          "DOC-5NBJP6",
+          "L-PDBMB7"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-FPJLR5"
+      ],
+      "expected_amount_minor": 40254000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-R5X7F4",
+          "L-ADZ5KV"
+        ],
+        [
+          "DOC-R5X7F4",
+          "L-3DIRK1"
+        ]
+      ]
+    }
+  ]
+}

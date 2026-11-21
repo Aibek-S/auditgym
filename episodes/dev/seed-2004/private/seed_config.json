@@ -1,0 +1,89 @@
+{
+  "seed": 2004,
+  "config": {
+    "config_id": "default",
+    "config_version": 1,
+    "decisions_version": "decisions-v0.1",
+    "company": "NorthAngels FoodService Ltd.",
+    "base_currency": "KZT",
+    "foreign_currencies": [
+      "USD",
+      "EUR"
+    ],
+    "currency_exponents": {
+      "KZT": 2,
+      "USD": 2,
+      "EUR": 2
+    },
+    "timezone": "+05:00",
+    "period_years": [
+      2025,
+      2026,
+      2027
+    ],
+    "cutoff_window_days": 5,
+    "size": {
+      "customers": [
+        8,
+        20
+      ],
+      "invoices": [
+        40,
+        90
+      ],
+      "payments": "derived: about one per invoice, within the 200-document limit",
+      "ledger_rows": [
+        200,
+        1200
+      ]
+    },
+    "hard_limits": {
+      "ledger_rows": 2000,
+      "documents": 200,
+      "errors": 12
+    },
+    "foreign_share": 0.2,
+    "errors": {
+      "count": [
+        0,
+        6
+      ],
+      "types": [
+        "duplicate_invoice",
+        "payment_allocation",
+        "fx_conversion",
+        "period_cutoff"
+      ],
+      "interacting": [
+        "I1",
+        "I2"
+      ],
+      "min_amount_minor": 1000000,
+      "reserve_documents": 16,
+      "clean_share": 0.25,
+      "interacting_share": 0.3,
+      "plan": [
+        "I1"
+      ]
+    },
+    "order_mode": "chronological",
+    "id_salt": null,
+    "env": {
+      "max_steps": 100,
+      "page_limit": 50,
+      "time_limit_s": 60,
+      "mode": "open"
+    },
+    "submission_limits": {
+      "max_findings": 30,
+      "max_evidence_ids": 10,
+      "max_affected_ids": 10,
+      "max_explanation_chars": 1000
+    },
+    "matching": {
+      "amount_tolerance_minor": 100,
+      "finding_currency": "KZT"
+    }
+  },
+  "generator_version": "0.1.0"
+}

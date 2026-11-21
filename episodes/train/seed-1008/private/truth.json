@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "d2efc5a38d3bb6cd",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "INV-LZLRPL"
+      ],
+      "expected_amount_minor": 2986193,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2027-12-29:USD:KZT",
+          "DOC-GFSLD9",
+          "L-6P3T90"
+        ],
+        [
+          "2027-12-29:USD:KZT",
+          "DOC-GFSLD9",
+          "L-FM1CDY"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "INV-NDSE45"
+      ],
+      "expected_amount_minor": 1442813,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2027-12-14:EUR:KZT",
+          "DOC-EMU4K0",
+          "L-9Y3CQW"
+        ],
+        [
+          "2027-12-14:EUR:KZT",
+          "DOC-EMU4K0",
+          "L-RJXZVC"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-2REQND",
+        "PAY-4ZRWGR"
+      ],
+      "expected_amount_minor": 9948400,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-MFVPVX",
+          "DOC-P4CAM4",
+          "L-EF9WKL"
+        ],
+        [
+          "DOC-MFVPVX",
+          "DOC-P4CAM4",
+          "L-AVFAU8"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-04",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-J5ST3I",
+        "PAY-FFX6CU"
+      ],
+      "expected_amount_minor": 39760000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-H6C649",
+          "DOC-HGVG6L",
+          "L-2AGOGG"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-05",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-D2QF7T"
+      ],
+      "expected_amount_minor": 16444000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-J4O53M",
+          "L-01I5BP"
+        ],
+        [
+          "DOC-J4O53M",
+          "L-7CE5OY"
+        ]
+      ]
+    }
+  ]
+}

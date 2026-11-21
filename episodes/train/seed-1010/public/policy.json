@@ -1,0 +1,11 @@
+{
+  "period_basis": "invoice issued_at, local date (+05:00) = transfer of control",
+  "fx_rate_date": "local date (+05:00) of the document timestamp",
+  "fx_missing_rate": "last available rate before that date",
+  "fx_conversion": "target_minor = round_half_up(source_minor * rate), once per document amount",
+  "foreign_invoice_settlement": "AR relieved at carrying amount; difference to account 7000",
+  "payment_allocation": "payments in timestamp order; each payment is applied to its invoice_refs in the listed order, each invoice up to its open balance after credit notes issued before the payment; the remainder goes to 1900. Foreign invoices are relieved pro rata at their carrying KZT amount; the final settlement relieves the exact remainder",
+  "unallocated_receipts_account": "1900",
+  "amount_currency_for_findings": "KZT",
+  "amount_tolerance_minor": 100
+}

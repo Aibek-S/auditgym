@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "abae1b26fce19268",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-61L6WK",
+        "INV-64BBHU"
+      ],
+      "expected_amount_minor": 5563210,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-Q7IUS8",
+          "DOC-SZYZIT",
+          "L-TVSTF5"
+        ],
+        [
+          "DOC-Q7IUS8",
+          "DOC-SZYZIT",
+          "L-VFGWAP"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-EDMX4I",
+        "INV-I26EJE"
+      ],
+      "expected_amount_minor": 3916000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-0X4SVR",
+          "DOC-8VUADP",
+          "L-3VFMGW"
+        ],
+        [
+          "DOC-0X4SVR",
+          "DOC-8VUADP",
+          "L-4OPKDP"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "type": "fx_conversion",
+      "affected_ids": [
+        "INV-2JQL8Q"
+      ],
+      "expected_amount_minor": 9087280,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "2025-09-01:EUR:KZT",
+          "DOC-3T529C",
+          "L-3IP7XC"
+        ],
+        [
+          "2025-09-01:EUR:KZT",
+          "DOC-3T529C",
+          "L-CSAIDF"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-04",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-2JQL8Q"
+      ],
+      "expected_amount_minor": 1650875865,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-3T529C",
+          "L-3IP7XC"
+        ],
+        [
+          "DOC-3T529C",
+          "L-CSAIDF"
+        ]
+      ]
+    }
+  ]
+}

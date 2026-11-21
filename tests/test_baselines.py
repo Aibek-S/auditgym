@@ -86,3 +86,21 @@ def test_paired_transform_keeps_oracle_reward():
     paired = run_episode("oracle", seed=1009, config=load_config(id_salt="pair-7", order_mode="shuffled"))
     assert base["reward"] == paired["reward"] == 1.0
     assert base["episode_id"] != paired["episode_id"]
+
+
+def test_hung_or_broken_agent_cannot_block_the_runner(monkeypatch):
+    """A subprocess agent that never answers is killed; the episode still ends with empty findings."""
+    from auditgym import runner
+
+    class Hung(runner._Subprocess):
+        def __init__(self, name, seed):
+            import subprocess
+            import sys
+
+            self.proc = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(60)"],
+                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+
+    monkeypatch.setattr(runner, "_Subprocess", Hung)
+    rec = run_episode("reconcile", seed=1010, config=load_config(env={"time_limit_s": 1}))
+    assert rec.get("truncated_reason") or rec["reward"] <= 0
+    assert rec["time_s"] < 10

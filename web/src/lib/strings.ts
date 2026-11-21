@@ -108,13 +108,13 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "overview.reward": ["Reward contract", "Контракт награды", "Марапат келісімі"],
   "overview.mix": ["Error types", "Типы ошибок", "Қате түрлері"],
   "overview.mix.meta": ["{n} errors", "Ошибок: {n}", "Қателер: {n}"],
-  "overview.isotype": ["Errors found by the guided review", "Ошибки, найденные разбором", "Талдау тапқан қателер"],
+  "overview.isotype": ["Errors found by the reconcile agent", "Ошибки, найденные агентом reconcile", "reconcile агенті тапқан қателер"],
   "overview.provenance": ["Provenance", "Происхождение данных", "Деректердің шығу тегі"],
   "overview.scatter": ["Runs: reward against inspection steps", "Прогоны: награда и шаги проверки", "Іске қосулар: марапат пен тексеру қадамдары"],
   "overview.scatter.meta": ["One point per run", "Одна точка на прогон", "Әр іске бір нүкте"],
   "mix.of": ["{n} of {total}", "{n} из {total}", "{total} ішінен {n}"],
 
-  "archive.caption": ["Episodes with period, planted errors, record counts and the guided review's reward", "Эпизоды: период, внесённые ошибки, число записей и награда разбора", "Эпизодтар: кезең, енгізілген қателер, жазбалар саны және талдау марапаты"],
+  "archive.caption": ["Episodes with period, planted errors, record counts and the reconcile agent's reward", "Эпизоды: период, внесённые ошибки, число записей и награда агента reconcile", "Эпизодтар: кезең, енгізілген қателер, жазбалар саны және reconcile агентінің марапаты"],
   "archive.col.episode": ["Episode", "Эпизод", "Эпизод"],
   "archive.col.period": ["Period", "Период", "Кезең"],
   "archive.col.findings": ["Errors in the key", "Ошибки в ключе", "Кілттегі қателер"],
@@ -137,7 +137,7 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "featured.body": ["The clerk re-entered a delivery that was already invoiced. Both invoices cite the same delivery note, both reach revenue, and no credit note reverses the second.", "Бухгалтер повторно ввёл уже выставленную поставку. Оба счёта ссылаются на одну накладную, оба попали в выручку, и второй не сторнирован кредит-нотой.", "Есепші шоты бұрын берілген жеткізілімді қайта енгізген. Екі шот та бір жүкқұжатқа сілтейді, екеуі де түсімге түскен, екіншісін кредит-нота жоймаған."],
   "featured.open": ["Open the evidence in the workbench", "Открыть доказательства в журнале", "Дәлелдерді журналда ашу"],
   "featured.ledger": ["Ledger rows of the second invoice", "Проводки второго счёта", "Екінші шоттың журнал жазбалары"],
-  "isotype.lead": ["One mark per planted error. The guided review finds every one; a missed error would show as an outline.", "Одна метка на каждую внесённую ошибку. Разбор находит все; пропущенная ошибка была бы контуром.", "Әр енгізілген қатеге бір белгі. Талдау бәрін табады; жіберілген қате контур болып көрінер еді."],
+  "isotype.lead": ["One mark per planted error. The reconcile agent finds every one here; a missed error would show as an outline.", "Одна метка на каждую внесённую ошибку. Агент reconcile здесь находит все; пропущенная ошибка была бы контуром.", "Әр енгізілген қатеге бір белгі. reconcile агенті мұнда бәрін табады; жіберілген қате контур болып көрінер еді."],
   "marks.found": ["found", "найдена", "табылды"],
   "marks.missed": ["missed", "пропущена", "жіберілді"],
   "marks.false": ["false finding", "ложная находка", "жалған табылған"],
@@ -164,7 +164,7 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "episode.lead": ["The public files of one company-month. Open a record, follow it into its evidence, then show the answer key to compare.", "Публичные файлы одного месяца компании. Откройте запись, пройдите к её доказательствам, затем покажите ключ ответов и сравните.", "Компанияның бір айының ашық файлдары. Жазбаны ашып, оның дәлелдеріне өтіңіз, содан кейін жауап кілтін көрсетіп салыстырыңыз."],
   "episode.truth.show": ["Show the answer key", "Показать ключ ответов", "Жауап кілтін көрсету"],
   "episode.truth.hide": ["Hide the answer key", "Скрыть ключ ответов", "Жауап кілтін жасыру"],
-  "episode.guided": ["Guided review", "Разбор по шагам", "Қадамдық талдау"],
+  "episode.guided": ["Reconcile agent", "Агент reconcile", "reconcile агенті"],
   "episode.copy": ["Copy run config", "Скопировать конфиг прогона", "Іске қосу конфигін көшіру"],
   "episode.copied": ["Config copied", "Конфиг скопирован", "Конфиг көшірілді"],
   "byline.period": ["Period", "Период", "Кезең"],
@@ -272,9 +272,9 @@ export const STRINGS: Record<string, [string, string, string]> = {
 
   // runs
   "run.oracle": ["Oracle", "Оракул", "Оракул"],
-  "run.guided": ["Guided review", "Разбор по шагам", "Қадамдық талдау"],
+  "run.guided": ["Reconcile agent", "Агент reconcile", "reconcile агенті"],
   "run.oracle.note": ["Evaluator-side baseline: it reads the answer key directly and takes no inspection steps, so it proves the month is solvable.", "Базовая линия оценщика: читает ключ ответов напрямую и не делает шагов проверки, поэтому доказывает, что месяц решаем.", "Бағалаушы жағындағы базалық сызық: жауап кілтін тікелей оқиды және тексеру қадамын жасамайды, сондықтан айдың шешілетінін дәлелдейді."],
-  "run.guided.note": ["A recorded replay: it opens the real evidence in the public files, then submits the recorded findings. It is not a policy run.", "Записанный проход: открывает настоящие доказательства в публичных файлах и отправляет записанные находки. Это не прогон политики.", "Жазылған өту: ашық файлдардағы нақты дәлелдерді ашып, жазылған табылғандарды жібереді. Бұл саясатты іске қосу емес."],
+  "run.guided.note": ["The rule-based reconcile baseline, run through the real environment and scored by the real matcher (python -m auditgym run).", "Базовый агент reconcile на правилах: прогнан через настоящую среду и оценён настоящим проверяющим (python -m auditgym run).", "Ережеге негізделген reconcile базалық агенті: нақты орта арқылы іске қосылып, нақты тексерушімен бағаланған (python -m auditgym run)."],
   "run.switch": ["Open {name}", "Открыть: {name}", "Ашу: {name}"],
   "run.actions": ["Actions", "Действий", "Әрекеттер"],
   "run.submitted": ["Findings submitted", "Отправлено находок", "Жіберілген табылғандар"],
@@ -307,7 +307,7 @@ export const STRINGS: Record<string, [string, string, string]> = {
 
   // agents
   "agents.title": ["Agents", "Агенты", "Агенттер"],
-  "agents.lead": ["Every run in the archive. The oracle scores 1.000 by construction; the guided review pays for each inspection step.", "Все прогоны архива. Оракул получает 1.000 по построению; разбор платит за каждый шаг проверки.", "Мұрағаттағы барлық іске қосулар. Оракул құрылымы бойынша 1.000 алады; талдау әр тексеру қадамы үшін төлейді."],
+  "agents.lead": ["Every run in the archive. The oracle scores 1.000 by construction; the reconcile agent pays for each inspection step.", "Все прогоны архива. Оракул получает 1.000 по построению; агент reconcile платит за каждый шаг проверки.", "Мұрағаттағы барлық іске қосулар. Оракул құрылымы бойынша 1.000 алады; reconcile агенті әр тексеру қадамы үшін төлейді."],
   "agents.table": ["Runs", "Прогоны", "Іске қосулар"],
   "agents.rows": ["{n} rows", "Строк: {n}", "{n} жол"],
   "agents.copy": ["Copy table", "Скопировать таблицу", "Кестені көшіру"],
@@ -345,7 +345,7 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "method.scoring.steps": ["S counts every inspection step before submit. The explanation text never changes the score.", "S считает все шаги проверки до отправки. Текст объяснения на оценку не влияет.", "S жіберуге дейінгі барлық тексеру қадамдарын санайды. Түсіндірме мәтіні бағаға әсер етпейді."],
   "method.truth": ["Answer key and evidence", "Ключ ответов и доказательства", "Жауап кілті мен дәлелдер"],
   "method.truth.body": ["truth.json lists each error with its type, affected ids, expected amount and every evidence set that proves it. provenance.json records the clerk's decision and the values before and after.", "truth.json перечисляет каждую ошибку: тип, затронутые id, ожидаемую сумму и все наборы доказательств. provenance.json хранит решение бухгалтера и значения до и после.", "truth.json әр қатені тізеді: түрі, қамтылған id, күтілетін сома және оны дәлелдейтін барлық дәлелдер жиыны. provenance.json есепшінің шешімін және өзгеріске дейінгі және кейінгі мәндерді сақтайды."],
-  "method.truth.replay": ["The guided review in this console replays a recorded evidence path; it does not run a policy.", "Разбор в этой консоли повторяет записанный путь по доказательствам и не запускает политику.", "Осы консольдегі талдау жазылған дәлелдер жолын қайталайды, саясатты іске қоспайды."],
+  "method.truth.replay": ["Runs in this console are real: the reconcile agent and the oracle go through the environment and the matcher. The live page runs any baseline step by step.", "Прогоны в консоли настоящие: агент reconcile и оракул проходят через среду и проверяющего. Страница «Живой прогон» запускает любого агента по шагам.", "Консольдегі іске қосулар нақты: reconcile агенті мен оракул орта мен тексерушіден өтеді. «Тікелей» беті кез келген агентті қадаммен іске қосады."],
   "method.types": ["Four error types", "Четыре типа ошибок", "Қатенің төрт түрі"],
   "method.docs": ["Specification", "Спецификация", "Спецификация"],
 

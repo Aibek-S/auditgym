@@ -125,9 +125,9 @@ function scrubs() {
 
 // A row of the baselines table and its point on the plot light up together.
 function linkPlot() {
-  const rows = document.querySelectorAll<HTMLTableRowElement>("#baseline-table tr[data-pt]");
+  const rows = document.querySelectorAll<HTMLTableRowElement>("#baseline-table tr[data-policy]");
   rows.forEach((row) => {
-    const pts = document.querySelectorAll(`#baselines circle[data-pt="${row.dataset.pt}"]`);
+    const pts = document.querySelectorAll(`#baselines [data-policy="${row.dataset.policy}"]`);
     const on = (v: boolean) => {
       row.classList.toggle("is-hot", v);
       pts.forEach((pt) => pt.classList.toggle("is-hot", v));
@@ -142,11 +142,13 @@ function linkPlot() {
 // by 0.002 a step; the run's table row lights as it lands. Once, when the plot comes into view, then it
 // rests in its finished state (also the reduced-motion and no-script view).
 function slopePlot() {
+  // The plot now shows real baseline runs at their measured positions (results/metrics.json), so the
+  // old slide-along-the-penalty-line animation no longer applies; points stay where they were measured.
   const svg = document.querySelector<SVGSVGElement>("svg[data-ag-slope]");
-  if (!svg || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!svg || !svg.querySelector("circle[data-pt]") || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const line = svg.querySelector<SVGLineElement>(".ag-slope")!;
   const tick = svg.querySelector<SVGTextElement>(".ag-rtick")!;
-  const len = Math.hypot(363 - 48, 176 - 20);
+  const len = Math.hypot(410 - 48, 34 - 20);
   const X = (s: number) => 48 + 26.25 * s;
   const Y = (s: number) => 20 + 6500 * 0.002 * s;
   const runs = new Map<number, SVGCircleElement[]>();
