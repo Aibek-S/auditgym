@@ -9,6 +9,7 @@ import urllib.request
 from http.server import ThreadingHTTPServer
 
 import pytest
+from pathlib import Path
 
 from auditgym.serve import Server, make_handler
 
@@ -69,3 +70,44 @@ def test_bad_requests(base):
     assert call(f"{base}/sessions/nope/step", {"action": {}})[0] == 404
     _, s = call(f"{base}/sessions", {"seed": 3})
     assert call(f"{base}/sessions/{s['session']}/run?policy=nope")[0] == 400
+
+
+def test_static_site_and_limits(tmp_path):
+    from auditgym import serve as srv
+
+    (tmp_path / "static").mkdir()
+    (tmp_path / "index.html").write_text("<h1>landing</h1>")
+    (tmp_path / "console.html").write_text("<div id=root></div>")
+    (tmp_path / "static" / "app.js").write_text("console.log(1)")
+    (tmp_path.parent / "secret.txt").write_text("nope")
+    server = srv.Server(static_dir=tmp_path)
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(server))
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    root = f"http://127.0.0.1:{httpd.server_address[1]}"
+
+    def get(path):
+        try:
+            with urllib.request.urlopen(root + path, timeout=10) as r:
+                return r.status, r.read().decode(), r.headers.get("Content-Type")
+        except urllib.error.HTTPError as e:
+            return e.code, "", None
+
+    assert get("/")[1] == "<h1>landing</h1>"
+    assert get("/console/episodes/duplicate")[1] == "<div id=root></div>"
+    status, body, ctype = get("/static/app.js")
+    assert status == 200 and "javascript" in ctype
+    assert get("/../secret.txt")[0] == 404 and get("/%2e%2e/secret.txt")[0] == 404
+    assert get("/api/health")[0] == 200
+
+    # rate limit on new episodes per client
+    for _ in range(srv.CREATE_PER_MINUTE):
+        assert call(f"{root}/api/sessions", {"seed": 5, "plan": "clean"})[0] == 200
+    assert call(f"{root}/api/sessions", {"seed": 5, "plan": "clean"})[0] == 429
+    # sessions are capped and their folders are deleted
+    assert len(server.sessions) <= srv.MAX_SESSIONS
+    dirs = [s.workdir for s in server.sessions.values()]
+    for sid, session in list(server.sessions.items()):
+        session.touched = 0
+    server.sweep()
+    assert not server.sessions and not any(Path(d).exists() for d in dirs)
+    httpd.shutdown()

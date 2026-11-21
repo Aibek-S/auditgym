@@ -37,6 +37,7 @@ def build_parser() -> argparse.ArgumentParser:
     srv = sub.add_parser("serve", help="local JSON/SSE bridge for the web console (demo only)")
     srv.add_argument("--port", type=int, default=8765)
     srv.add_argument("--host", default="127.0.0.1")
+    srv.add_argument("--static", default=None, help="also serve the built web console from this folder (web/dist)")
     return parser
 
 
@@ -58,7 +59,7 @@ def main(argv=None) -> int:
     if args.command == "serve":
         from auditgym.serve import serve
 
-        serve(args.port, args.host)
+        serve(args.port, args.host, args.static)
         return 0
     if args.command == "run":
         import json

@@ -2,7 +2,10 @@
 // it sees observations only; the answer key is fetched after the episode ends.
 import type { Observation, TruthIssue } from "./types";
 
-export const LIVE_API = (import.meta.env.VITE_AUDITGYM_API as string | undefined) ?? "http://127.0.0.1:8765/api";
+// Production build: the API is served from the same origin (python -m auditgym serve --static web/dist).
+// Dev server (npm run dev): the bridge runs separately on port 8765.
+export const LIVE_API =
+  (import.meta.env.VITE_AUDITGYM_API as string | undefined) ?? (import.meta.env.DEV ? "http://127.0.0.1:8765/api" : "/api");
 
 export const PLANS = ["random", "clean", "duplicate_invoice", "payment_allocation", "fx_conversion", "period_cutoff", "I1", "I2"] as const;
 export type Plan = (typeof PLANS)[number];
