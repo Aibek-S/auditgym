@@ -200,8 +200,15 @@ main .grid > * { min-width: 0; }
 #reward .span-6.stack-4 > p, #reward .ag-list { font-size: 18px; }
 #reward .ag-list li { padding: 6px 0; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
 #reward .ag-panel { font-size: 17px; }
-#reward .ag-panel__body { padding: 24px 28px; gap: 16px; }
-#reward .ag-scrub-line { font-size: 22px; }
+#reward .ag-score { display: grid; gap: 12px; padding: 24px 28px 28px; }
+#reward .ag-score > * { margin: 0; }
+#reward .ag-score .ag-leader { padding: 2px 0; }
+#reward .ag-score .ag-double { margin: 8px 0; }
+#reward .ag-eq { font-size: 20px; }
+#reward .ag-scrub-line { font-size: 22px; line-height: 1.5; }
+#reward .ag-scrub { padding-bottom: 1px; }
+#reward .ag-hint { margin-top: -4px; }
+@media (max-width: 639px) { #reward .ag-score { padding: 20px; } #reward .ag-scrub-line { font-size: 19px; } #reward .ag-eq { font-size: 17px; } }
 #errors dt.t-card { font-size: 20px; }
 #errors dd { font-size: 17px; }
 #errors .stack-3 > div { padding-bottom: 12px; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
@@ -237,8 +244,6 @@ figure { margin: 0; }
 .ag-plot .grid { stroke: currentColor; opacity: .15; }
 .ag-plot .axis { stroke: currentColor; opacity: .45; }
 
-.ag-marks { display: inline-flex; gap: 4px; vertical-align: middle; }
-.ag-marks i { display: block; width: 14px; height: 14px; border-radius: 1px; background: currentColor; }
 
 .ag-photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 1 / 1; max-height: 640px; }
 .ag-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; display: block; }
@@ -578,13 +583,13 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
         <div class="span-6 start-7">
          <div class="ui ui-panel ag-panel" role="img" aria-label="Карточка оценки: примеры наград и расчёт для разбора эпизода с двумя ошибками" data-i18n-aria="reward.art">
           <div class="ag-win__bar"><span data-i18n="reward.card">Оценка прогона</span></div>
-          <div class="ag-panel__body stack-3">
+          <div class="ag-panel__body ag-score">
           <div class="ag-leader"><span data-i18n="reward.c1">Идеальный ответ, 40 шагов</span><span class="ag-num">0.920</span></div>
           <div class="ag-leader"><span data-i18n="reward.c2">Пустой ответ на чистом месяце, 10 шагов</span><span class="ag-num">0.980</span></div>
           <div class="ag-leader"><span data-i18n="reward.c3">Одна ложная находка на чистом месяце</span><span class="ag-num">−1.000</span></div>
           <div class="ag-double"></div>
           <p data-i18n="reward.worked">Разбор эпизода «Две ошибки: курс и период» находит обе ошибки за 6 шагов:</p>
-          <p class="ag-num"><span class="ag-marks" aria-hidden="true"><i></i><i></i></span>&nbsp; 2 × 1.000 − 1 − 0.002 × 6 = 0.988</p>
+          <p class="ag-num ag-eq">2 × 1.000 − 1 − 0.002 × 6 = 0.988</p>
           <div class="ag-double"></div>
           <p class="ag-scrub-line" data-ag-scrub><span data-i18n="reward.try1">Попробуйте: при F1 =</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="F1" aria-valuemin="0" aria-valuemax="1" data-k="f1" data-min="0" data-max="1" data-step="0.05" data-v="1">1.00</span> <span data-i18n="reward.try2">и</span> <span class="ag-scrub" role="slider" tabindex="0" aria-label="S" aria-valuemin="0" aria-valuemax="100" data-k="s" data-min="0" data-max="100" data-step="1" data-v="6">6</span> <span data-i18n="reward.try3">шагах награда</span> <strong class="ag-num" data-ag-r>0.988</strong></p>
           <p class="muted ag-hint" data-i18n="reward.tryhint">Тяните подчёркнутые числа или меняйте их стрелками.</p>
