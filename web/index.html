@@ -163,8 +163,8 @@ main .grid > * { min-width: 0; }
 .ag-hero .ag-win { box-shadow: 0 24px 64px rgba(0, 0, 0, .14); }
 .ag-hero h1 { font-size: clamp(32px, 2.7vw + 14px, 54px); }
 /* the effect's pause control sits on the page's right line, above the fold line */
-/* the effect's pause control sits on the page's right line, above the fold line */
-.ag-hero__fx > .loop-pause { left: auto !important; right: calc((100% - min(100% - 2 * var(--gut), 1280px)) / 2) !important; bottom: 40px !important; top: auto !important; }
+/* No pause discs on this page (the team's call): loops rest under reduced motion instead. */
+.loop-pause { display: none !important; }
 /* A stamp presses when its step arrives. */
 [data-ly-steps] .ag-stamp--press[data-step] { transform: rotate(-3deg) scale(1); transition: opacity .2s ease-out, transform .22s cubic-bezier(.16, 1, .3, 1); }
 [data-ly-steps] .ag-stamp--press[data-step].is-off { transform: rotate(-3deg) scale(1.18); }
