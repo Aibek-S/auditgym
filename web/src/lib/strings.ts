@@ -383,7 +383,7 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "live.stop": ["Stop", "Остановить", "Тоқтату"],
   "live.reset": ["New episode", "Новый эпизод", "Жаңа эпизод"],
   "live.running": ["Agent is working", "Агент работает", "Агент жұмыс істеп жатыр"],
-  "live.unscored": ["The matcher is not connected yet: the reward stays 0 until issue #5.", "Проверяющий ещё не подключён: награда равна 0 до задачи #5.", "Тексеруші әлі қосылмаған: #5 тапсырмаға дейін марапат 0."],
+  "live.unscored": ["The bridge runs without the matcher: the reward stays 0.", "Мост запущен без проверяющего: награда равна 0.", "Көпір тексерушісіз іске қосылған: марапат 0."],
   "live.empty": ["No steps yet. Run the agent or send an action by hand below.", "Шагов пока нет. Запустите агента или отправьте действие вручную ниже.", "Әзірге қадам жоқ. Агентті іске қосыңыз немесе төменде әрекетті қолмен жіберіңіз."],
   "live.manual": ["Manual action (JSON)", "Действие вручную (JSON)", "Қолмен әрекет (JSON)"],
   "live.manual.send": ["Send action", "Отправить действие", "Әрекетті жіберу"],

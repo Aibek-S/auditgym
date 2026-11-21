@@ -7,7 +7,6 @@ from auditgym import DECISIONS_VERSION, GENERATOR_VERSION, SCHEMA_VERSION
 
 # command -> issue that implements it
 _PENDING = {
-    "run": "#5",
     "check": "#6",
 }
 
@@ -29,9 +28,11 @@ def build_parser() -> argparse.ArgumentParser:
     gen.add_argument("--config", default="configs/default.json")
     gen.add_argument("--out", required=True)
 
-    run = sub.add_parser("run", help="run a policy on episodes and write trajectories")
-    run.add_argument("--policy", required=True)
-    run.add_argument("--episodes", required=True)
+    run = sub.add_parser("run", help="run a policy on seeds and write trajectories + metrics")
+    run.add_argument("--policy", required=True, choices=["random", "flag_all", "reconcile", "explorer", "oracle"])
+    run.add_argument("--seeds", required=True, help="e.g. 1001-1010 or 3,5,7")
+    run.add_argument("--mode", choices=["open", "closed"], default="open")
+    run.add_argument("--out", default="runs")
 
     sub.add_parser("check", help="full offline check: generate, verify, test, baselines")
 
@@ -50,6 +51,30 @@ def main(argv=None) -> int:
         from auditgym.serve import serve
 
         serve(args.port, args.host)
+        return 0
+    if args.command == "run":
+        import json
+        from pathlib import Path
+
+        from auditgym.generate import load_config
+        from auditgym.runner import run_episode
+
+        seeds = []
+        for part in args.seeds.split(","):
+            lo, _, hi = part.partition("-")
+            seeds += list(range(int(lo), int(hi or lo) + 1))
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        config = load_config(env={"mode": args.mode})
+        with open(out / f"trajectories-{args.policy}.jsonl", "w", encoding="utf-8") as traj, \
+                open(out / f"evaluator-{args.policy}.jsonl", "w", encoding="utf-8") as evlog:
+            rewards = []
+            for seed in seeds:
+                rec = run_episode(args.policy, seed=seed, config=config, trajectory=traj, policy_seed=seed)
+                evlog.write(json.dumps(rec) + "\n")
+                rewards.append(rec["reward"])
+                print(f"seed {seed}: reward {rec['reward']:+.3f} f1 {rec.get('f1', 0):.3f} steps {rec['steps']}")
+        print(f"{args.policy}: mean reward {sum(rewards) / len(rewards):+.3f} over {len(seeds)} episodes -> {out}")
         return 0
     if args.command == "generate":
         from auditgym.generate import generate, load_config
