@@ -23,6 +23,7 @@ export function AppShell() {
               {t("nav.overview")}
             </ChipLink>
             <ChipLink to="/console/episodes">{t("nav.episodes")}</ChipLink>
+            <ChipLink to="/console/live">{t("nav.live")}</ChipLink>
             <ChipLink to="/console/agents">{t("nav.agents")}</ChipLink>
             <ChipLink to="/console/method">{t("nav.method")}</ChipLink>
           </nav>

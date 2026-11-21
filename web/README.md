@@ -30,6 +30,20 @@ cd web
 npm run export     # python3 scripts/export_demo.py: 3 fixtures + seeds 2001-2004
 ```
 
+## Live run (real environment)
+
+`/console/live` drives the real Python environment through a local bridge:
+
+```bash
+.venv/bin/python -m auditgym serve --port 8765   # in the project root
+cd web && npm run dev                            # open http://localhost:5173/console/live
+```
+
+Pick a seed and the planted errors, then run the scripted `explorer` agent: each step streams in as a
+server-sent event. You can also send any action by hand as JSON. The answer key is locked while the
+episode runs and opens after `submit` (or truncation). Override the API address with
+`VITE_AUDITGYM_API`. The bridge is a demo tool, not part of the official offline check.
+
 ## Console routes
 
 | Path | Page |
@@ -37,6 +51,7 @@ npm run export     # python3 scripts/export_demo.py: 3 fixtures + seeds 2001-200
 | `/console` | Archive, dataset, reward contract, error mix, worked example, isotype, provenance, run scatter |
 | `/console/episodes/:key` | Workbench: record list beside the open record, answer key on demand (`?truth=1`, `?issue=ISS-01`, `?record=ledger:L-ABC`) |
 | `/console/episodes/:key/runs/:run` | Steps table with a sticky state panel, isotype score, verdict stamp |
+| `/console/live` | Live run against `python -m auditgym serve`: streamed steps, manual actions, answer key after the end |
 | `/console/agents` | Run scatter above the runs table, copy and CSV |
 | `/console/method` | Tools, scoring, answer key |
 

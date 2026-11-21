@@ -34,6 +34,10 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--episodes", required=True)
 
     sub.add_parser("check", help="full offline check: generate, verify, test, baselines")
+
+    srv = sub.add_parser("serve", help="local JSON/SSE bridge for the web console (demo only)")
+    srv.add_argument("--port", type=int, default=8765)
+    srv.add_argument("--host", default="127.0.0.1")
     return parser
 
 
@@ -41,6 +45,11 @@ def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
     if args.command is None:
         build_parser().print_help()
+        return 0
+    if args.command == "serve":
+        from auditgym.serve import serve
+
+        serve(args.port, args.host)
         return 0
     if args.command == "generate":
         from auditgym.generate import generate, load_config
