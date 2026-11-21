@@ -1,0 +1,35 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f198703437.jpg",
+   "files": [
+    "photo-f198703437-500.jpg",
+    "photo-f198703437-960.jpg",
+    "photo-f198703437.jpg"
+   ],
+   "id": "f198703437",
+   "alt": "Collection of colorful binders on a shelf for storing documents in an office setting",
+   "by": "Shixart1985",
+   "licence": "CC BY 2.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/2.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Collection_of_colorful_binders_on_a_shelf_for_storing_documents_in_an_office_setting.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f145305546.jpg",
+   "files": [
+    "photo-f145305546-500.jpg",
+    "photo-f145305546-960.jpg",
+    "photo-f145305546.jpg"
+   ],
+   "id": "f145305546",
+   "alt": "Museu de la Mar - Port de Sóller 09",
+   "by": "Kritzolina",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Museu_de_la_Mar_-_Port_de_S%C3%B3ller_09.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}

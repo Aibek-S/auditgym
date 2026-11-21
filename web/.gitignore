@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.demo-cache/
+*.tsbuildinfo
+.taste-skill/
+public/.taste-skill/

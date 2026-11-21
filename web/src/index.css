@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+/* auditgym console tokens.
+   Ground near-black (dark) or its inverse (light), by the system setting. No accent: actions and links
+   are ink. Colour only marks findings (red) and evidence (blue); data-scheme="alt" swaps red for orange
+   for colour-vision deficiency. Text colours are 4.5:1 or more on both grounds. */
+
+:root {
+  --bg: #f2f2f2;
+  --surface: #ffffff;
+  --sunken: #e7e7e7;
+  --ink: #111111;
+  --ink-2: #3a3a3a;
+  --muted: #5e5e5e;
+  --line: rgba(17, 17, 17, 0.13);
+  --line-strong: rgba(17, 17, 17, 0.26);
+  --finding: #b3261e;
+  --finding-soft: rgba(179, 38, 30, 0.1);
+  --evidence: #1f5fbf;
+  --evidence-soft: rgba(31, 95, 191, 0.1);
+  --verified: #1f7a4d;
+  --warning: #8a5a00;
+  --on-ink: #f2f2f2;
+  color-scheme: light;
+}
+
+:root[data-scheme="alt"] {
+  --finding: #b35900;
+  --finding-soft: rgba(179, 89, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111111;
+    --surface: #1c1c1c;
+    --sunken: #262626;
+    --ink: #f2f2f2;
+    --ink-2: #c8c8c8;
+    --muted: #9a9a9a;
+    --line: rgba(242, 242, 242, 0.12);
+    --line-strong: rgba(242, 242, 242, 0.24);
+    --finding: #ff6b61;
+    --finding-soft: rgba(255, 107, 97, 0.15);
+    --evidence: #6aa2ff;
+    --evidence-soft: rgba(106, 162, 255, 0.15);
+    --verified: #4cc38a;
+    --warning: #e0b04f;
+    --on-ink: #111111;
+    color-scheme: dark;
+  }
+  :root[data-scheme="alt"] {
+    --finding: #f5a524;
+    --finding-soft: rgba(245, 165, 36, 0.16);
+  }
+}
+
+@theme {
+  --font-sans: "Familjen Grotesk", "Golos Text", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Red Hat Mono", "Fira Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --color-paper: var(--bg);
+  --color-paper-raised: var(--surface);
+  --color-paper-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-2);
+  --color-ink-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-finding: var(--finding);
+  --color-finding-soft: var(--finding-soft);
+  --color-evidence: var(--evidence);
+  --color-evidence-soft: var(--evidence-soft);
+  --color-verified: var(--verified);
+  --color-warning: var(--warning);
+  --color-on-ink: var(--on-ink);
+
+  --radius-control: 3px;
+  --radius-card: 4px;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    background: var(--bg);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--on-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  button,
+  a,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* Text links are always underlined (brief). */
+  .link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-strong);
+    transition: text-decoration-color 120ms ease-out;
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* The verdict stamp: a ruled box, a code letter, the date in a second ink, the run id below
+     (after the Liechtenstein Eingangsstempel). Capitals only on stamps. */
+  .stamp {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+    padding: 4px 10px 3px;
+    line-height: 1.15;
+    transform: rotate(-3deg);
+    opacity: 0.9;
+  }
+  .stamp__code {
+    grid-row: span 2;
+    align-self: center;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .stamp__label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .stamp__meta {
+    display: flex;
+    white-space: nowrap;
+    gap: 8px;
+    font-size: 13px;
+    border-top: 1px solid currentColor;
+    padding-top: 1px;
+    margin-top: 2px;
+  }
+  .stamp__date {
+    color: var(--evidence);
+  }
+
+  /* Dot leaders between a label and its value, with the line code repeated before the value
+     (after IRS Form 1040). */
+  .leader {
+    display: grid;
+    grid-template-columns: auto minmax(16px, 1fr) auto;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .leader::before {
+    content: "";
+    order: 2;
+    border-bottom: 1px dotted var(--line-strong);
+    transform: translateY(-4px);
+  }
+  .leader > :first-child {
+    order: 1;
+  }
+  .leader > :last-child {
+    order: 3;
+  }
+
+  /* Double rule above a total (ledger book convention). */
+  .double-rule {
+    border-top: 3px double var(--line-strong);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp-press {
+  0% {
+    opacity: 0;
+    transform: rotate(-3deg) scale(1.18);
+  }
+  55% {
+    opacity: 0.95;
+    transform: rotate(-3deg) scale(0.96);
+  }
+  100% {
+    opacity: 0.9;
+    transform: rotate(-3deg) scale(1);
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes loading-line {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(310%);
+  }
+}
+
+/* One entrance: the page's main content rises once on load. */
+.animate-rise {
+  animation: rise-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-stamp {
+  animation: stamp-press 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-bar {
+  transform-origin: left;
+  animation: grow-x 480ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.loading-line {
+  animation: loading-line 1.2s linear infinite;
+}
+
+/* Touch targets: on coarse pointers the tap area grows to 44px without changing the visible size. */
+@media (pointer: coarse) {
+  .hit::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
