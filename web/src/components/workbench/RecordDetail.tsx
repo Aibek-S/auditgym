@@ -82,19 +82,17 @@ export function RecordDetail({
             {titleOf(selected.table, record)}
           </h2>
         </div>
-        {onClose ? (
-          <button type="button" onClick={onClose} className="hit relative rounded-control border border-line-strong px-3 py-1.5 text-[13px] text-ink">
-            {t("record.close")}
-          </button>
-        ) : null}
+        <div className="flex shrink-0 items-start gap-3">
+          {lens === "finding" ? <Stamp tone="finding" code="F" label={t("stamp.finding")} id={issues.map((i) => i.issue_id).join(" ")} /> : null}
+          {onClose ? (
+            <button type="button" onClick={onClose} className="hit relative rounded-control border border-line-strong px-3 py-1.5 text-[13px] text-ink">
+              {t("record.close")}
+            </button>
+          ) : null}
+        </div>
       </header>
 
       <div className="relative">
-        {lens === "finding" ? (
-          <div className="pointer-events-none absolute top-1 right-5 z-10">
-            <Stamp tone="finding" code="F" label={t("stamp.finding")} id={issues.map((i) => i.issue_id).join(" ")} />
-          </div>
-        ) : null}
         {selected.table === "ledger" ? <LedgerFields episode={episode} row={record as LedgerRow} truthOn={truthOn} onOpen={onOpen} /> : null}
         {selected.table === "invoices" ? <InvoiceFields episode={episode} invoice={record as Invoice} onOpen={onOpen} /> : null}
         {selected.table === "payments" ? <PaymentFields episode={episode} payment={record as Payment} onOpen={onOpen} /> : null}

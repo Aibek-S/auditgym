@@ -1,24 +1,646 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f5ef" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta
-      name="description"
-      content="AuditGym: synthetic accounting episodes, a read-only audit tool interface, and evidence-based scoring for financial audit models."
-    />
-    <meta property="og:title" content="AuditGym" />
-    <meta
-      property="og:description"
-      content="An audit gym for models that read the books. Synthetic company-months, hidden causal truth, evidence-based scoring."
-    />
-    <meta property="og:type" content="website" />
-    <title>AuditGym — Audit RL environment</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<!--
+  Brief (frontend questionnaire, 21.11.2026) -> deal, in place of the skill's random deal:
+  kind software · palette lunar-grey-bronze ground with no accent (ink actions), light by system setting ·
+  type Familjen Grotesk (+ Golos Text for Cyrillic and Kazakh) · mono Red Hat Mono (+ Fira Mono) ·
+  radius 3-4px (sharp) · buttons solid ink · hero collage with a live workbench window over the one effect,
+  line-engraving · moments iris-opens (#episode) and word-highlight (#limits) · close: the specification ·
+  sections in the brief's order: run, episode, walkthrough, baselines, tools, reward, errors, format, limits, team.
+-->
+<html lang="ru" data-type="software" data-radius="sharp" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>auditgym: тренажёр для моделей, которые проверяют бухгалтерию</title>
+<meta name="description" content="Синтетический месяц продуктового оптовика с внесёнными ошибками и скрытым ключом ответов: среда для дообучения и оценки моделей финансового аудита.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="auditgym: тренажёр для моделей, которые проверяют бухгалтерию">
+<meta property="og:description" content="Синтетическая бухгалтерия с внесёнными ошибками и скрытым ключом ответов.">
+<meta property="og:image" content="/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f2f2" media="(prefers-color-scheme: light)">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<!-- <link rel="canonical"> waits for the project's own domain -->
+
+<link rel="stylesheet" href="/assets/system.css">
+<link rel="stylesheet" href="/assets/ui/cards.css">
+<link rel="stylesheet" href="/assets/motion/motion.css">
+<link rel="stylesheet" href="/assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="/assets/layout/layout.css">
+<link rel="stylesheet" href="/assets/ui/base.css">
+<link rel="stylesheet" href="/assets/ui/terminal-run/fragment.css">
+<style>
+/* Tokens: the kit's lunar-grey-bronze print, with the brief's changes: no accent (actions are ink),
+   light by the system setting, 3-4px corners, Familjen + Golos Text, Red Hat Mono. */
+:root {
+  --p-bg: #f2f2f2; --p-surface: #ffffff; --p-ink: #111111; --p-muted: #5e5e5e;
+  --p-accent: #111111; --p-accent-ink: #f2f2f2; --p-action: #111111; --p-action-ink: #f2f2f2;
+  --p-inv-bg: #111111; --p-inv-surface: #1c1c1c; --p-inv-ink: #f2f2f2; --p-inv-muted: #9a9a9a;
+  --p-inv-accent: #f2f2f2; --p-inv-accent-ink: #111111; --p-inv-action: #f2f2f2; --p-inv-action-ink: #111111;
+  --font-display: "Familjen Grotesk", "Golos Text", system-ui, sans-serif;
+  --font-text: "Familjen Grotesk", "Golos Text", system-ui, sans-serif;
+  --font-mono: "Red Hat Mono", "Fira Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.03em;
+  --display-tracking-xl: -0.04em;
+  --ag-finding: #b3261e; --ag-finding-soft: rgba(179, 38, 30, .10);
+  --ag-evidence: #1f5fbf; --ag-evidence-soft: rgba(31, 95, 191, .10);
+  --ag-stamp-date: #1f5fbf;
+  --ground-bg: #e3e3e3; --ground-surface: #ececec; --ground-ink: #111111; --ground-muted: #5e5e5e; --ground-accent: #111111;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --p-bg: #111111; --p-surface: #1c1c1c; --p-ink: #f2f2f2; --p-muted: #9a9a9a;
+    --p-accent: #f2f2f2; --p-accent-ink: #111111; --p-action: #f2f2f2; --p-action-ink: #111111;
+    --p-inv-bg: #f2f2f2; --p-inv-surface: #ffffff; --p-inv-ink: #111111; --p-inv-muted: #5e5e5e;
+    --p-inv-accent: #111111; --p-inv-accent-ink: #f2f2f2; --p-inv-action: #111111; --p-inv-action-ink: #f2f2f2;
+    --ag-finding: #ff6b61; --ag-finding-soft: rgba(255, 107, 97, .15);
+    --ag-evidence: #6aa2ff; --ag-evidence-soft: rgba(106, 162, 255, .15);
+    --ag-stamp-date: #6aa2ff;
+    --ground-bg: #1c1c1c; --ground-surface: #262626; --ground-ink: #f2f2f2; --ground-muted: #9a9a9a; --ground-accent: #f2f2f2;
+  }
+}
+html[data-radius="sharp"] { --r-sm: 3px; --r-md: 4px; --r-lg: 4px; --r-btn: 3px; }
+
+/* The mark: the name in capitals in a turned stamp frame (brief). */
+.ag-mark { display: inline-block; transform: rotate(-3deg); border: 2px solid currentColor; border-radius: 2px; padding: 2px 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; line-height: 1.3; }
+.nav__logo { gap: 0; }
+.ag-lang { display: inline-flex; gap: 4px; }
+.ag-lang button { min-width: 36px; height: 32px; border: 1px solid var(--line, rgba(127,127,127,.35)); border-radius: 3px; background: transparent; color: inherit; font: 500 13px/1 var(--font-text); cursor: pointer; }
+.ag-lang button[aria-pressed="true"] { background: var(--action, currentColor); color: var(--action-ink, #fff); border-color: transparent; }
+
+/* Data in the page: ids, amounts and code in the mono face; tabular figures everywhere. */
+.ag-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.ag-num { font-variant-numeric: tabular-nums; }
+.ag-leader { display: grid; grid-template-columns: auto minmax(12px, 1fr) auto; gap: 8px; align-items: baseline; }
+.ag-leader::before { content: ""; order: 2; border-bottom: 1px dotted currentColor; opacity: .35; transform: translateY(-4px); }
+.ag-leader > :first-child { order: 1; } .ag-leader > :last-child { order: 3; }
+.ag-double { border-top: 3px double currentColor; opacity: 1; }
+.ag-code { margin: 0; padding: 16px 20px; border-radius: var(--r-md); background: var(--surface, rgba(127,127,127,.08)); border: 1px solid var(--line, rgba(127,127,127,.25)); font: 14px/1.6 var(--font-mono); overflow-x: auto; white-space: pre; }
+
+/* Stamp: code letter, verdict, the date in a second ink, the id (after a posting stamp). */
+.ag-stamp { display: inline-grid; grid-template-columns: auto auto; column-gap: 10px; border: 2px solid var(--ag-finding); color: var(--ag-finding); border-radius: 2px; padding: 4px 10px 3px; transform: rotate(-3deg); line-height: 1.15; background: transparent; }
+.ag-stamp b { grid-row: span 2; align-self: center; font-size: 26px; font-weight: 600; }
+.ag-stamp span { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.ag-stamp small { display: flex; gap: 8px; font-size: 13px; border-top: 1px solid currentColor; margin-top: 2px; padding-top: 1px; font-variant-numeric: tabular-nums; }
+.ag-stamp small i { font-style: normal; color: var(--ag-stamp-date); }
+
+/* The workbench window (hero and walkthrough): one drawn app window in the kit's ui tokens. */
+.ag-win { border: 1px solid var(--u-border, rgba(127,127,127,.3)); border-radius: var(--r-md); background: var(--u-bg, var(--surface)); overflow: hidden; box-shadow: var(--u-shadow, none); }
+.ag-win__bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--u-line, rgba(127,127,127,.2)); font-size: 13px; }
+.ag-win__bar .ag-tabs { display: flex; gap: 6px; margin-left: auto; }
+.ag-win__bar .ag-tabs span { border: 1px solid var(--u-line, rgba(127,127,127,.3)); border-radius: 3px; padding: 2px 8px; }
+.ag-win__bar .ag-tabs span.is-on { background: var(--ink); color: var(--bg); border-color: transparent; }
+.ag-rows { display: grid; font-size: 14px; }
+.ag-row { display: grid; grid-template-columns: 7.2em minmax(0, 1fr) 9.5em; gap: 12px; align-items: baseline; padding: 0 14px; height: 48px; align-content: center; border-bottom: 1px solid var(--u-line, rgba(127,127,127,.18)); }
+.ag-row .ag-mono { text-align: right; }
+.ag-row.is-finding { background: var(--ag-finding-soft); }
+.ag-row.is-evidence { background: var(--ag-evidence-soft); }
+.ag-row small { color: var(--muted); font-size: 13px; }
+.ag-key { display: flex; gap: 16px; padding: 10px 14px; font-size: 13px; color: var(--muted); }
+.ag-key i { display: inline-block; width: 16px; height: 10px; border-radius: 1px; margin-right: 6px; vertical-align: -1px; }
+.ag-key .f { background: var(--ag-finding-soft); outline: 1px solid var(--ag-finding); }
+.ag-key .e { background: var(--ag-evidence-soft); outline: 1px solid var(--ag-evidence); }
+.ag-note { position: absolute; right: 20px; bottom: 24px; width: min(300px, 70%); padding: 14px 16px; border-radius: var(--r-md); background: var(--u-bg, var(--surface)); border: 1px solid var(--u-border, rgba(127,127,127,.3)); font-size: 14px; display: grid; gap: 6px; }
+.ag-note .ag-stamp { justify-self: start; margin-bottom: 4px; }
+
+/* Hero frame: the effect fills it; the window sits on it, cut by the frame's bottom. */
+.ag-frame { position: relative; isolation: isolate; min-height: 520px; border-radius: var(--r-lg); overflow: hidden; padding: 32px 32px 0;
+  --fx-bg: #e3e3e3; --fx-surface: #ececec; --fx-ink: #111111; --fx-muted: #5e5e5e; --fx-accent: #111111; --fx-accent-ink: #f2f2f2; background: var(--fx-bg); }
+@media (prefers-color-scheme: dark) { .ag-frame { --fx-bg: #1c1c1c; --fx-surface: #262626; --fx-ink: #f2f2f2; --fx-muted: #9a9a9a; --fx-accent: #f2f2f2; --fx-accent-ink: #111111; } }
+h2 { hyphens: manual; }
+.ag-frame > .ag-win { position: relative; z-index: 1; }
+.hero--collage .hero__art { display: flex; }
+.hero--collage .hero__art > .ag-frame { flex: 1; }
+.ag-note { z-index: 2; box-shadow: 0 8px 24px rgba(0, 0, 0, .12); }
+@media (max-width: 1023px) { .ag-frame { min-height: 380px; padding: 20px 20px 0; } .ag-note { display: none; } }
+
+/* App frame (walkthrough): list pane beside the open invoice. */
+.app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+.app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+.app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+@media (max-width: 1023px) {
+  .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+  .app > .app__pane--list { max-height: 252px; }
+  .app > .app__pane--list::after { display: none; }
+  .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+}
+@media (max-width: 639px) { .app.ui { grid-template-rows: minmax(0, 1fr); } .app > .app__pane--list { display: none; } .app > .app__pane + .app__pane { border-top: 0; } }
+.ag-doc { padding: 20px 24px; display: grid; gap: 10px; font-size: 14px; position: relative; }
+.ag-doc h3 { font-size: 18px; font-weight: 500; }
+.ag-doc .ag-stamp { position: absolute; right: 24px; top: 18px; }
+.ag-lines { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ag-lines th { text-align: left; font-weight: 500; color: var(--muted); font-size: 13px; padding: 6px 8px 6px 0; border-bottom: 1px solid var(--u-line, rgba(127,127,127,.2)); }
+.ag-lines td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--u-line, rgba(127,127,127,.15)); vertical-align: top; }
+.ag-lines .r { text-align: right; padding-right: 0; }
+
+/* Tables of results. */
+.ag-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.ag-table th { text-align: left; font-weight: 500; font-size: 13px; color: var(--muted); padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line, rgba(127,127,127,.3)); }
+.ag-table td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
+.ag-table .r { text-align: right; }
+.ag-table tfoot td { border-bottom: 0; }
+
+.ag-panel { border-radius: var(--r-md); overflow: hidden; }
+.ag-panel__body { padding: 16px 20px; margin: 0; }
+.ag-code--bare { border: 0; border-radius: 0; background: transparent; }
+.ag-issues .ag-row { grid-template-columns: 2.5em minmax(0, 1fr) auto; }
+.ag-done { color: var(--muted); }
+.ag-plot { width: 100%; height: auto; display: block; }
+dd { margin: 0; }
+main .grid > * { min-width: 0; }
+.hero--collage h1 { font-size: clamp(30px, 2.2vw + 14px, 46px); }
+main h2, .closing h2 { font-size: clamp(28px, 1.4vw + 18px, 38px); }
+.ag-panel__note { color: var(--muted); font-size: 14px; border-top: 1px solid var(--u-line, rgba(127,127,127,.2)); }
+.ag-list { padding: 0; list-style: none; }
+main .grid { align-items: start; }
+figure { margin: 0; }
+.ag-scroll { overflow-x: auto; }
+.ag-findings .ag-row { grid-template-columns: minmax(0, 1fr) 8.5em 8.5em; }
+@media (max-width: 639px) {
+  .ag-frame { min-height: 0; padding: 12px 12px 0; }
+  .ag-frame .ag-row:nth-child(n+5), .ag-frame .ag-key, .ag-frame .ag-tabs { display: none; }
+  .ag-frame .ag-row { grid-template-columns: 5.6em minmax(0, 1fr) auto; font-size: 13px; gap: 8px; padding: 0 10px; }
+  #baseline-table .ag-hide-phone { display: none; }
+  #tools { --hm: 2; }
+  .hero__proof { display: none; }
+  .nav .ag-lang { display: none; }
+  .ag-code { white-space: pre-wrap; word-break: break-all; }
+  .app .ag-lines, .app [data-i18n="walk.shared"] { display: none; }
+  .ag-findings .ag-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .ag-findings .ag-row > :first-child { display: none; }
+}
+.ag-plot text { fill: var(--muted); font: 13px var(--font-text); }
+.ag-plot .grid { stroke: currentColor; opacity: .15; }
+.ag-plot .axis { stroke: currentColor; opacity: .45; }
+
+.ag-marks { display: inline-flex; gap: 4px; vertical-align: middle; }
+.ag-marks i { display: block; width: 14px; height: 14px; border-radius: 1px; background: currentColor; }
+
+.ag-photo { margin: 0; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; }
+.ag-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 18% 50%; display: block; }
+
+.ag-person { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; align-items: center; }
+.ag-person img { width: 72px; height: 72px; border-radius: 4px; display: block; }
+</style>
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="/assets/moments/moments.js"><link rel="modulepreload" href="/assets/moments/lib.js"><link rel="modulepreload" href="/assets/moments/iris-opens/moment.js"><link rel="modulepreload" href="/assets/moments/word-highlight/moment.js">
+<script src="/assets/backgrounds/backgrounds.js"></script>
+<script type="module" src="/src/landing/main.ts"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top" data-i18n="skip">К содержанию</a>
+    <a class="nav__logo" href="#top" aria-label="auditgym"><span class="ag-mark">auditgym</span></a>
+    <nav class="nav__links" aria-label="Главная" data-i18n-aria="nav.label">
+      <div class="nav__item"><a class="nav__link" href="#episode" data-i18n="nav.episode">Эпизод</a></div>
+      <div class="nav__item"><a class="nav__link" href="#reward" data-i18n="nav.reward">Награда</a></div>
+      <div class="nav__item"><a class="nav__link" href="#run" data-i18n="nav.run">Запуск</a></div>
+    </nav>
+    <div class="nav__actions">
+      <span class="ag-lang" role="group" aria-label="Язык" data-i18n-aria="lang.label">
+        <button type="button" data-lang="kk" aria-pressed="false" aria-label="Қазақ тілі">KK</button>
+        <button type="button" data-lang="ru" aria-pressed="true" aria-label="Русский">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+      </span>
+      <a class="btn btn--primary" href="/console" data-i18n="cta.console">Открыть консоль</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Меню" data-i18n-aria="menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero hero--collage" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="hero-h" data-i18n="hero.h1">Тренажёр для моделей, которые проверяют бухгалтерию</h1>
+        <p class="hero__lead" data-i18n="hero.lead">Синтетический месяц продуктового оптовика с внесёнными ошибками и скрытым ключом ответов. Агент читает книги через пять инструментов и получает награду за ошибки, найденные с доказательствами.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="/console" data-i18n="cta.console">Открыть консоль</a><a class="btn btn--secondary" href="#episode" data-i18n="cta.episode">Как устроен эпизод</a></div>
+        <p class="hero__proof" data-i18n="hero.proof">В архиве 7 эпизодов, 8 внесённых ошибок и 330 документов.</p>
+      </div>
+      <div class="hero__art span-6 start-7" role="img" aria-label="Окно журнала эпизода за сентябрь: две проводки второго счёта отмечены как доказательства, рядом карточка находки с печатью «Дубль»" data-i18n-aria="hero.art">
+        <div class="ag-frame" data-fx="line-engraving" data-fx-seed="11" data-fx-params='{"calmX":0.5,"calmY":0.15}'>
+          <div class="ag-win" aria-hidden="true">
+            <div class="ag-win__bar"><span class="ag-mono">ledger.csv</span><span>· 09.2026</span><span class="ag-tabs"><span class="is-on" data-i18n="win.ledger">Журнал</span><span data-i18n="win.invoices">Счета</span><span data-i18n="win.payments">Платежи</span></span></div>
+            <div class="ag-rows">
+              <div class="ag-row"><span class="ag-num">10.09 13:00</span><span data-i18n="acct.1200">Дебиторская задолженность</span><span class="ag-mono">+78 400.00</span></div>
+              <div class="ag-row"><span class="ag-num">〃 13:00</span><span data-i18n="acct.4000">Выручка</span><span class="ag-mono">−78 400.00</span></div>
+              <div class="ag-row is-evidence"><span class="ag-num">12.09 15:20</span><span data-i18n="acct.1200">Дебиторская задолженность</span><span class="ag-mono">+78 400.00</span></div>
+              <div class="ag-row is-evidence"><span class="ag-num">〃 15:20</span><span data-i18n="acct.4000">Выручка</span><span class="ag-mono">−78 400.00</span></div>
+              <div class="ag-row"><span class="ag-num">14.09 09:30</span><span data-i18n="acct.1200">Дебиторская задолженность</span><span class="ag-mono">+37 000.00</span></div>
+              <div class="ag-row"><span class="ag-num">〃 09:30</span><span data-i18n="acct.4000">Выручка</span><span class="ag-mono">−37 000.00</span></div>
+              <div class="ag-row"><span class="ag-num">15.09 11:00</span><span data-i18n="acct.1010">Банк KZT</span><span class="ag-mono">+40 000.00</span></div>
+              <div class="ag-row"><span class="ag-num">〃 11:00</span><span data-i18n="acct.1200">Дебиторская задолженность</span><span class="ag-mono">−40 000.00</span></div>
+            </div>
+            <div class="ag-key"><span><i class="e"></i><span data-i18n="key.evidence">доказательство</span></span><span class="ag-mono">ISS-01</span></div>
+          </div>
+          <div class="ag-note" aria-hidden="true">
+            <span class="ag-stamp"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
+            <span><span class="ag-mono">INV-JKUK7G</span> <span data-i18n="note.repeats">повторяет</span> <span class="ag-mono">INV-BQ7MSU</span></span>
+            <span class="ag-leader"><span data-i18n="note.note">Накладная</span><span class="ag-mono">DN-41DR5</span></span>
+            <span class="ag-leader"><span data-i18n="note.amount">Сумма находки</span><span class="ag-mono">78 400.00 KZT</span></span>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="run" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="run-h" data-i18n="run.h2">Запуск из репозитория</h2>
+          <p class="t-lead" data-i18n="run.lead">Генератор работает уже сейчас: один seed даёт один месяц компании вместе с ключом ответов. Консоль читает выгруженный архив.</p>
+          <div class="ui ui-panel ag-panel" role="img" aria-label="Две команды: генерация эпизода и запуск консоли" data-i18n-aria="run.cmds">
+            <div class="ag-win__bar"><span data-i18n="run.cmds.title">Команды</span></div>
+<pre class="ag-code ag-code--bare">python -m auditgym generate \
+  --seed 2001 --out ep
+
+cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
+          </div>
+          <p data-i18n="run.wip">Полная проверка одной командой, <span class="ag-mono">docker run --rm --network none auditgym</span>, появится вместе с issue #6.</p>
+        </div>
+        <div class="span-6 start-7">
+          <div class="ui ui-panel ui-term" data-ui="terminal-run" role="img" aria-label="Терминал: генерация эпизода с seed 2001, список его файлов и честный ответ команды check" data-i18n-aria="run.term">
+            <div class="ui-term__head">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-term__title">auditgym</span>
+              <span class="ui-meta">zsh</span>
+              <span class="ui-spacer"></span>
+            </div>
+            <div class="ui-term__screen" data-term-screen>
+              <div class="ui-term__track" data-term-track>
+                <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span class="ui-term__typed" data-term-cmd>python -m auditgym generate \</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out><span class="ui-term__path">&nbsp;&nbsp;--seed 2001 --out ep</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">episode 16a97a4ae40b1380 written to ep</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/ledger.csv</span><span class="ui-term__n">217 rows</span><span class="ui-term__t">16 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/invoices.jsonl</span><span class="ui-term__n">60 invoices</span><span class="ui-term__t">41 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/payments.jsonl</span><span class="ui-term__n">37 payments</span><span class="ui-term__t">6 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/fx.csv</span><span class="ui-term__n">64 rates</span><span class="ui-term__t">2 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/policy.json</span><span class="ui-term__n">9 rules</span><span class="ui-term__t">1 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">private/truth.json</span><span class="ui-term__n">answer key</span><span class="ui-term__t">hidden</span></div>
+                <div class="ui-term__ln ui-term__gap" data-term-out aria-hidden="true"></div>
+                <div class="ui-term__ln ui-term__cmd" data-term-out><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span>python -m auditgym check</span></div>
+                <div class="ui-term__ln ui-term__sum" data-term-out><span class="ui-term__key">'check' is not implemented yet</span><span class="ui-term__dim">(issue #6)</span></div>
+                <div class="ui-term__ln ui-term__cmd" data-term-next><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span class="ui-term__typed"></span><i class="ui-term__caret" aria-hidden="true"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-inverse" id="episode" aria-labelledby="episode-h" data-moment="iris-opens" data-moment-opts='{"from": "base"}'>
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="episode-h" data-i18n="episode.h2">Один эпизод: месяц компании в шести файлах</h2>
+          <dl class="stack-2">
+            <div class="ag-leader"><dt class="ag-mono">manifest.json</dt><dd data-i18n="file.manifest">период, валюта, счётчики</dd></div>
+            <div class="ag-leader"><dt class="ag-mono">ledger.csv</dt><dd data-i18n="file.ledger">проводки двойной записи</dd></div>
+            <div class="ag-leader"><dt class="ag-mono">invoices.jsonl</dt><dd data-i18n="file.invoices">счета, строки, накладные</dd></div>
+            <div class="ag-leader"><dt class="ag-mono">payments.jsonl</dt><dd data-i18n="file.payments">поступления и их счета</dd></div>
+            <div class="ag-leader"><dt class="ag-mono">fx.csv</dt><dd data-i18n="file.fx">опубликованные курсы</dd></div>
+            <div class="ag-leader"><dt class="ag-mono">policy.json</dt><dd data-i18n="file.policy">правила учёта месяца</dd></div>
+          </dl>
+          <p class="t-lead" data-i18n="episode.hidden">Ключ ответов и правки, из которых он получен, лежат в <span class="ag-mono">truth.json</span> и <span class="ag-mono">provenance.json</span>. Они остаются у оценщика, вне процесса агента.</p>
+        </div>
+        <figure class="ag-photo span-6 start-7">
+          <img src="/assets/img/photo-f198703437.jpg" srcset="/assets/img/photo-f198703437-500.jpg 500w, /assets/img/photo-f198703437-960.jpg 960w, /assets/img/photo-f198703437.jpg 1280w" sizes="(max-width: 639px) 100vw, 50vw" width="1280" height="853" alt="Папки-регистраторы с подписанными корешками на полке архива" data-i18n-alt="photo.alt" loading="lazy" decoding="async" data-source="stand-in" data-subject="stand-in">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="walkthrough" aria-labelledby="walk-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 id="walk-h" class="span-5" data-i18n="walk.h2">Разбор: два счёта на одну поставку</h2>
+        <p class="span-6 start-7" data-i18n="walk.lead">Покупателю C-GFY1 дважды выставили поставку по накладной DN-41DR5: 10.09 и 12.09, второй раз строки товаров записаны иначе. Разбор открывает оба счёта, накладную и проводку выручки, тратит 7 шагов и получает 0.986. <a class="link" href="/console/episodes/duplicate?issue=ISS-01">Открыть в консоли</a></p>
+      </div>
+      <div class="ui app fill" role="img" aria-label="Окно консоли: список счетов сентября и открытый счёт INV-JKUK7G с печатью «Дубль»" data-i18n-aria="walk.art" data-ui-pause-host>
+        <div class="app__pane app__pane--list">
+          <div class="ag-win__bar"><span data-i18n="win.invoices">Счета</span><span class="ag-num">· 12</span></div>
+          <div class="ag-rows">
+            <div class="ag-row"><span class="ag-mono">INV-7E5MRF</span><span class="ag-num">27.08</span><span class="ag-mono">146 000.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-YQ8T75</span><span class="ag-num">07.09</span><span class="ag-mono">37 000.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-XAJNHL</span><span class="ag-num">08.09</span><span class="ag-mono">39 000.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-VYSUAX</span><span class="ag-num">09.09</span><span class="ag-mono">−39 000.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-0H9O9C</span><span class="ag-num">09.09</span><span class="ag-mono">36 000.00</span></div>
+            <div class="ag-row is-evidence"><span class="ag-mono">INV-BQ7MSU</span><span class="ag-num">10.09</span><span class="ag-mono">78 400.00</span></div>
+            <div class="ag-row is-finding"><span class="ag-mono">INV-JKUK7G</span><span class="ag-num">12.09</span><span class="ag-mono">78 400.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-9G0OWW</span><span class="ag-num">14.09</span><span class="ag-mono">37 000.00</span></div>
+            <div class="ag-row"><span class="ag-mono">INV-SLKS5B</span><span class="ag-num">16.09</span><span class="ag-mono">1 230.00 USD</span></div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open">
+          <div class="ag-doc">
+            <span class="ag-stamp"><b>D</b><span data-i18n="stamp.dup">Дубль</span><small><i>12.09.2026</i>ISS-01</small></span>
+            <h3 class="ag-mono">INV-JKUK7G</h3>
+            <div class="ag-leader"><span>1 <span data-i18n="f.document">Документ</span></span><span class="ag-mono">DOC-Y5XZF9</span></div>
+            <div class="ag-leader"><span>2 <span data-i18n="f.customer">Покупатель</span></span><span class="ag-mono">C-GFY1</span></div>
+            <div class="ag-leader"><span>3 <span data-i18n="f.issued">Дата выписки</span></span><span class="ag-num">12.09.2026 15:20</span></div>
+            <div class="ag-leader"><span>4 <span data-i18n="f.total">Сумма</span></span><span class="ag-mono">78 400.00 KZT</span></div>
+            <table class="ag-lines">
+              <thead><tr><th>№</th><th data-i18n="f.item">Товар</th><th data-i18n="f.note">Накладная</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Parmesan cheese 1kg</td><td class="ag-mono">DN-41DR5</td></tr>
+                <tr><td>2</td><td>Oil olive 5l</td><td class="ag-mono">DN-41DR5</td></tr>
+              </tbody>
+            </table>
+            <p data-i18n="walk.shared">Та же накладная DN-41DR5 есть в INV-BQ7MSU: «Olive oil 5 L», «Parmesan 1 kg».</p>
+            <div class="ag-leader"><span><span class="ag-mono">L-HIBAOV</span> <span data-i18n="acct.1200">Дебиторская задолженность</span></span><span class="ag-mono">+78 400.00</span></div>
+            <div class="ag-leader"><span><span class="ag-mono">L-XOOR5X</span> <span data-i18n="acct.4000">Выручка</span></span><span class="ag-mono">−78 400.00</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="baselines" aria-labelledby="base-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-6 stack-4">
+          <h2 id="base-h" data-i18n="base.h2">Базовые агенты на семи эпизодах</h2>
+          <div class="ag-scroll"><table class="ag-table" id="baseline-table">
+            <thead><tr><th data-i18n="base.col.ep">Эпизод</th><th class="r ag-hide-phone" data-i18n="base.col.errors">Ошибок</th><th class="r ag-hide-phone" data-i18n="base.col.oracle">Оракул</th><th class="r" data-i18n="base.col.guided">Разбор</th><th class="r" data-i18n="base.col.steps">Шагов</th></tr></thead>
+            <tbody>
+              <tr><td data-i18n="ep.duplicate">Дубль счёта</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
+              <tr><td data-i18n="ep.allocation">Неразнесённая оплата</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.986</td><td class="r ag-num">7</td></tr>
+              <tr><td data-i18n="ep.clean">Чистый месяц</td><td class="r ag-num ag-hide-phone">0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr><td data-i18n="ep.i1">Две ошибки: курс и период</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+              <tr><td data-i18n="ep.i2">Две ошибки: дубль и оплата</td><td class="r ag-num ag-hide-phone">2</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.980</td><td class="r ag-num">10</td></tr>
+              <tr><td data-i18n="ep.cutoff">Сдвиг периода</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.990</td><td class="r ag-num">5</td></tr>
+              <tr><td data-i18n="ep.fx">Пересчёт по курсу</td><td class="r ag-num ag-hide-phone">1</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">0.988</td><td class="r ag-num">6</td></tr>
+            </tbody>
+          </table></div>
+          <p data-i18n="base.note">Оракул читает ключ ответов напрямую, поэтому получает 1.000. Агенты reconcile, flag_all и random появятся вместе с runner (issues #5 и #6).</p>
+        </div>
+        <div class="span-6 start-7"><div class="ui ui-panel ag-panel" role="img" aria-label="Точечный график: оракул в точке 0 шагов и 1.000, разбор по шагам между 5 и 10 шагами и наградой от 0.980 до 0.990" data-i18n-aria="base.plot">
+          <div class="ag-win__bar"><span data-i18n="base.plot.title">Награда и шаги проверки</span></div>
+          <div class="ag-panel__body">
+          <svg class="ag-plot" viewBox="0 0 420 300" aria-hidden="true">
+            <line class="grid" x1="48" x2="410" y1="20" y2="20"/><line class="grid" x1="48" x2="410" y1="85" y2="85"/><line class="grid" x1="48" x2="410" y1="150" y2="150"/><line class="grid" x1="48" x2="410" y1="215" y2="215"/>
+            <line class="axis" x1="48" x2="48" y1="12" y2="250"/><line class="axis" x1="48" x2="410" y1="250" y2="250"/>
+            <text x="40" y="24" text-anchor="end">1.00</text><text x="40" y="89" text-anchor="end">0.99</text><text x="40" y="154" text-anchor="end">0.98</text><text x="40" y="219" text-anchor="end">0.97</text>
+            <text x="48" y="272" text-anchor="middle">0</text><text x="153" y="272" text-anchor="middle">4</text><text x="258" y="272" text-anchor="middle">8</text><text x="363" y="272" text-anchor="middle">12</text>
+            <text x="229" y="294" text-anchor="middle" data-i18n="plot.x">шаги проверки</text>
+            <rect x="43" y="15" width="10" height="10" fill="currentColor"/>
+            <circle cx="179" cy="85" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="205" cy="98" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="232" cy="111" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="310" cy="150" r="6" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <p class="muted" data-i18n="base.legend">Квадрат: оракул на всех семи эпизодах. Круги: разбор по шагам.</p>
+          </div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="tools" aria-labelledby="tools-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="tools-h" data-i18n="tools.h2">Пять инструментов агента</h2>
+          <dl class="stack-3">
+            <div><dt class="ag-mono">list_records</dt><dd data-i18n="tool.list">листает таблицу, до 50 строк, курсор стабилен</dd></div>
+            <div><dt class="ag-mono">get_record</dt><dd data-i18n="tool.get">возвращает одну строку по id</dd></div>
+            <div><dt class="ag-mono">get_document</dt><dd data-i18n="tool.doc">возвращает документ счёта или платежа</dd></div>
+            <div><dt class="ag-mono">calculator</dt><dd data-i18n="tool.calc">считает точной десятичной арифметикой</dd></div>
+            <div><dt class="ag-mono">submit</dt><dd data-i18n="tool.submit">завершает эпизод списком находок</dd></div>
+          </dl>
+          <p data-i18n="tools.budget">Каждый шаг тратит 1 из бюджета в 100 шагов, неудачный тоже.</p>
+        </div>
+        <div class="span-6 start-7">
+          <div class="ui ui-panel ag-panel" role="img" aria-label="Запрос list_records и ответ среды на первом шаге разбора" data-i18n-aria="tools.art">
+            <div class="ag-win__bar"><span class="ag-mono">list_records · get_record</span></div>
+            <p class="ag-panel__body ag-panel__note" data-i18n="tools.step">Шаги 1 и 3 разбора эпизода «Две ошибки: курс и период». Время счёта записано в UTC: по местному времени это уже 01.01.2027.</p>
+<pre class="ag-code ag-code--bare">{"action": "list_records", "table": "ledger",
+ "cursor": null, "limit": 6}
+
+{"ok": true, "result": {"rows": [
+  {"row_id": "L-UVQLW8",
+   "timestamp": "2026-11-24T13:14:00+05:00",
+   "account": "1010", "debit_minor": 12280000,
+   "credit_minor": 0, "currency": "KZT",
+   "payment_id": "PAY-N3BEZ6"},
+  …],
+ "next_cursor": "ledger:6"},
+ "steps_used": 1, "steps_remaining": 99}
+
+{"action": "get_record", "table": "invoices",
+ "id": "INV-6QIVMB"}
+{"invoice_id": "INV-6QIVMB", "currency": "USD",
+ "issued_at": "2026-12-31T23:46:00+00:00",
+ "total_minor": 1529498, …}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="reward" aria-labelledby="reward-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-6 stack-4">
+          <h2 id="reward-h" data-i18n="reward.h2">Как считается награда</h2>
+          <p class="t-h3 ag-num">R = clip(2·F1 − 1 − 0.002·S, −1, 1)</p>
+          <p data-i18n="reward.lead">Находка совпадает с ошибкой из ключа один к одному, когда сходятся:</p>
+          <ul class="stack-2 ag-list">
+            <li data-i18n="reward.m1">тип ошибки;</li>
+            <li data-i18n="reward.m2">затронутые id;</li>
+            <li data-i18n="reward.m3">валюта находки, KZT;</li>
+            <li data-i18n="reward.m4">сумма с точностью до 100 тиынов;</li>
+            <li data-i18n="reward.m5">полный набор доказательств из ключа.</li>
+          </ul>
+          <p data-i18n="reward.tol">Допуск в 100 тиынов: находка на 78 399.50 KZT совпадёт с ошибкой на 78 400.00 KZT, а находка на 78 398.00 KZT уже нет.</p>
+          <p data-i18n="reward.steps">S считает шаги проверки до отправки; сама отправка бесплатна, текст объяснения на оценку не влияет.</p>
+          <a class="link" href="/console/method" data-i18n="reward.link">Правила оценки в консоли</a>
+        </div>
+        <div class="span-6 start-7">
+         <div class="ui ui-panel ag-panel" role="img" aria-label="Карточка оценки: примеры наград и расчёт для разбора эпизода с двумя ошибками" data-i18n-aria="reward.art">
+          <div class="ag-win__bar"><span data-i18n="reward.card">Оценка прогона</span></div>
+          <div class="ag-panel__body stack-3">
+          <div class="ag-leader"><span data-i18n="reward.c1">Идеальный ответ, 40 шагов</span><span class="ag-num">0.920</span></div>
+          <div class="ag-leader"><span data-i18n="reward.c2">Пустой ответ на чистом месяце, 10 шагов</span><span class="ag-num">0.980</span></div>
+          <div class="ag-leader"><span data-i18n="reward.c3">Одна ложная находка на чистом месяце</span><span class="ag-num">−1.000</span></div>
+          <div class="ag-double"></div>
+          <p data-i18n="reward.worked">Разбор эпизода «Две ошибки: курс и период» находит обе ошибки за 6 шагов:</p>
+          <p class="ag-num"><span class="ag-marks" aria-hidden="true"><i></i><i></i></span>&nbsp; 2 × 1.000 − 1 − 0.002 × 6 = 0.988</p>
+          <p data-i18n="reward.cleanrun">На чистом месяце разбор отправляет пустой список: обе стороны пусты, F1 = 1.000, и за 6 шагов награда тоже 0.988.</p>
+          </div>
+         </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="errors" aria-labelledby="errors-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="errors-h" data-i18n="errors.h2">Четыре типа ошибок</h2>
+          <dl class="stack-3">
+            <div><dt class="t-card" data-i18n="type.dup">Дубль счёта</dt><dd data-i18n="type.dup.note">Одна поставка выставлена дважды, сторнирующей кредит-ноты нет.</dd></div>
+            <div><dt class="t-card" data-i18n="type.pay">Неразнесённая оплата</dt><dd data-i18n="type.pay.note">Поступление не полностью отнесено на счёт, который в нём назван; остаток ушёл на 1900.</dd></div>
+            <div><dt class="t-card" data-i18n="type.fx">Пересчёт по курсу</dt><dd data-i18n="type.fx.note">Курс взят не за местную дату документа, как требует политика.</dd></div>
+            <div><dt class="t-card" data-i18n="type.cut">Сдвиг периода</dt><dd data-i18n="type.cut.note">Время документа выходит за месяц, в котором он проведён.</dd></div>
+          </dl>
+        </div>
+        <div class="span-6 start-7">
+          <div class="ui ui-panel ag-panel" role="img" aria-label="Все восемь ошибок из ключей ответов архива: тип, затронутый документ и сумма" data-i18n-aria="errors.art">
+            <div class="ag-win__bar"><span data-i18n="errors.window">Ошибки в ключах ответов</span><span class="ag-num">· 8</span></div>
+            <div class="ag-rows ag-findings">
+              <div class="ag-row is-finding"><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-JKUK7G</span><span class="ag-mono">78 400.00</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.dup">Дубль счёта</span><span class="ag-mono">INV-VNTQTB</span><span class="ag-mono">300 550.00</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-F1EPA4</span><span class="ag-mono">24 000.00</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.pay">Неразнесённая оплата</span><span class="ag-mono">PAY-CIKIQV</span><span class="ag-mono">164 304.00</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-9BEF6T</span><span class="ag-mono">86 701.24</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.fx">Пересчёт по курсу</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">17 895.12</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-M7LDZ5</span><span class="ag-mono">856 400.00</span></div>
+              <div class="ag-row is-finding"><span data-i18n="type.cut">Сдвиг периода</span><span class="ag-mono">INV-6QIVMB</span><span class="ag-mono">7 469 150.53</span></div>
+            </div>
+            <p class="ag-panel__body" data-i18n="errors.combo">Два сценария соединяют две ошибки в одном месяце, и одна цепочка доказательств затрагивает обе находки.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="format" aria-labelledby="format-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="format-h" data-i18n="format.h2">Формат данных</h2>
+          <p class="t-lead" data-i18n="format.lead">Суммы хранятся целыми числами в минорных единицах, время с поясом +05:00. Так один и тот же seed даёт побайтно тот же месяц.</p>
+          <p class="muted" data-i18n="format.src">Ниже начало файлов эпизода с seed 2001.</p>
+        </div>
+        <div class="span-6 start-7 stack-3">
+<div class="ui ui-panel ag-panel" role="img" aria-label="Начало manifest.json эпизода с seed 2001" data-i18n-aria="format.art1"><div class="ag-win__bar"><span class="ag-mono">public/manifest.json</span></div><pre class="ag-code ag-code--bare">{"schema_version": "1.0", "base_currency": "KZT",
+ "period_start": "2025-06-01T00:00:00+05:00",
+ "counts": {"ledger": 217, "invoices": 60,
+            "payments": 37, "fx": 64, "documents": 97},
+ "rounding": "half_up"}</pre></div>
+<div class="ui ui-panel ag-panel" role="img" aria-label="Первые строки ledger.csv эпизода с seed 2001" data-i18n-aria="format.art2"><div class="ag-win__bar"><span class="ag-mono">public/ledger.csv</span></div><pre class="ag-code ag-code--bare">row_id,timestamp,account,debit_minor,credit_minor,…
+L-94Y0B2,2025-06-01T00:00:00+05:00,1200,115880000,0,…
+L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre></div>
+<div class="ui ui-panel ag-panel" role="img" aria-label="Первые строки fx.csv эпизода с seed 2001" data-i18n-aria="format.art3"><div class="ag-win__bar"><span class="ag-mono">public/fx.csv</span></div><pre class="ag-code ag-code--bare">date,source_currency,target_currency,rate
+2025-05-22,EUR,KZT,522.80
+2025-05-22,USD,KZT,443.05</pre></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="limits" aria-labelledby="limits-h" data-moment="word-highlight">
+    <div class="wrap">
+      <h2 id="limits-h" data-i18n="limits.h2">Ограничения</h2>
+      <p class="mo-wh__text t-h3" style="margin-top: var(--s-7); max-width: 34ch" data-i18n="limits.statement">Компания вымышленная, данные синтетические, а в архиве один вид бизнеса и одна валюта учёта. Разбор по шагам повторяет записанный путь, и среда reset/step вместе с оценщиком ещё в работе.</p>
+      <div class="grid" style="margin-top: var(--s-7)">
+        <div class="span-6 stack-2">
+          <h3 class="t-card" data-i18n="state.ready">Работает</h3>
+          <p data-i18n="state.ready.list">Генератор эпизодов с фиксированными seed, четыре типа ошибок и их сочетания, проверка инвариантов, ключ ответов, эта консоль.</p>
+        </div>
+        <div class="span-6 stack-2">
+          <h3 class="t-card" data-i18n="state.wip">В работе</h3>
+          <p data-i18n="state.wip.list">Среда reset/step с пятью инструментами (#4), сопоставление и награда (#5), runner и журнал траекторий (#5), базовые агенты и Docker (#6).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-surface" id="team" aria-labelledby="team-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="team-h" data-i18n="team.h2">Команда и кейс</h2>
+          <p class="t-lead" data-i18n="team.case">Решение кейса FinTech «RL environments for fine-tuning financial audit models», онлайн-этап 19–22 ноября 2026 года.</p>
+          <dl class="stack-2">
+            <div class="ag-leader"><dt data-i18n="team.deadline">Сдача</dt><dd class="ag-num" data-i18n="team.deadline.v">22.11.2026, 23:59 по Астане</dd></div>
+            <div class="ag-leader"><dt data-i18n="team.licence">Лицензия</dt><dd>MIT</dd></div>
+          </dl>
+          <div class="ui ui-panel ag-panel"><div class="ag-panel__body stack-4">
+          <div class="ag-person">
+            <img src="https://github.com/Aibek-S.png?size=144" width="72" height="72" alt="Аватар Aibek-S на GitHub" data-i18n-alt="team.a.alt" loading="lazy">
+            <div><p class="t-card"><a class="link" href="https://github.com/Aibek-S">Aibek-S</a></p><p data-i18n="team.a.role">Генератор компании, внесение ошибок, ключ ответов (issues #1–#3)</p></div>
+          </div>
+          <div class="ag-person">
+            <img src="https://github.com/mmeirbek.png?size=144" width="72" height="72" alt="Аватар mmeirbek на GitHub" data-i18n-alt="team.m.alt" loading="lazy">
+            <div><p class="t-card"><a class="link" href="https://github.com/mmeirbek">mmeirbek</a></p><p data-i18n="team.m.role">Среда, оценщик и runner (issues #4, #5), консоль</p></div>
+          </div>
+          </div></div>
+        </div>
+        <div class="span-6 start-7">
+          <div class="ui ui-panel ag-panel" role="img" aria-label="Issues проекта на GitHub: первые три закрыты, четвёртый, пятый и шестой открыты" data-i18n-aria="team.art">
+            <div class="ag-win__bar"><span class="ag-mono">Aibek-S/auditgym · issues</span></div>
+            <div class="ag-rows ag-issues">
+              <div class="ag-row"><span class="ag-mono">#1</span><span data-i18n="issue.1">Каркас пакета и тестовые эпизоды</span><span class="ag-done" data-i18n="issue.closed">закрыт</span></div>
+              <div class="ag-row"><span class="ag-mono">#2</span><span data-i18n="issue.2">Генератор честной компании и бухгалтерские проверки</span><span class="ag-done" data-i18n="issue.closed">закрыт</span></div>
+              <div class="ag-row"><span class="ag-mono">#3</span><span data-i18n="issue.3">Ошибки, комбинации, ловушки и ключ ответов</span><span class="ag-done" data-i18n="issue.closed">закрыт</span></div>
+              <div class="ag-row"><span class="ag-mono">#4</span><span data-i18n="issue.4">Среда: reset/step, 5 инструментов, лимиты</span><span data-i18n="issue.open">открыт</span></div>
+              <div class="ag-row"><span class="ag-mono">#5</span><span data-i18n="issue.5">Проверяющий, награда, runner, базовые агенты</span><span data-i18n="issue.open">открыт</span></div>
+              <div class="ag-row"><span class="ag-mono">#6</span><span data-i18n="issue.6">Упаковка, эпизоды, траектории, документы, демо</span><span data-i18n="issue.open">открыт</span></div>
+            </div>
+            <p class="ag-panel__body" data-i18n="team.shared">Упаковку, траектории и демо делаем вместе (issue #6).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h" data-i18n="close.h2">Спецификация</h2>
+        <p data-i18n="close.lead">Каждое правило, которое мы решили сами, записано с номером D-xx. Если документы и консоль расходятся, прав документ.</p>
+      </div>
+      <a class="btn btn--primary btn--xl" href="https://github.com/Aibek-S/auditgym/blob/main/docs/DECISIONS.md" data-i18n="close.cta">Читать DECISIONS.md</a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top" aria-label="auditgym"><span class="ag-mark">auditgym</span></a>
+          <p class="footer__lede" data-i18n="footer.lede">Синтетическая бухгалтерия с ключом ответов для моделей финансового аудита.</p>
+        </div>
+        <div class="span-2 footer__col"><h3 data-i18n="footer.console">Консоль</h3><ul><li><a href="/console/" data-i18n="footer.overview">Обзор</a></li><li><a href="/console/episodes" data-i18n="footer.episodes">Эпизоды</a></li><li><a href="/console/agents" data-i18n="footer.agents">Агенты</a></li></ul></div>
+        <div class="span-3 footer__col"><h3 data-i18n="footer.docs">Документы</h3><ul><li><a href="https://github.com/Aibek-S/auditgym/blob/main/docs/ERROR_SCENARIOS.md">ERROR_SCENARIOS.md</a></li><li><a href="https://github.com/Aibek-S/auditgym/blob/main/docs/BOUNDARIES.md">BOUNDARIES.md</a></li><li><a href="https://github.com/Aibek-S/auditgym/blob/main/docs/ARCHITECTURE.md">ARCHITECTURE.md</a></li></ul></div>
+        <div class="span-3 footer__col"><h3 data-i18n="footer.repo">Репозиторий</h3><ul><li><a href="https://github.com/Aibek-S/auditgym">GitHub</a></li><li><a href="https://github.com/Aibek-S/auditgym/issues">Issues</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span data-i18n="footer.legal">© 2026 auditgym · синтетические данные, настоящих учётных записей нет</span>
+        <div class="socials"></div>
+        <span class="ag-lang ag-lang--foot" role="group" aria-label="Язык" data-i18n-aria="lang.label">
+          <button type="button" data-lang="kk" aria-pressed="false" aria-label="Қазақ тілі">KK</button>
+          <button type="button" data-lang="ru" aria-pressed="true" aria-label="Русский">RU</button>
+          <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+        </span>
+        <span class="credits" data-i18n="footer.credits">Фото: Shixart1985, CC BY 2.0, Wikimedia Commons</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<nav class="actionbar" aria-label="Быстрые действия" data-i18n-aria="actionbar">
+  <a class="btn btn--primary" href="/console" data-i18n="cta.console">Открыть консоль</a>
+</nav>
+
+<script type="module" src="/assets/system.js"></script>
+<script type="module" src="/assets/motion/motion.js"></script>
+<script type="module" src="/assets/layout/layout.js"></script>
+</body>
 </html>

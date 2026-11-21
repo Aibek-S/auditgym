@@ -172,6 +172,7 @@
   }
   .stamp__meta {
     display: flex;
+    white-space: nowrap;
     gap: 8px;
     font-size: 13px;
     border-top: 1px solid currentColor;
