@@ -1,0 +1,23 @@
+# systemd --user unit for the public AuditGym demo on xboing (behind the Cloudflare tunnel).
+# Install: cp deploy/auditgym.service ~/.config/systemd/user/ && systemctl --user daemon-reload
+#          systemctl --user enable --now auditgym
+[Unit]
+Description=AuditGym demo: web console + live environment API (127.0.0.1:8765)
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/projects/auditgym
+ExecStart=/usr/bin/python3 -m auditgym serve --host 127.0.0.1 --port 8765 --static %h/projects/auditgym/web/dist
+Restart=on-failure
+RestartSec=3
+Environment=PYTHONUNBUFFERED=1
+Environment=TMPDIR=%h/.cache/auditgym-tmp
+ExecStartPre=/usr/bin/mkdir -p %h/.cache/auditgym-tmp
+MemoryMax=600M
+CPUQuota=150%
+TasksMax=128
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target
