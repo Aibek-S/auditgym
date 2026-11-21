@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "90445d9bb49f8860",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "duplicate_invoice",
+      "affected_ids": [
+        "INV-B08RA2",
+        "INV-VKAYYG"
+      ],
+      "expected_amount_minor": 1404000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-7EHH2T",
+          "DOC-F0FXAI",
+          "L-ZMKVWD"
+        ],
+        [
+          "DOC-7EHH2T",
+          "DOC-F0FXAI",
+          "L-KLBV5F"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-E68CWU",
+        "PAY-PIFKQE"
+      ],
+      "expected_amount_minor": 23122000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-0LG40D",
+          "DOC-5LMYLN",
+          "L-ELAYFY"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-03",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-IJAU2C",
+        "PAY-WN16ST"
+      ],
+      "expected_amount_minor": 1404000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-3IG0DA",
+          "DOC-QKNV4H",
+          "L-IO9QBS"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-04",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-L85NB7",
+        "PAY-NMFGGQ"
+      ],
+      "expected_amount_minor": 3009900,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-IBR96B",
+          "DOC-JO7I4M",
+          "L-S17FYV"
+        ],
+        [
+          "DOC-IBR96B",
+          "DOC-JO7I4M",
+          "L-HNQO8H"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-05",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-LXUTXP",
+        "PAY-WDF0PJ"
+      ],
+      "expected_amount_minor": 26960000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-HMOA7C",
+          "DOC-LB2O33",
+          "L-T0MFGL"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-06",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-T6XO93"
+      ],
+      "expected_amount_minor": 37690000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-N5QDHY",
+          "L-4WA22K"
+        ],
+        [
+          "DOC-N5QDHY",
+          "L-WZURG2"
+        ]
+      ]
+    }
+  ]
+}

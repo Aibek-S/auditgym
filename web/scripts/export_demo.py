@@ -329,10 +329,60 @@ def build_runs(public, issues):
     ]
 
 
-def build_episode(public, private, meta, source):
+def real_run(policy, episode_dir, issues):
+    """Run a baseline through the real environment + matcher and convert it to the console format."""
+    import io
+
+    from auditgym.runner import run_episode
+
+    buf = io.StringIO()
+    rec = run_episode(policy, episode_dir=episode_dir, trajectory=buf, in_process=policy != "oracle")
+    lines = [json.loads(x) for x in buf.getvalue().splitlines()][1:]  # drop the reset line
+    steps, findings = [], []
+    for line in lines:
+        action = line["action"] or {"action": "?"}
+        name = action.get("action", "?")
+        kind = {"list_records": "list", "get_record": "record", "get_document": "document", "submit": "submit"}.get(name, "record")
+        target = action.get("table") or action.get("doc_id") or action.get("id") or action.get("expression") or ""
+        result = (line["observation"] or {}).get("result")
+        if kind == "document" and isinstance(result, dict):
+            result = result.get("document")
+        if kind == "record" and isinstance(result, dict) and "record" in result:
+            result = result["record"]
+        if name == "submit":
+            payload = action.get("findings") or {}
+            findings = payload.get("findings", []) if isinstance(payload, dict) else []
+            shown = {**action, "findings": findings}
+            result = {"submitted": len(findings)}
+        else:
+            shown = action
+        obs = dict(line["observation"])
+        obs["result"] = result
+        steps.append({"step": line["step"], "action": shown, "label": name, "kind": kind, "target": str(target),
+                      "observation": obs, "reward": line["reward"], "terminated": line["terminated"],
+                      "truncated": line["truncated"]})
+    keys = ("tp", "fp", "fn", "precision", "recall", "f1", "inspection_steps", "reward")
+    score = {k: (round(rec[k], 4) if isinstance(rec[k], float) else rec[k]) for k in keys}
+    return steps, findings, score
+
+
+def build_runs_real(episode_dir, issues):
+    o_steps, o_findings, o_score = real_run("oracle", episode_dir, issues)
+    r_steps, r_findings, r_score = real_run("reconcile", episode_dir, issues)
+    return [
+        {"id": "oracle", "label": "Oracle", "kind": "oracle",
+         "note": "Evaluator-side baseline: reads the answer key, submits at once. Scored by the real matcher.",
+         "findings": o_findings, "steps": [], "score": o_score},
+        {"id": "guided-review", "label": "Reconcile agent", "kind": "replay",
+         "note": "The rule-based reconcile baseline run through the real environment; scored by the real matcher.",
+         "findings": r_findings, "steps": r_steps, "score": r_score},
+    ]
+
+
+def build_episode(public, private, meta, source, episode_dir):
     issues = (private.get("truth") or {}).get("issues", [])
     manifest = public["manifest"]
-    runs = build_runs(public, issues)
+    runs = build_runs_real(episode_dir, issues)
     guided = next(run for run in runs if run["id"] == "guided-review")
     type_counts = Counter(issue["type"] for issue in issues)
     return {
@@ -371,10 +421,10 @@ def main():
     episodes = []
     for meta in FIXTURES:
         root = ROOT / "tests" / "fixtures" / meta["key"]
-        episodes.append(build_episode(load_public(root), load_private(root), meta, "fixture"))
+        episodes.append(build_episode(load_public(root), load_private(root), meta, "fixture", root))
     for meta in GENERATED:
         root = CACHE / f"seed-{meta['seed']}"
-        episodes.append(build_episode(load_public(root), load_private(root), meta, "generated"))
+        episodes.append(build_episode(load_public(root), load_private(root), meta, "generated", root))
 
     issue_counts = Counter()
     for episode in episodes:

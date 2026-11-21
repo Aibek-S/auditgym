@@ -16,11 +16,11 @@ export function LivePage() {
   const { t } = useT();
   const [status, setStatus] = useState<Status>("checking");
   const [scored, setScored] = useState(false);
-  const [agents, setAgents] = useState<string[]>(["explorer"]);
+  const [agents, setAgents] = useState<string[]>(["reconcile"]);
   const [seed, setSeed] = useState(2001);
   const [plan, setPlan] = useState<Plan>("duplicate_invoice");
   const [mode, setMode] = useState<"open" | "closed">("open");
-  const [agent, setAgent] = useState("explorer");
+  const [agent, setAgent] = useState("reconcile");
   const [speed, setSpeed] = useState(250);
   const [session, setSession] = useState<LiveSession | null>(null);
   const [steps, setSteps] = useState<LiveStep[]>([]);

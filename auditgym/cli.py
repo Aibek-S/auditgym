@@ -5,11 +5,6 @@ import sys
 
 from auditgym import DECISIONS_VERSION, GENERATOR_VERSION, SCHEMA_VERSION
 
-# command -> issue that implements it
-_PENDING = {
-    "check": "#6",
-}
-
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -34,7 +29,10 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--mode", choices=["open", "closed"], default="open")
     run.add_argument("--out", default="runs")
 
-    sub.add_parser("check", help="full offline check: generate, verify, test, baselines")
+    chk = sub.add_parser("check", help="full offline check: reproduce episodes, verify truth, tests, baselines")
+    chk.add_argument("--out", default="results")
+    chk.add_argument("--skip-tests", action="store_true")
+    sub.add_parser("build-episodes", help="regenerate the published train/dev episodes in episodes/")
 
     srv = sub.add_parser("serve", help="local JSON/SSE bridge for the web console (demo only)")
     srv.add_argument("--port", type=int, default=8765)
@@ -46,6 +44,16 @@ def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
     if args.command is None:
         build_parser().print_help()
+        return 0
+    if args.command == "check":
+        from auditgym.check import main as check_main
+
+        return check_main(args.out, args.skip_tests)
+    if args.command == "build-episodes":
+        from auditgym.check import build_episodes
+
+        build_episodes()
+        print("episodes/train (seeds 1001-1010) and episodes/dev (seeds 2001-2010) written")
         return 0
     if args.command == "serve":
         from auditgym.serve import serve
@@ -82,5 +90,4 @@ def main(argv=None) -> int:
         info = generate(args.seed, load_config(args.config), args.out)
         print(f"episode {info['episode_id']} written to {args.out}")
         return 0
-    print(f"'{args.command}' is not implemented yet (issue {_PENDING[args.command]}).", file=sys.stderr)
     return 2

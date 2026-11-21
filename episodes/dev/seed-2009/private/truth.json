@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "episode_id": "47168d4710106a4b",
+  "issues": [
+    {
+      "issue_id": "ISS-01",
+      "type": "payment_allocation",
+      "affected_ids": [
+        "INV-M11QJA",
+        "PAY-7849M1"
+      ],
+      "expected_amount_minor": 1880100,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-QUZKQM",
+          "DOC-WUOEA6",
+          "L-KS09DI"
+        ],
+        [
+          "DOC-QUZKQM",
+          "DOC-WUOEA6",
+          "L-4OJUZ6"
+        ]
+      ]
+    },
+    {
+      "issue_id": "ISS-02",
+      "type": "period_cutoff",
+      "affected_ids": [
+        "INV-NUFOMW"
+      ],
+      "expected_amount_minor": 58159000,
+      "currency": "KZT",
+      "evidence_sets": [
+        [
+          "DOC-TWIGJ1",
+          "L-VKWCKW"
+        ],
+        [
+          "DOC-TWIGJ1",
+          "L-IP8WH0"
+        ]
+      ]
+    }
+  ]
+}
