@@ -106,28 +106,6 @@ export function Agents() {
         </div>
       </Panel>
 
-      <Panel title={t("state.title")}>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div>
-            <h3 className="text-[14px] font-medium text-ink">{t("state.ready")}</h3>
-            <ul className="mt-2 space-y-1.5 text-[14px] text-ink-secondary">
-              <li>{t("state.ready.1")}</li>
-              <li>{t("state.ready.2")}</li>
-              <li>{t("state.ready.3")}</li>
-              <li>{t("state.ready.4")}</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-[14px] font-medium text-ink">{t("state.wip")}</h3>
-            <ul className="mt-2 space-y-1.5 text-[14px] text-ink-secondary">
-              <li>{t("state.wip.1")}</li>
-              <li>{t("state.wip.2")}</li>
-              <li>{t("state.wip.3")}</li>
-              <li>{t("state.wip.4")}</li>
-            </ul>
-          </div>
-        </div>
-      </Panel>
     </div>
   );
 }

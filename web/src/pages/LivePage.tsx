@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, Send, Square } from "lucide-react";
+import { Budget } from "../components/practice/Budget";
 import { useT } from "../lib/i18n";
 import { money } from "../lib/format";
 import { typeLabel } from "../lib/labels";
@@ -10,7 +11,7 @@ import { PageHeader } from "../components/ui/PageHeader";
 
 type Status = "checking" | "offline" | "idle" | "running" | "done";
 
-const SPEEDS = [{ ms: 600, key: "live.speed.slow" }, { ms: 250, key: "live.speed.normal" }, { ms: 0, key: "live.speed.fast" }];
+const SPEEDS = [{ ms: 600, key: "live.speed.x1" }, { ms: 300, key: "live.speed.x2" }, { ms: 120, key: "live.speed.x4" }];
 
 export function LivePage() {
   const { t } = useT();
@@ -21,7 +22,12 @@ export function LivePage() {
   const [plan, setPlan] = useState<Plan>("duplicate_invoice");
   const [mode, setMode] = useState<"open" | "closed">("open");
   const [agent, setAgent] = useState("reconcile");
-  const [speed, setSpeed] = useState(250);
+  const [speed, setSpeed] = useState(600);
+  // the stream arrives at full speed into a queue; the player shows it at the chosen pace and can pause
+  const queue = useRef<LiveStep[]>([]);
+  const [pending, setPending] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [streamEnded, setStreamEnded] = useState(false);
   const [session, setSession] = useState<LiveSession | null>(null);
   const [steps, setSteps] = useState<LiveStep[]>([]);
   const [truth, setTruth] = useState<LiveTruth | null>(null);
@@ -45,6 +51,16 @@ export function LivePage() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }, [steps.length]);
+
+  useEffect(() => {
+    if (paused || pending === 0) return;
+    const id = window.setTimeout(() => {
+      const next = queue.current.shift();
+      if (next) setSteps((prev) => [...prev, next]);
+      setPending(queue.current.length);
+    }, speed);
+    return () => window.clearTimeout(id);
+  }, [paused, pending, speed, steps.length]);
 
   const last = steps[steps.length - 1];
   const finished = Boolean(last && (last.terminated || last.truncated));
@@ -79,16 +95,31 @@ export function LivePage() {
     }
   }
 
+  useEffect(() => {
+    if (streamEnded && pending === 0 && session && status === "running") {
+      setStreamEnded(false);
+      void finish(session);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [streamEnded, pending, session, status]);
+
   async function runAgent() {
     const s = session && !finished && steps.length === 0 ? session : await begin();
     if (!s) return;
+    queue.current = [];
+    setPending(0);
+    setPaused(false);
+    setStreamEnded(false);
     setStatus("running");
     stopRef.current = streamRun(
       s.session,
       agent,
-      speed,
-      (step) => setSteps((prev) => [...prev, step]),
-      () => void finish(s),
+      0,
+      (step) => {
+        queue.current.push(step);
+        setPending(queue.current.length);
+      },
+      () => setStreamEnded(true),
       (message) => {
         setError(message);
         setStatus("idle");
@@ -99,6 +130,9 @@ export function LivePage() {
   function stop() {
     stopRef.current?.();
     stopRef.current = null;
+    queue.current = [];
+    setPending(0);
+    setPaused(false);
     setStatus("idle");
   }
 
@@ -201,12 +235,17 @@ export function LivePage() {
               <Play size={16} aria-hidden="true" /> {t("live.run")}
             </Button>
           )}
+          {status === "running" ? (
+            <Button onClick={() => setPaused((v) => !v)} aria-pressed={paused}>
+              {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />} {paused ? t("live.resume") : t("live.pause")}
+            </Button>
+          ) : null}
           <Button onClick={() => void begin()} disabled={status === "running" || busy}>
             <RotateCcw size={16} aria-hidden="true" /> {t("live.reset")}
           </Button>
           {status === "running" ? (
             <span className="inline-flex items-center gap-2 text-[13px] text-ink-muted">
-              <Pause size={14} aria-hidden="true" className="animate-pulse" /> {t("live.running")}
+              {paused ? t("live.paused", { n: stepsUsed }) : t("live.running")}
             </span>
           ) : null}
         </div>
@@ -275,6 +314,9 @@ export function LivePage() {
         </Panel>
 
         <aside className="min-w-0 space-y-5 lg:col-span-4">
+          <Panel>
+            <Budget used={stepsUsed} />
+          </Panel>
           <Panel title={t("live.state")}>
             <dl className="space-y-2 text-[14px]">
               <Leader label={t("live.episode")} value={<span className="font-mono text-[13px]">{session?.info.episode_id ?? "—"}</span>} />

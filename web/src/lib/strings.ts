@@ -316,17 +316,6 @@ export const STRINGS: Record<string, [string, string, string]> = {
   "agents.col.issues": ["Errors", "Ошибок", "Қателер"],
   "agents.col.steps": ["Steps", "Шагов", "Қадамдар"],
   "agents.col.reward": ["Reward", "Награда", "Марапат"],
-  "state.title": ["What works and what is in progress", "Что работает и что в работе", "Не жұмыс істейді және не әзірленуде"],
-  "state.ready": ["Works now", "Работает", "Жұмыс істейді"],
-  "state.ready.1": ["Episode generator with fixed seeds", "Генератор эпизодов с фиксированными seed", "Бекітілген seed-тері бар эпизод генераторы"],
-  "state.ready.2": ["Four error types and two interacting scenarios", "Четыре типа ошибок и два сценария с их сочетанием", "Төрт қате түрі және олар қиылысатын екі сценарий"],
-  "state.ready.3": ["Invariant checks and a verified answer key", "Проверки инвариантов и проверенный ключ ответов", "Инварианттарды тексеру және тексерілген жауап кілті"],
-  "state.ready.4": ["This console over the exported archive", "Эта консоль над выгруженным архивом", "Шығарылған мұрағат үстіндегі осы консоль"],
-  "state.wip": ["In progress", "В работе", "Әзірленуде"],
-  "state.wip.1": ["Environment reset and step with five tools (issue #4)", "Среда reset/step с пятью инструментами (issue #4)", "Бес құралы бар reset/step ортасы (issue #4)"],
-  "state.wip.2": ["Matcher and the reward computed by the evaluator (issue #5)", "Сопоставление и награда, которую считает оценщик (issue #5)", "Сәйкестендіру және бағалаушы есептейтін марапат (issue #5)"],
-  "state.wip.3": ["Runner with the agent in its own process and trajectory logs (issue #5)", "Runner с агентом в отдельном процессе и журналом траекторий (issue #5)", "Агенті бөлек процестегі runner және траектория журналы (issue #5)"],
-  "state.wip.4": ["reconcile, flag_all and random baselines (issues #5, #6)", "Базовые агенты reconcile, flag_all и random (issues #5, #6)", "reconcile, flag_all және random базалық агенттері (issues #5, #6)"],
 
   // method
   "method.title": ["How auditgym works", "Как устроен auditgym", "auditgym қалай жұмыс істейді"],

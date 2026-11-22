@@ -2,10 +2,11 @@ import { Outlet } from "react-router-dom";
 import { ChipButton, ChipLink } from "./ui/Chips";
 import { LANG_LABEL, LANGS, usePrefs, useT } from "../lib/i18n";
 import { BrandMark } from "./BrandMark";
+import { ViewMenu } from "./ViewMenu";
 
 export function AppShell() {
   const { t } = useT();
-  const { lang, setLang, scheme, setScheme } = usePrefs();
+  const { lang, setLang } = usePrefs();
 
   return (
     <div className="flex min-h-screen flex-col bg-paper">
@@ -22,10 +23,12 @@ export function AppShell() {
             <ChipLink to="/console" end>
               {t("nav.overview")}
             </ChipLink>
+            <ChipLink to="/console/practice">{t("nav.practice")}</ChipLink>
             <ChipLink to="/console/episodes">{t("nav.episodes")}</ChipLink>
             <ChipLink to="/console/live">{t("nav.live")}</ChipLink>
             <ChipLink to="/console/agents">{t("nav.agents")}</ChipLink>
             <ChipLink to="/console/method">{t("nav.method")}</ChipLink>
+            <ChipLink to="/console/guide">{t("nav.guide")}</ChipLink>
           </nav>
           <div className="ml-auto flex items-center gap-2">
             <div role="group" aria-label={t("shell.lang")} className="flex gap-1">
@@ -35,17 +38,7 @@ export function AppShell() {
                 </ChipButton>
               ))}
             </div>
-            <ChipButton
-              active={scheme === "alt"}
-              onClick={() => setScheme(scheme === "alt" ? "default" : "alt")}
-              label={t("shell.scheme.label")}
-            >
-              <span className="inline-flex items-center gap-1" aria-hidden="true">
-                <span className="h-2 w-2 rounded-full bg-finding" />
-                <span className="h-2 w-2 rounded-full bg-evidence" />
-              </span>
-              <span className="hidden sm:inline">{scheme === "alt" ? t("shell.scheme.alt") : t("shell.scheme.default")}</span>
-            </ChipButton>
+            <ViewMenu />
           </div>
         </div>
       </header>
@@ -55,8 +48,7 @@ export function AppShell() {
       </main>
 
       <footer className="border-t border-line px-4 py-4 text-[13px] text-ink-muted sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <span>{t("shell.footer")}</span>
+        <div className="flex flex-wrap items-center justify-end gap-3">
           <span className="flex gap-4">
             <a href="/" className="link text-ink-muted">
               {t("shell.landing")}

@@ -9,6 +9,8 @@ import { RunPage } from "./pages/RunPage";
 import { Agents } from "./pages/Agents";
 import { Method } from "./pages/Method";
 import { LivePage } from "./pages/LivePage";
+import { PracticePage } from "./pages/PracticePage";
+import { GuidePage } from "./pages/GuidePage";
 import { NotFound } from "./pages/NotFound";
 
 // The console lives under /console; the landing page at / is a separate static page (index.html).
@@ -26,6 +28,8 @@ export function App() {
               <Route path="/console/agents" element={<Agents />} />
               <Route path="/console/method" element={<Method />} />
               <Route path="/console/live" element={<LivePage />} />
+              <Route path="/console/practice" element={<PracticePage />} />
+              <Route path="/console/guide" element={<GuidePage />} />
               <Route path="/baselines" element={<Navigate to="/console/agents" replace />} />
               <Route path="/method" element={<Navigate to="/console/method" replace />} />
               <Route path="/console.html" element={<Navigate to="/console" replace />} />
