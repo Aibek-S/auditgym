@@ -69,7 +69,31 @@ def load_public(root: Path) -> dict:
     }
 
 
+# Private files of generated episodes, held in the evaluator's memory after `seal_private` deleted them
+# from disk (D-71a): an agent process running as the same user finds no answer key in the temp folder.
+_SEALED: dict[str, dict] = {}
+
+
+def _key(root) -> str:
+    return str(Path(root).resolve())
+
+
 def load_private(root: Path) -> dict:
     """Evaluator-only files. Must never be called from the agent-facing environment."""
+    if _key(root) in _SEALED:
+        return _SEALED[_key(root)]
     priv = Path(root) / "private"
     return {name.split(".")[0]: read_json(priv / name) for name in PRIVATE_FILES}
+
+
+def seal_private(root: Path) -> None:
+    """Read the private files into evaluator memory and delete them from disk."""
+    import shutil
+
+    data = load_private(root)
+    shutil.rmtree(Path(root) / "private")
+    _SEALED[_key(root)] = data
+
+
+def release_private(root: Path) -> None:
+    _SEALED.pop(_key(root), None)

@@ -6,20 +6,20 @@
       "issue_id": "ISS-01",
       "type": "fx_conversion",
       "affected_ids": [
-        "INV-7NIYAY"
+        "INV-ELF3PV"
       ],
       "expected_amount_minor": 3742423,
       "currency": "KZT",
       "evidence_sets": [
         [
           "2026-04-01:USD:KZT",
-          "DOC-7MND2E",
-          "L-9RY63C"
+          "DOC-8THT26",
+          "L-GJ0U10"
         ],
         [
           "2026-04-01:USD:KZT",
-          "DOC-7MND2E",
-          "L-R2VUIZ"
+          "DOC-8THT26",
+          "L-BGKBC1"
         ]
       ]
     },
@@ -27,18 +27,18 @@
       "issue_id": "ISS-02",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-7NIYAY"
+        "INV-ELF3PV"
       ],
       "expected_amount_minor": 668275781,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-7MND2E",
-          "L-9RY63C"
+          "DOC-8THT26",
+          "L-GJ0U10"
         ],
         [
-          "DOC-7MND2E",
-          "L-R2VUIZ"
+          "DOC-8THT26",
+          "L-BGKBC1"
         ]
       ]
     }

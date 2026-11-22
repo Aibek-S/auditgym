@@ -6,21 +6,21 @@
       "issue_id": "ISS-01",
       "type": "duplicate_invoice",
       "affected_ids": [
-        "INV-XJW9X8",
-        "INV-YSFLVH"
+        "INV-30SPPF",
+        "INV-4YSFLV"
       ],
-      "expected_amount_minor": 33665000,
+      "expected_amount_minor": 817389725,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-6CFORR",
-          "DOC-GD89YH",
-          "L-XOFLES"
+          "DOC-311JIS",
+          "DOC-D1HRKS",
+          "L-LRKW3E"
         ],
         [
-          "DOC-6CFORR",
-          "DOC-GD89YH",
-          "L-9LMV0K"
+          "DOC-311JIS",
+          "DOC-D1HRKS",
+          "L-U1N2IJ"
         ]
       ]
     }

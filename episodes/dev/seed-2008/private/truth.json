@@ -6,20 +6,20 @@
       "issue_id": "ISS-01",
       "type": "fx_conversion",
       "affected_ids": [
-        "INV-1KSVLY"
+        "INV-V1N4VT"
       ],
-      "expected_amount_minor": 1068510,
+      "expected_amount_minor": 3932150,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "2026-11-13:EUR:KZT",
-          "DOC-C4W8W1",
-          "L-2IM5F8"
+          "2026-11-09:USD:KZT",
+          "DOC-W4NQFZ",
+          "L-9R09IW"
         ],
         [
-          "2026-11-13:EUR:KZT",
-          "DOC-C4W8W1",
-          "L-MX1HNN"
+          "2026-11-09:USD:KZT",
+          "DOC-W4NQFZ",
+          "L-MQ9X90"
         ]
       ]
     },
@@ -27,15 +27,15 @@
       "issue_id": "ISS-02",
       "type": "fx_conversion",
       "affected_ids": [
-        "PAY-NQ5R5Y"
+        "PAY-Y1KSVL"
       ],
-      "expected_amount_minor": 4926511,
+      "expected_amount_minor": 4286585,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "2026-12-04:EUR:KZT",
-          "DOC-NMU3W8",
-          "L-4S8N5P"
+          "2026-11-27:EUR:KZT",
+          "DOC-U5RDZ6",
+          "L-E1B9JF"
         ]
       ]
     },
@@ -43,16 +43,21 @@
       "issue_id": "ISS-03",
       "type": "payment_allocation",
       "affected_ids": [
-        "INV-68WJ70",
-        "PAY-Y7G9W2"
+        "INV-MGVKIX",
+        "PAY-N7IURE"
       ],
-      "expected_amount_minor": 51975000,
+      "expected_amount_minor": 1534000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-G18IL6",
-          "DOC-KFEA3J",
-          "L-ADS8C1"
+          "DOC-DI6618",
+          "DOC-NRW4RR",
+          "L-FK2PYB"
+        ],
+        [
+          "DOC-DI6618",
+          "DOC-NRW4RR",
+          "L-4C24O8"
         ]
       ]
     },
@@ -60,18 +65,18 @@
       "issue_id": "ISS-04",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-5I877D"
+        "INV-6WFVQZ"
       ],
-      "expected_amount_minor": 51424000,
+      "expected_amount_minor": 22734000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-8CX0LJ",
-          "L-U4UJJ3"
+          "DOC-64YA8P",
+          "L-P02B8E"
         ],
         [
-          "DOC-8CX0LJ",
-          "L-PD9FI6"
+          "DOC-64YA8P",
+          "L-QSWW23"
         ]
       ]
     }

@@ -67,6 +67,7 @@
         "period_cutoff"
       ]
     },
+    "secret": "",
     "order_mode": "chronological",
     "id_salt": null,
     "env": {

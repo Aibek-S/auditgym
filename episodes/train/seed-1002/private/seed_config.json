@@ -64,6 +64,7 @@
       "interacting_share": 0.3,
       "plan": []
     },
+    "secret": "",
     "order_mode": "chronological",
     "id_salt": null,
     "env": {

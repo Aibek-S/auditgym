@@ -18,6 +18,8 @@ from __future__ import annotations
 import base64
 import copy
 import hashlib
+import shutil
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -25,7 +27,7 @@ from typing import Callable
 
 from auditgym import SCHEMA_VERSION
 from auditgym.calculator import CalcError, evaluate
-from auditgym.episode import LEDGER_COLUMNS, load_public
+from auditgym.episode import LEDGER_COLUMNS, load_public, release_private, seal_private
 from auditgym.submission import coerce, validate
 
 ACTIONS = ("list_records", "get_record", "get_document", "calculator", "submit")
@@ -61,19 +63,26 @@ class AuditEnv:
         self.clock = clock
         self.evaluator_log: list[dict] = []  # evaluator side only; never part of an observation
         self._done = True
+        self._generated: Path | None = None   # a temp episode this env generated (removed on reset/close)
 
     # --- lifecycle -----------------------------------------------------------
     def reset(self, seed: int | None = None, config: dict | None = None, *, episode_dir: str | Path | None = None):
         cfg = copy.deepcopy(self.base_config)
         for key, value in (config or {}).items():
             cfg[key] = {**cfg[key], **value} if isinstance(value, dict) and isinstance(cfg.get(key), dict) else value
+        self.close()
         if episode_dir is None:
             if seed is None:
                 raise ValueError("reset needs a seed or an episode_dir")
-            from auditgym.generate import generate
+            from auditgym.generate import generate, resolve_secret
 
+            if cfg["env"]["mode"] == "closed" and not resolve_secret(cfg):
+                print("auditgym: closed mode without AUDITGYM_SECRET: a public seed can be searched from the "
+                      "episode; set the secret for hidden evaluation (D-44)", file=sys.stderr)
             root = Path(tempfile.mkdtemp(prefix="auditgym-", dir=self.workdir))
             generate(int(seed), cfg, root)
+            seal_private(root)          # truth and provenance leave the disk; the evaluator keeps them in memory
+            self._generated = root
             episode_dir = root
         self.episode_dir = Path(episode_dir)
         pub = load_public(self.episode_dir)
@@ -123,6 +132,13 @@ class AuditEnv:
                        "time_limit_s": self.time_limit, **self.limits},
         }
         return self._obs(True, result, None), self._info()
+
+    def close(self) -> None:
+        """Remove the episode this env generated (its public files and the sealed private data)."""
+        if self._generated is not None:
+            release_private(self._generated)
+            shutil.rmtree(self._generated, ignore_errors=True)
+            self._generated = None
 
     def step(self, action):
         if self._done:

@@ -116,6 +116,7 @@ def run_episode(policy: str, *, seed: int | None = None, episode_dir=None, confi
     record.update({"policy": policy, "seed": seed, "steps": info["steps_used"],
                    "time_s": round(time.monotonic() - started, 3)})
     record.pop("matched", None)
+    env.close()
     return record
 
 

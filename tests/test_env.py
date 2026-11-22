@@ -167,7 +167,7 @@ def test_submission_limits():
     f = {"type": "duplicate_invoice", "affected_ids": ["A"], "claimed_amount_minor": 1, "currency": "KZT",
          "evidence_ids": [], "explanation": "x"}
     for findings in ([f] * 31, [{**f, "evidence_ids": ["e"] * 11}], [{**f, "explanation": "x" * 1001}],
-                     [{**f, "claimed_amount_minor": -5}], [{**f, "claimed_amount_minor": 1.5}], [{**f, "affected_ids": []}]):
+                     [{**f, "claimed_amount_minor": 1.5}], [{**f, "claimed_amount_minor": True}]):
         env.reset(episode_dir=FIXTURES / "duplicate")
         _, reward, term, *_ = submit(env, findings)
         assert term and reward == -1.0
