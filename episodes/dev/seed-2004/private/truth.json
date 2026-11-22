@@ -6,20 +6,20 @@
       "issue_id": "ISS-01",
       "type": "fx_conversion",
       "affected_ids": [
-        "INV-8AF2S5"
+        "INV-A5GCJN"
       ],
       "expected_amount_minor": 4245221,
       "currency": "KZT",
       "evidence_sets": [
         [
           "2025-05-01:EUR:KZT",
-          "DOC-L1FFEY",
-          "L-7KM730"
+          "DOC-Q9CJSB",
+          "L-DFS1OK"
         ],
         [
           "2025-05-01:EUR:KZT",
-          "DOC-L1FFEY",
-          "L-T3KJFQ"
+          "DOC-Q9CJSB",
+          "L-NPRGOI"
         ]
       ]
     },
@@ -27,18 +27,18 @@
       "issue_id": "ISS-02",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-8AF2S5"
+        "INV-A5GCJN"
       ],
       "expected_amount_minor": 964125474,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-L1FFEY",
-          "L-7KM730"
+          "DOC-Q9CJSB",
+          "L-DFS1OK"
         ],
         [
-          "DOC-L1FFEY",
-          "L-T3KJFQ"
+          "DOC-Q9CJSB",
+          "L-NPRGOI"
         ]
       ]
     }

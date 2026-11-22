@@ -9,7 +9,9 @@ reproduces its issue amount. Otherwise the error draw is retried (attempt k uses
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import os
 from pathlib import Path
 
 from auditgym import rng
@@ -38,11 +40,35 @@ def load_config(path: str | Path | None = None, **overrides) -> dict:
     return config
 
 
+def resolve_secret(config: dict) -> str:
+    """The evaluator's secret (D-44): config["secret"], else $AUDITGYM_SECRET, else none.
+
+    Published train/dev episodes use no secret (check forces ""), so anyone can rebuild them.
+    Hidden evaluation sets AUDITGYM_SECRET: every RNG stream then depends on it, so neither the
+    episode_id nor the records let an agent search seeds and rebuild the answer key with the public
+    generator. Same secret + seed + config + version -> byte-identical episode.
+    """
+    secret = config.get("secret")
+    if secret is None:
+        secret = os.environ.get("AUDITGYM_SECRET", "")
+    return str(secret)
+
+
+def effective_seed(seed: int, secret: str) -> int:
+    if not secret:
+        return int(seed)
+    return int.from_bytes(hashlib.sha256(f"auditgym-secret:{secret}:{seed}".encode()).digest()[:8], "big")
+
+
 def generate(seed: int, config: dict, out: str | Path) -> dict:
     out = Path(out)
+    secret = resolve_secret(config)
+    config = {**config, "secret": "<set>" if secret else ""}   # the value itself is never written
+    label, seed = seed, effective_seed(seed, secret)
     problems = []
     for attempt in range(MAX_ATTEMPTS):
         history = build_history(seed, copy.deepcopy(config))
+        history.label_seed = label
         planned, plan = inject(history, config, rng.stream(seed, "errors", str(attempt)))
         if len(planned) < len(plan):
             problems.append(f"attempt {attempt}: placed {len(planned)} of {len(plan)}")

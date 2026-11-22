@@ -62,7 +62,7 @@ GENERATED = [
 
 
 def demo_config(plan):
-    config = load_config()
+    config = load_config(secret="")
     config["size"] = {"customers": [8, 12], "invoices": [12, 18], "ledger_rows": [40, 80]}
     config["errors"].update(
         {"count": [1, 3], "clean_share": 0.0, "interacting_share": 0.0, "plan": plan}

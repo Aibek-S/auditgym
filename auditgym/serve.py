@@ -62,6 +62,7 @@ class Session:
         self.created = self.touched = time.time()
 
     def close(self) -> None:
+        self.env.close()
         shutil.rmtree(self.workdir, ignore_errors=True)
 
     @property

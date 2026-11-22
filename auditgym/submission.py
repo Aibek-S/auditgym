@@ -44,12 +44,10 @@ def validate(payload, episode_id: str, limits: dict | None = None) -> str | None
         for name, kind in FINDING_FIELDS.items():
             value = f.get(name)
             if kind is int:
-                if type(value) is not int or value < 0:
-                    return f"finding {n}: {name} must be a non-negative integer"
+                if type(value) is not int:
+                    return f"finding {n}: {name} must be an integer"
             elif not isinstance(value, kind):
                 return f"finding {n}: {name} must be {kind.__name__}"
-        if not 1 <= len(f["affected_ids"]) <= lim["max_affected_ids"]:
-            return f"finding {n}: affected_ids must have 1-{lim['max_affected_ids']} ids"
         if len(f["evidence_ids"]) > lim["max_evidence_ids"]:
             return f"finding {n}: more than {lim['max_evidence_ids']} evidence_ids"
         if not all(isinstance(x, str) for x in f["affected_ids"] + f["evidence_ids"]):

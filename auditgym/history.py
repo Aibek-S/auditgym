@@ -328,6 +328,22 @@ class _Builder:
             pair.append(self.invoice(cust, self.business_time(r.choice(self.period_days)), lines))
         h.note("same_total_other_customer", invoices=[i.key for i in pair])
 
+        # the same basket ordered twice by one customer, 0-6 days apart, each on its own delivery note:
+        # exactly two invoices with one customer and one total, the outward shape of a duplicate, so
+        # "two equal invoices of one customer" is no shortcut; only the shared delivery note is (D-14b)
+        one_off = [c for c in kzt if not c.recurring] or kzt
+        repeat_days = self.period_days[:-7] or self.period_days
+        for cust in r.sample(one_off, min(len(one_off), r.randint(2, 3))):
+            template = self.lines("KZT", "")
+            first_day = r.choice(repeat_days)
+            pair = []
+            for day in (first_day, first_day + timedelta(days=r.randint(0, 6))):
+                dn = self.key("dn")
+                lines = [Line(l.sku, l.description if r.random() < 0.8 else SKU_INDEX[l.sku][2], l.quantity,
+                              l.unit_price_minor, dn) for l in template]
+                pair.append(self.invoice(cust, self.business_time(day), lines))
+            h.note("same_basket_repeat", invoices=[i.key for i in pair])
+
         # period boundary: last local evening of the period, and first local hours of the next period
         # rendered in +00:00 (its UTC date is still the last day of the period)
         last_day = self.period_days[-1]

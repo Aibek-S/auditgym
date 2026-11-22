@@ -6,21 +6,21 @@
       "issue_id": "ISS-01",
       "type": "duplicate_invoice",
       "affected_ids": [
-        "INV-61L6WK",
-        "INV-64BBHU"
+        "INV-06IQ15",
+        "INV-85NDDQ"
       ],
-      "expected_amount_minor": 5563210,
+      "expected_amount_minor": 35777000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-Q7IUS8",
-          "DOC-SZYZIT",
-          "L-TVSTF5"
+          "DOC-2NH10Q",
+          "DOC-P8BJ62",
+          "L-SDQIUY"
         ],
         [
-          "DOC-Q7IUS8",
-          "DOC-SZYZIT",
-          "L-VFGWAP"
+          "DOC-2NH10Q",
+          "DOC-P8BJ62",
+          "L-7RNCZ3"
         ]
       ]
     },
@@ -28,21 +28,21 @@
       "issue_id": "ISS-02",
       "type": "duplicate_invoice",
       "affected_ids": [
-        "INV-EDMX4I",
-        "INV-I26EJE"
+        "INV-0LJO2U",
+        "INV-F3ALYV"
       ],
-      "expected_amount_minor": 3916000,
+      "expected_amount_minor": 1393354458,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-0X4SVR",
-          "DOC-8VUADP",
-          "L-3VFMGW"
+          "DOC-4D3DU5",
+          "DOC-ENRVFP",
+          "L-1HXRCY"
         ],
         [
-          "DOC-0X4SVR",
-          "DOC-8VUADP",
-          "L-4OPKDP"
+          "DOC-4D3DU5",
+          "DOC-ENRVFP",
+          "L-88VWD6"
         ]
       ]
     },
@@ -50,20 +50,20 @@
       "issue_id": "ISS-03",
       "type": "fx_conversion",
       "affected_ids": [
-        "INV-2JQL8Q"
+        "INV-G8KGDA"
       ],
       "expected_amount_minor": 9087280,
       "currency": "KZT",
       "evidence_sets": [
         [
           "2025-09-01:EUR:KZT",
-          "DOC-3T529C",
-          "L-3IP7XC"
+          "DOC-K2DHEL",
+          "L-S0VGCG"
         ],
         [
           "2025-09-01:EUR:KZT",
-          "DOC-3T529C",
-          "L-CSAIDF"
+          "DOC-K2DHEL",
+          "L-PD5KM9"
         ]
       ]
     },
@@ -71,18 +71,18 @@
       "issue_id": "ISS-04",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-2JQL8Q"
+        "INV-G8KGDA"
       ],
       "expected_amount_minor": 1650875865,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-3T529C",
-          "L-3IP7XC"
+          "DOC-K2DHEL",
+          "L-S0VGCG"
         ],
         [
-          "DOC-3T529C",
-          "L-CSAIDF"
+          "DOC-K2DHEL",
+          "L-PD5KM9"
         ]
       ]
     }

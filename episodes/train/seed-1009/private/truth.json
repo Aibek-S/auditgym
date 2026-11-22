@@ -6,21 +6,21 @@
       "issue_id": "ISS-01",
       "type": "duplicate_invoice",
       "affected_ids": [
-        "INV-B08RA2",
-        "INV-VKAYYG"
+        "INV-JC6BW2",
+        "INV-JNKZYQ"
       ],
-      "expected_amount_minor": 1404000,
+      "expected_amount_minor": 29800000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-7EHH2T",
-          "DOC-F0FXAI",
-          "L-ZMKVWD"
+          "DOC-YKG73J",
+          "DOC-YXAVJ6",
+          "L-6N2VEE"
         ],
         [
-          "DOC-7EHH2T",
-          "DOC-F0FXAI",
-          "L-KLBV5F"
+          "DOC-YKG73J",
+          "DOC-YXAVJ6",
+          "L-VCDVOG"
         ]
       ]
     },
@@ -28,16 +28,21 @@
       "issue_id": "ISS-02",
       "type": "payment_allocation",
       "affected_ids": [
-        "INV-E68CWU",
-        "PAY-PIFKQE"
+        "INV-1ZYEON",
+        "PAY-F8P72P"
       ],
-      "expected_amount_minor": 23122000,
+      "expected_amount_minor": 1629000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-0LG40D",
-          "DOC-5LMYLN",
-          "L-ELAYFY"
+          "DOC-GRMTR8",
+          "DOC-O46X2Z",
+          "L-S1AZBZ"
+        ],
+        [
+          "DOC-GRMTR8",
+          "DOC-O46X2Z",
+          "L-YXLXNZ"
         ]
       ]
     },
@@ -45,16 +50,21 @@
       "issue_id": "ISS-03",
       "type": "payment_allocation",
       "affected_ids": [
-        "INV-IJAU2C",
-        "PAY-WN16ST"
+        "INV-6MG1PN",
+        "PAY-Z02515"
       ],
-      "expected_amount_minor": 1404000,
+      "expected_amount_minor": 2335000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-3IG0DA",
-          "DOC-QKNV4H",
-          "L-IO9QBS"
+          "DOC-OYBUPT",
+          "DOC-WIDITR",
+          "L-LNY1C5"
+        ],
+        [
+          "DOC-OYBUPT",
+          "DOC-WIDITR",
+          "L-JT9GQ3"
         ]
       ]
     },
@@ -62,21 +72,16 @@
       "issue_id": "ISS-04",
       "type": "payment_allocation",
       "affected_ids": [
-        "INV-L85NB7",
-        "PAY-NMFGGQ"
+        "INV-FF1N5Q",
+        "PAY-X27NHB"
       ],
-      "expected_amount_minor": 3009900,
+      "expected_amount_minor": 37690000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-IBR96B",
-          "DOC-JO7I4M",
-          "L-S17FYV"
-        ],
-        [
-          "DOC-IBR96B",
-          "DOC-JO7I4M",
-          "L-HNQO8H"
+          "DOC-BCEGF9",
+          "DOC-O1SGLB",
+          "L-D7A42I"
         ]
       ]
     },
@@ -84,16 +89,16 @@
       "issue_id": "ISS-05",
       "type": "payment_allocation",
       "affected_ids": [
-        "INV-LXUTXP",
-        "PAY-WDF0PJ"
+        "INV-YASB57",
+        "PAY-NADO2Z"
       ],
-      "expected_amount_minor": 26960000,
+      "expected_amount_minor": 1404000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-HMOA7C",
-          "DOC-LB2O33",
-          "L-T0MFGL"
+          "DOC-3BXPJO",
+          "DOC-IQCW6H",
+          "L-0Z4CL4"
         ]
       ]
     },
@@ -101,18 +106,18 @@
       "issue_id": "ISS-06",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-T6XO93"
+        "INV-UJ6KSL"
       ],
-      "expected_amount_minor": 37690000,
+      "expected_amount_minor": 3724000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-N5QDHY",
-          "L-4WA22K"
+          "DOC-56A2QW",
+          "L-ZEUG6C"
         ],
         [
-          "DOC-N5QDHY",
-          "L-WZURG2"
+          "DOC-56A2QW",
+          "L-HQ0CQQ"
         ]
       ]
     }

@@ -11,11 +11,11 @@
     "EUR": 2
   },
   "counts": {
-    "ledger": 217,
-    "invoices": 60,
-    "payments": 37,
+    "ledger": 252,
+    "invoices": 64,
+    "payments": 51,
     "fx": 64,
-    "documents": 97
+    "documents": 115
   },
   "rounding": "half_up"
 }

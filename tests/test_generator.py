@@ -17,7 +17,7 @@ SEEDS = range(1, 51)
 CONFIG = load_config(errors={"plan": []})  # #2 tests check clean companies
 REQUIRED_DISTRACTORS = {
     "recurring_order", "correction_reissue", "partial_return", "split_invoicing",
-    "same_total_other_customer", "boundary_last_evening", "boundary_next_period_utc",
+    "same_total_other_customer", "same_basket_repeat", "boundary_last_evening", "boundary_next_period_utc",
     "utc_date_differs", "combined_payment", "split_payment", "underpaid_open_invoice",
     "overpayment_to_1900", "no_reference_payment", "realised_fx_difference", "opening_balance",
     "large_foreign_order",

@@ -4,7 +4,8 @@ Published rules (the brief requires them to be public):
 
 - Normalization (D-62): type lowercased, trimmed, spaces and '-' -> '_', then the alias table below;
   ids trimmed, doc_id <-> invoice_id/payment_id mapped both ways, duplicates removed; currency uppercased.
-  An unknown type is not malformed, it can only be a false positive.
+  An unknown type is not malformed, it can only be a false positive; nor is a negative amount or an
+  affected_ids list that is empty or longer than 10 (D-61a).
 - Candidate pair (D-63): same type, same affected_ids set, same currency, |claimed - expected| <= tolerance
   (policy.amount_tolerance_minor, 100 minor units), and evidence_ids contain at least one full acceptable set.
 - Assignment (D-64): maximum bipartite matching, deterministic (findings in submission order, issues in
@@ -67,7 +68,14 @@ class IdMap:
         return forms
 
 
+MAX_AFFECTED_IDS = 10
+
+
 def _candidate(finding: dict, issue: dict, ids: IdMap, tolerance: int) -> bool:
+    # A negative amount or an empty / oversized affected_ids list is a well-formed but wrong finding:
+    # it can only be a false positive; the rest of the answer is still scored (D-61a).
+    if finding["claimed_amount_minor"] < 0 or not 1 <= len(finding["affected_ids"]) <= MAX_AFFECTED_IDS:
+        return False
     if normalize_type(finding["type"]) != issue["type"]:
         return False
     if finding["currency"].strip().upper() != issue["currency"]:

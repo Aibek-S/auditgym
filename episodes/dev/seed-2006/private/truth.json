@@ -6,20 +6,20 @@
       "issue_id": "ISS-01",
       "type": "fx_conversion",
       "affected_ids": [
-        "INV-B0K51M"
+        "INV-Q99N12"
       ],
       "expected_amount_minor": 1154811,
       "currency": "KZT",
       "evidence_sets": [
         [
           "2027-09-01:EUR:KZT",
-          "DOC-80S5HF",
-          "L-N82N1B"
+          "DOC-WNNS6X",
+          "L-9QJ7UM"
         ],
         [
           "2027-09-01:EUR:KZT",
-          "DOC-80S5HF",
-          "L-CCP7SS"
+          "DOC-WNNS6X",
+          "L-1DQ9UT"
         ]
       ]
     },
@@ -27,18 +27,18 @@
       "issue_id": "ISS-02",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-37HCZL"
+        "INV-1RWW52"
       ],
-      "expected_amount_minor": 12275000,
+      "expected_amount_minor": 113340000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-JEGSGD",
-          "L-UN838S"
+          "DOC-0EYTPG",
+          "L-Q1S2OI"
         ],
         [
-          "DOC-JEGSGD",
-          "L-060ZHY"
+          "DOC-0EYTPG",
+          "L-MPO2FN"
         ]
       ]
     },
@@ -46,18 +46,18 @@
       "issue_id": "ISS-03",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-8ATRO9"
+        "INV-3CND4V"
       ],
-      "expected_amount_minor": 26386000,
+      "expected_amount_minor": 34104000,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-PBKZNW",
-          "L-ENHJ50"
+          "DOC-F1JXMA",
+          "L-P7SSBO"
         ],
         [
-          "DOC-PBKZNW",
-          "L-UL9R5T"
+          "DOC-F1JXMA",
+          "L-O7NAE4"
         ]
       ]
     },
@@ -65,18 +65,18 @@
       "issue_id": "ISS-04",
       "type": "period_cutoff",
       "affected_ids": [
-        "INV-B0K51M"
+        "INV-Q99N12"
       ],
       "expected_amount_minor": 1905961826,
       "currency": "KZT",
       "evidence_sets": [
         [
-          "DOC-80S5HF",
-          "L-N82N1B"
+          "DOC-WNNS6X",
+          "L-9QJ7UM"
         ],
         [
-          "DOC-80S5HF",
-          "L-CCP7SS"
+          "DOC-WNNS6X",
+          "L-1DQ9UT"
         ]
       ]
     }

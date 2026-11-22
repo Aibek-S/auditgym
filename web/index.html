@@ -388,9 +388,9 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
                 <div class="ui-term__ln ui-term__cmd"><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span class="ui-term__typed" data-term-cmd>python -m auditgym generate \</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-step><span class="ui-term__path">&nbsp;&nbsp;--seed 2001 --out ep</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__val ag-term-full">episode 16a97a4ae40b1380 written to ep</span></div>
-                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/ledger.csv</span><span class="ui-term__n">217 rows</span><span class="ui-term__t">16 KB</span></div>
-                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/invoices.jsonl</span><span class="ui-term__n">60 invoices</span><span class="ui-term__t">41 KB</span></div>
-                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/payments.jsonl</span><span class="ui-term__n">37 payments</span><span class="ui-term__t">6 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/ledger.csv</span><span class="ui-term__n">252 rows</span><span class="ui-term__t">19 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/invoices.jsonl</span><span class="ui-term__n">64 invoices</span><span class="ui-term__t">42 KB</span></div>
+                <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/payments.jsonl</span><span class="ui-term__n">51 payments</span><span class="ui-term__t">8 KB</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/fx.csv</span><span class="ui-term__n">64 rates</span><span class="ui-term__t">2 KB</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">public/policy.json</span><span class="ui-term__n">9 rules</span><span class="ui-term__t">1 KB</span></div>
                 <div class="ui-term__ln ui-term__log" data-term-out data-step data-term-step><svg class="ui-term__tick" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg><span class="ui-term__path">private/truth.json</span><span class="ui-term__n">answer key</span><span class="ui-term__t">hidden</span></div>
@@ -399,7 +399,7 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
                 <div class="ui-term__ln ui-term__sum" data-term-out data-step><span class="ui-term__val ag-term-full">same <span class="ui-term__dim">(seed 2001, byte for byte)</span></span></div>
                 <div class="ui-term__ln ui-term__gap" data-term-out data-step aria-hidden="true"></div>
                 <div class="ui-term__ln ui-term__cmd" data-term-out data-step><span class="ui-term__cwd">~</span><span class="ui-term__sig">$</span><span>python -m auditgym check</span></div>
-                <div class="ui-term__ln ui-term__sum" data-term-out data-step><span class="ui-term__val ag-term-full">RESULT: PASS <span class="ui-term__dim">(20 episodes · 48 issues · 126 tests)</span></span></div>
+                <div class="ui-term__ln ui-term__sum" data-term-out data-step><span class="ui-term__val ag-term-full">RESULT: PASS <span class="ui-term__dim">(20 episodes · 48 issues · 130 tests)</span></span></div>
 
               </div>
             </div>
@@ -485,14 +485,14 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
             <thead><tr><th data-i18n="base.col.ep">Агент</th><th class="r ag-hide-phone" data-i18n="base.col.errors">TP/FP/FN</th><th class="r ag-hide-phone" data-i18n="base.col.oracle">F1</th><th class="r" data-i18n="base.col.guided">Награда</th><th class="r" data-i18n="base.col.steps">Шагов проверки</th></tr></thead>
             <tbody>
               <tr data-policy="oracle"><td class="ag-mono">oracle</td><td class="r ag-num ag-hide-phone">48/0/0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">+1.000</td><td class="r ag-num">0.0</td></tr>
-              <tr data-policy="reconcile"><td class="ag-mono">reconcile</td><td class="r ag-num ag-hide-phone">48/0/0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">+0.923</td><td class="r ag-num">38.5</td></tr>
-              <tr data-policy="random"><td class="ag-mono">random</td><td class="r ag-num ag-hide-phone">0/35/48</td><td class="r ag-num ag-hide-phone">0.050</td><td class="r ag-num">-0.902</td><td class="r ag-num">35.3</td></tr>
+              <tr data-policy="reconcile"><td class="ag-mono">reconcile</td><td class="r ag-num ag-hide-phone">48/0/0</td><td class="r ag-num ag-hide-phone">1.000</td><td class="r ag-num">+0.912</td><td class="r ag-num">43.9</td></tr>
+              <tr data-policy="random"><td class="ag-mono">random</td><td class="r ag-num ag-hide-phone">0/32/48</td><td class="r ag-num ag-hide-phone">0.050</td><td class="r ag-num">-0.902</td><td class="r ag-num">35.3</td></tr>
               <tr data-policy="flag_all"><td class="ag-mono">flag_all</td><td class="r ag-num ag-hide-phone">0/600/48</td><td class="r ag-num ag-hide-phone">0.000</td><td class="r ag-num">-1.000</td><td class="r ag-num">2.0</td></tr>
             </tbody>
           </table></div>
           <p data-i18n="base.note">Настоящие прогоны через среду и оценщика (python -m auditgym check, train 1001–1010 и dev 2001–2010). Оракул читает ключ ответов и нужен только для проверки максимума. reconcile — сверка по правилам из policy.json; то, что она находит все ошибки, мы честно считаем ограничением сложности.</p>
         </div>
-        <div class="span-6 start-7"><div class="ui ui-panel ag-panel" role="img" aria-label="Точечный график: оракул в 0 шагов и 1.0; reconcile около 38 шагов и награды около 0.92; random и flag_all у −1" data-i18n-aria="base.plot">
+        <div class="span-6 start-7"><div class="ui ui-panel ag-panel" role="img" aria-label="Точечный график: оракул в 0 шагов и 1.0; reconcile около 44 шагов и награды около 0.91; random и flag_all у −1" data-i18n-aria="base.plot">
           <div class="ag-win__bar"><span data-i18n="base.plot.title">Награда и шаги проверки</span></div>
           <div class="ag-panel__body">
           <svg class="ag-plot" viewBox="0 0 420 300" aria-hidden="true" data-ag-slope>
@@ -504,37 +504,46 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
             <line class="ag-slope" x1="48" y1="20" x2="410" y2="34" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
             <text class="ag-slope-label" x="406" y="54" text-anchor="end" data-i18n="plot.slope">R = 1 − 0.002·S при F1 = 1</text>
             <text class="ag-rtick" x="0" y="0" text-anchor="start" opacity="0"></text>
+            <circle cx="84" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="126" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="181" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="187" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="193" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="199" cy="26" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="205" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
-            <circle cx="217" cy="26" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="223" cy="27" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="235" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="235" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="241" cy="27" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="247" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="253" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="253" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="271" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="253" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="265" cy="28" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="271" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="271" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="277" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="277" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="283" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="289" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="295" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="295" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="295" cy="29" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="295" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="301" cy="30" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="301" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="307" cy="30" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="320" cy="30" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="320" cy="30" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="326" cy="31" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="326" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="332" cy="31" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="338" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="344" cy="31" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="344" cy="31" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="350" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="356" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="368" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
-            <circle cx="374" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
-            <circle cx="386" cy="33" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <circle cx="392" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
             <circle cx="404" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
-            <circle cx="84" cy="250" r="3" fill="currentColor" opacity="0.55" data-policy="random"/>
+            <circle cx="410" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
+            <circle cx="428" cy="34" r="5" fill="none" stroke="currentColor" stroke-width="2" data-policy="reconcile"/>
             <path d="M55 245L65 255M65 245L55 255" stroke="currentColor" stroke-width="2" data-policy="flag_all"/>
             <rect x="43" y="15" width="10" height="10" fill="currentColor" data-policy="oracle"/>
           </svg>
@@ -676,22 +685,22 @@ cd web &amp;&amp; npm ci &amp;&amp; npm run dev</pre>
     <p class="ag-file ag-mono">manifest.json</p>
 <pre class="ag-code ag-code--bare">{"schema_version": "1.0", "base_currency": "KZT",
  "period_start": "2025-06-01T00:00:00+05:00",
- "counts": {"ledger": 217, "invoices": 60,
-            "payments": 37, "fx": 64, "documents": 97},
+ "counts": {"ledger": 252, "invoices": 64,
+            "payments": 51, "fx": 64, "documents": 115},
  "rounding": "half_up"}</pre>
     <p class="ag-file ag-mono">ledger.csv</p>
 <pre class="ag-code ag-code--bare">row_id,timestamp,account,debit_minor,credit_minor,…
-L-94Y0B2,2025-06-01T00:00:00+05:00,1200,115880000,0,…
-L-PHL7ON,2025-06-01T00:00:00+05:00,3900,0,115880000,…</pre>
+L-0V3RQM,2025-05-29T10:44:00+05:00,1010,416000,0,…
+L-A4L4NP,2025-05-29T10:44:00+05:00,1200,0,416000,…</pre>
     <p class="ag-file ag-mono">fx.csv</p>
 <pre class="ag-code ag-code--bare">date,source_currency,target_currency,rate
 2025-05-22,EUR,KZT,522.80
 2025-05-22,USD,KZT,443.05</pre>
     <p class="ag-file ag-mono">payments.jsonl</p>
-<pre class="ag-code ag-code--bare">{"payment_id": "PAY-TUQM5F", "currency": "USD",
- "timestamp": "2025-06-04T13:38:00+05:00",
- "amount_minor": 53489, "invoice_refs": [
-   "INV-K2FJFF"]}</pre>
+<pre class="ag-code ag-code--bare">{"payment_id": "PAY-U6FSG7", "currency": "USD",
+ "timestamp": "2025-06-04T09:35:00+05:00",
+ "amount_minor": 2807334, "invoice_refs": [
+   "INV-P5SE57"]}</pre>
   </div>
 </div>
         </div>

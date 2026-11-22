@@ -64,7 +64,7 @@ def build_episodes(root: Path = ROOT / "episodes") -> None:
             path = root / split / f"seed-{seed}"
             for plan in plan_candidates(index, seed):
                 try:
-                    generate(seed, load_config(errors={"plan": plan}), path)
+                    generate(seed, load_config(errors={"plan": plan}, secret=""), path)
                     break
                 except GenerationError:
                     continue
@@ -179,6 +179,22 @@ def step_baselines(log, out: Path) -> bool:
         table.append(f"| {r['policy']} | {r['split']} | {r['episodes']} | {r['micro_precision']:.3f} | "
                      f"{r['micro_recall']:.3f} | {r['f1']:.3f} | {r['return']:+.3f} | {r['inspection_steps']:.1f} | "
                      f"{r['time_s']:.3f} | {r['tp']}/{r['fp']}/{r['fn']} |")
+    table += ["", "Per error type, all 20 episodes (TP/FP/FN; a finding counts under the type it claims):", "",
+              "| policy | duplicate_invoice | payment_allocation | fx_conversion | period_cutoff | other type |",
+              "|---|---|---|---|---|---|"]
+    from auditgym.matcher import TYPES
+
+    for policy in POLICIES:
+        cells = []
+        for t in TYPES:
+            tp = sum(r.get("per_type", {}).get(t, {}).get("tp", 0) for r in records[policy])
+            fp = sum(r.get("per_type", {}).get(t, {}).get("fp", 0) for r in records[policy])
+            fn = sum(r.get("per_type", {}).get(t, {}).get("fn", 0) for r in records[policy])
+            cells.append(f"{tp}/{fp}/{fn}")
+        typed = sum(r.get("per_type", {}).get(t, {}).get("fp", 0) + r.get("per_type", {}).get(t, {}).get("tp", 0)
+                    for r in records[policy] for t in TYPES)
+        other = sum(r["tp"] + r["fp"] for r in records[policy]) - typed
+        table.append(f"| {policy} | " + " | ".join(cells) + f" | {other} FP |")
     table.append("")
     table.append("Per-episode P and R follow the brief (0 on a zero denominator, so a correct empty answer on a "
                  "clean episode has P = R = 0 and F1 = 1); the table shows P and R over all findings and issues.")

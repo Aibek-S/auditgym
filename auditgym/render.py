@@ -161,7 +161,7 @@ def render(h: History, events: list[Event], out: Path, *, planned=None, plan=Non
         "decisions_version": DECISIONS_VERSION, "plan": plan or [], "attempt": attempt,
         "changes": changes, "distractors": distractors,
     })
-    _json(priv / "seed_config.json", {"seed": h.seed, "config": cfg, "generator_version": GENERATOR_VERSION})
+    _json(priv / "seed_config.json", {"seed": getattr(h, "label_seed", h.seed), "config": cfg, "generator_version": GENERATOR_VERSION})
     return {"ids": ids, "rows": row_ids, "episode_id": episode_id, "issues": issues}
 
 
