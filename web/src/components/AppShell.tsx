@@ -48,8 +48,7 @@ export function AppShell() {
       </main>
 
       <footer className="border-t border-line px-4 py-4 text-[13px] text-ink-muted sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <span>{t("shell.footer")}</span>
+        <div className="flex flex-wrap items-center justify-end gap-3">
           <span className="flex gap-4">
             <a href="/" className="link text-ink-muted">
               {t("shell.landing")}
