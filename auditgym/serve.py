@@ -299,6 +299,14 @@ def serve(port: int = 8765, host: str = "127.0.0.1", static_dir: str | None = No
     server = Server(static_dir)
     httpd = ThreadingHTTPServer((host, port), make_handler(server))
     httpd.daemon_threads = True
+    stop = threading.Event()
+
+    def janitor() -> None:
+        # Idle sessions expire even when nobody creates a new one (sweep otherwise runs only on create).
+        while not stop.wait(60):
+            server.sweep()
+
+    threading.Thread(target=janitor, daemon=True, name="auditgym-janitor").start()
     site = f" and the web console from {server.static_dir}" if server.static_dir else ""
     print(f"AuditGym live API on http://{host}:{port}/api{site} (Ctrl+C to stop)", flush=True)
     try:
@@ -306,5 +314,6 @@ def serve(port: int = 8765, host: str = "127.0.0.1", static_dir: str | None = No
     except KeyboardInterrupt:
         pass
     finally:
+        stop.set()
         for session in list(server.sessions.values()):
             session.close()
