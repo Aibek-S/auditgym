@@ -7,9 +7,9 @@ Two pages, built by Vite:
   moments). `src/landing/main.ts` loads the fonts and switches the language.
 - `/console` is the console (`console.html`, React): episode archive, workbench, runs, agents, method.
 
-Every figure comes from real episode folders (`public/data/demo.json`). Nothing is computed by a policy:
-the guided review is a recorded replay and the oracle reads `truth.json` directly. The Python
-environment, matcher and runner (issues #4 and #5) are not wired in yet, and both pages say so.
+Every figure comes from real episode folders (`public/data/demo.json`) or from the real Python
+environment: the live run and "Try it yourself" talk to `python -m auditgym serve` (reset/step, the
+matcher and the evaluator), and the baseline tables come from `python -m auditgym check`.
 
 ## Run
 
