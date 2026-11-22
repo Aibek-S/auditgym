@@ -57,8 +57,8 @@ export const EXTRA: Record<string, [string, string, string]> = {
 
   // welcome on the overview
   "welcome.title": ["New here?", "Впервые здесь?", "Мұнда алғаш рет пе?"],
-  "welcome.body": ["You can check a company's month yourself, like an auditor. The tour shows every button in five steps; nothing can break.", "Вы можете сами проверить месяц компании, как аудитор. Обучение покажет все кнопки за пять шагов; ничего сломать нельзя.", "Компанияның айын аудитор сияқты өзіңіз тексере аласыз. Оқыту барлық батырманы бес қадамда көрсетеді; ештеңе бұзылмайды."],
-  "welcome.tour": ["Take the tour: 5 steps", "Пройти обучение: 5 шагов", "Оқытудан өту: 5 қадам"],
+  "welcome.body": ["You can check a company's month yourself, like an auditor. The tour shows every button in seven steps; nothing can break.", "Вы можете сами проверить месяц компании, как аудитор. Обучение покажет все кнопки за семь шагов; ничего сломать нельзя.", "Компанияның айын аудитор сияқты өзіңіз тексере аласыз. Оқыту барлық батырманы жеті қадамда көрсетеді; ештеңе бұзылмайды."],
+  "welcome.tour": ["Take the tour: 7 steps", "Пройти обучение: 7 шагов", "Оқытудан өту: 7 қадам"],
   "welcome.guide": ["How to read an episode", "Как читать эпизод", "Эпизодты қалай оқу керек"],
   "welcome.hide": ["Hide", "Скрыть", "Жасыру"],
 
