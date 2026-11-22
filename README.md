@@ -5,6 +5,9 @@ errors with recorded causes, a narrow read-only tool interface, and an independe
 official reward. Submission for the FinTech case "RL environments for fine-tuning financial audit
 models" (19-22 November 2026).
 
+**Live demo:** https://auditgym.byapex.dev (landing, console, a live run against the real environment,
+and "Try it yourself" for a person). The official check is the offline command below.
+
 The deliverable is the **environment**, not a trained model. Weights are not trained; no improvement
 of any model is claimed.
 
