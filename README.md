@@ -90,6 +90,18 @@ Published splits: `episodes/train` seeds 1001-1010 and `episodes/dev` seeds 2001
 3 clean, 3 interacting and 4 single-error episodes. Hidden evaluation can use any other seed, plus
 `id_salt` / `order_mode=shuffled` for paired id and order transforms.
 
+## Public demo (not the official check)
+
+https://auditgym.byapex.dev serves the landing page, the console and a live run against the real
+environment (`python -m auditgym serve --static web/dist` on the team server behind Cloudflare). It is
+for viewing and the demo video only; the official check is the offline Docker command above.
+
+- Demo limits: 20 new episodes per minute per client address, 4 concurrent agent streams, 24 sessions
+  kept in memory, sessions expire after 30 idle minutes.
+- Cloudflare bot protection rejects the default Python `urllib` user agent (error 1010). Browsers and
+  `curl` work; scripts should send a normal `User-Agent` header.
+- Recording guide for the video: [docs/VIDEO_GUIDE.md](docs/VIDEO_GUIDE.md).
+
 ## Isolation
 
 The environment loads only `public/`. The runner owns the environment and the evaluator; an agent
