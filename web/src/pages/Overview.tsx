@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { GraduationCap, BookOpen, X } from "lucide-react";
+import { ButtonLink } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import { useDemo, useTruthHash } from "../lib/data";
 import { useT } from "../lib/i18n";
@@ -29,6 +31,8 @@ export function Overview() {
         title={t("overview.title")}
         description={t("overview.lead", { episodes: data.stats.episodes, issues: data.stats.issues, documents: data.stats.documents })}
       />
+
+      <Welcome />
 
       <div className="grid gap-5 lg:grid-cols-12">
         <Panel title={t("overview.archive")} meta={t("overview.archive.meta")} className="animate-rise min-w-0 lg:col-span-12" bodyClassName="">
@@ -262,5 +266,46 @@ function Provenance() {
         </dl>
       </div>
     </div>
+  );
+}
+
+/** First visit: two ways in, the tour and the guide. Hidden for good once dismissed or the tour is done. */
+function Welcome() {
+  const { t } = useT();
+  const seen = () => {
+    try {
+      return localStorage.getItem("auditgym.welcome") === "hidden" || localStorage.getItem("auditgym.tour") === "done";
+    } catch {
+      return false;
+    }
+  };
+  const [hidden, setHidden] = useState(seen);
+  if (hidden) return null;
+  const hide = () => {
+    try {
+      localStorage.setItem("auditgym.welcome", "hidden");
+    } catch {
+      /* storage blocked: hidden for this visit */
+    }
+    setHidden(true);
+  };
+  return (
+    <section aria-labelledby="welcome-h" className="animate-rise relative rounded-card border border-ink bg-paper-raised p-5 sm:p-6">
+      <button type="button" onClick={hide} aria-label={t("welcome.hide")} title={t("welcome.hide")} className="hit absolute top-3 right-3 grid h-9 w-9 place-items-center rounded-control text-ink-muted hover:text-ink">
+        <X size={18} aria-hidden="true" />
+      </button>
+      <h2 id="welcome-h" className="text-[22px] font-medium text-ink">
+        {t("welcome.title")}
+      </h2>
+      <p className="mt-2 max-w-[62ch] text-[17px] leading-relaxed text-ink-secondary">{t("welcome.body")}</p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <ButtonLink to="/console/practice?tour=1" variant="primary" className="!h-12 px-5 text-[16px]">
+          <GraduationCap size={18} aria-hidden="true" /> {t("welcome.tour")}
+        </ButtonLink>
+        <ButtonLink to="/console/guide" className="!h-12 px-5 text-[16px]">
+          <BookOpen size={18} aria-hidden="true" /> {t("welcome.guide")}
+        </ButtonLink>
+      </div>
+    </section>
   );
 }

@@ -54,6 +54,9 @@ episode runs and opens after `submit` (or truncation). Override the API address 
 | `/console/live` | Live run against `python -m auditgym serve`: streamed steps, manual actions, answer key after the end |
 | `/console/agents` | Run scatter above the runs table, copy and CSV |
 | `/console/method` | Tools, scoring, answer key |
+| `/console/live` | Live run against the Python environment: pause, ×1/×2/×4, answer key after submit |
+| `/console/practice` | Try it yourself: a person checks a month with buttons; 7-step tour (`?tour=1`), fixed month (`?seed=2001`) |
+| `/console/guide` | How to read an episode: tables, the four errors and the score on real records, glossary |
 
 ## Design
 
@@ -67,7 +70,7 @@ clean value beside the booked one (Ink & Switch), scrubbable numbers (Bret Victo
 ditto marks and double rules (ledger books), status written over the document, posting stamps, field
 numbers with dot leaders (IRS 1040), finding list linked to rows (GOV.UK).
 
-Languages: Kazakh, Russian, English (switch in the header; the choice is shared by both pages). The Kazakh
+Languages: Kazakh, Russian, English (switch in the header; the choice is shared by both pages). The console's View menu sets text size (three steps), high contrast, animation off and the finding colours; terms carry a "?" with a one-sentence explanation. The Kazakh
 text is a first translation and needs a native speaker's check.
 
 The finding colours switch between red/blue and orange/blue for colour-vision deficiency.
